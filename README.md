@@ -1,4 +1,4 @@
-# node-react-boilerplate
+# node-react-boilerplate [![Run CI](https://github.com/kkamara/node-react-boilerplate/actions/workflows/node.js.yml/badge.svg)](https://github.com/kkamara/node-react-boilerplate/actions/workflows/node.js.yml)
 
 Nodejs, Mysql, Redis, Selenium.
 
