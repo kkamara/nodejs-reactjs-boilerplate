@@ -12,7 +12,7 @@
     "url": "git+https://github.com/kkamara/node-react-app.git"
   },
   "author": "https://github.com/kkamara",
-  "license": "BSD-3",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/kkamara/node-react-app/issues"
   },
