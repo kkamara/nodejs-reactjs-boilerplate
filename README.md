@@ -12,6 +12,12 @@ Nodejs, Mysql, Redis, Reactjs.
   yarn install
 ```
 
+## Usage
+
+```bash
+  yarn start # Runs Start-script `yarn node src/app.js`
+```
+
 ## To run locally
 
 Have [docker](https://docs.docker.com/engine/install/) & [docker-compose](https://docs.docker.com/compose/install/) installed on your operating system.
