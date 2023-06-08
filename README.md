@@ -1,6 +1,6 @@
 # node-react-boilerplate [![Run CI](https://github.com/kkamara/node-react-boilerplate/actions/workflows/node.js.yml/badge.svg)](https://github.com/kkamara/node-react-boilerplate/actions/workflows/node.js.yml)
 
-Nodejs, Mysql, Redis, Selenium.
+Nodejs, Mysql, Redis, Reactjs.
 
 ## Installation
 
