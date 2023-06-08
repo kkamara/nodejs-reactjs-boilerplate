@@ -5,11 +5,11 @@ Nodejs, Mysql, Redis, Selenium.
 ## Installation
 
 * [Node.js](https://nodejs.org/en/)
-* [pNpM](https://pnpm.io/)
+* [yarn](https://yarnpkg.com/).
 
 ```bash
   cp .env.example .env
-  pnpm install
+  yarn install
 ```
 
 ## To run locally
@@ -23,7 +23,7 @@ Have [docker](https://docs.docker.com/engine/install/) & [docker-compose](https:
 ## To run browser tests with gui
 
 ```bash
-  pnpm run test
+  yarn run test
 ```
 
 View browser test code: [/blob/main/tests/](https://github.com/kkamara/node-react-boilerplate/blob/main/tests/).
