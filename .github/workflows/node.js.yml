@@ -38,7 +38,6 @@ jobs:
           sed -i "s/local/testing/g" .env
     - name: Install dependencies
       run: yarn install --silent
-    - run: sudo apt-get install xvfb
-    - name: Run browser tests
-      run: xvfb-run --auto-servernum yarn run test
+    - name: Run tests
+      run: yarn run test
 
