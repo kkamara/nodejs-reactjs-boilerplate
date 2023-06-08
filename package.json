@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "test": "nightwatch --config nightwatch.conf.js tests --tag beta",
-    "start": "node src/app.js"
+    "start": "yarn node src/app.js"
   },
   "repository": {
     "type": "git",
