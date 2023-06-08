@@ -18,9 +18,10 @@ Nodejs, Mysql, Redis, Reactjs.
   yarn start # Runs Start-script `yarn node src/app.js`
 ```
 
-## To run locally
+## Using docker?
 
-Have [docker](https://docs.docker.com/engine/install/) & [docker-compose](https://docs.docker.com/compose/install/) installed on your operating system.
+* [docker](https://docs.docker.com/engine/install/) 
+* [docker-compose](https://docs.docker.com/compose/install/).
 
 ```bash
   docker-compose up --build -d
