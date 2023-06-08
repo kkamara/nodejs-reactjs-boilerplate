@@ -19,31 +19,16 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     strategy:
       matrix:
-        node-version: ['17.x']
+        node-version: ['20.x']
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - uses: pnpm/action-setup@v2.0.1
-      name: Install pnpm
-      id: pnpm-install
+    - uses: mskelton/setup-yarn@v1
       with:
-        version: 7
-        run_install: false
-    - name: Get pnpm store directory
-      id: pnpm-cache
-      shell: bash
-      run: |
-        echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-    - uses: actions/cache@v3
-      name: Setup pnpm cache
-      with:
-        path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-pnpm-store-
+        flags: --immutable-cache
     - name: Setup Env Variables
       run: |
           cp .env.example .env
@@ -52,8 +37,8 @@ jobs:
           sed -i "s/DB_HOST=mysql/DB_HOST=127.0.0.1/g" .env
           sed -i "s/local/testing/g" .env
     - name: Install dependencies
-      run: pnpm install --silent
+      run: yarn install --silent
     - run: sudo apt-get install xvfb
     - name: Run browser tests
-      run: xvfb-run --auto-servernum pnpm run test
+      run: xvfb-run --auto-servernum yarn run test
 
