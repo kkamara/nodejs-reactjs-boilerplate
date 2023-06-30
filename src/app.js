@@ -1,4 +1,4 @@
-const path = require('node:path');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const sanitize = require('sanitize');
 const express = require('express');

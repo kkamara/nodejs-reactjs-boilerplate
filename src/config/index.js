@@ -1,4 +1,5 @@
-const path = require('node:path'); const dotenv = require('dotenv');
+const path = require('path'); 
+const dotenv = require('dotenv');
 
 if (process.env.NODE_ENV !== 'production') {
     const parseEnvFile = dotenv.config({
