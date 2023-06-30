@@ -1,4 +1,4 @@
-const { log, } = require('node:console')
+const { log, } = require('console')
 const sequelize = require('./util/database')
 
 const Customer = require('./models/customer')
