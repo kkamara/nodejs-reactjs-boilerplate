@@ -4,7 +4,7 @@ const sanitize = require('sanitize');
 const express = require('express');
 
 const config = require('./config');
-const database = require('./database');
+//const database = require('./database');
 
 const app = express();
 
@@ -31,9 +31,9 @@ app.use((req, res, next) => {
 
 const router = express.Router();
 router.get('/test', async (req, res) => {
-    const db = await database();
+    /*const db = await database();
 
-    await db.close();
+    await db.close();*/
 
     return res.send({message: 'Success'});
 });
