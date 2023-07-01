@@ -4,7 +4,7 @@ const sanitize = require('sanitize');
 const express = require('express');
 
 const config = require('./config');
-//const database = require('./database');
+const db = require('./database');
 
 const app = express();
 
@@ -31,11 +31,9 @@ app.use((req, res, next) => {
 
 const router = express.Router();
 router.get('/test', async (req, res) => {
-    /*const db = await database();
+    const [results, metadata] = await db.query("SELECT * FROM books");
 
-    await db.close();*/
-
-    return res.send({message: 'Success'});
+    return res.send({ message: 'Success', data: results, });
 });
 app.use('/api/v1', router);
 

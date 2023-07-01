@@ -1,3 +1,5 @@
+![node-react-boilerplate.png](https://github.com/kkamara/useful/blob/main/node-react-boilerplate.png?raw=true)
+
 # node-react-boilerplate [![Run CI](https://github.com/kkamara/node-react-boilerplate/actions/workflows/node.js.yml/badge.svg)](https://github.com/kkamara/node-react-boilerplate/actions/workflows/node.js.yml)
 
 Nodejs, Mysql, Redis, Reactjs.
@@ -13,6 +15,12 @@ Nodejs, Mysql, Redis, Reactjs.
 ```
 
 ## Usage
+
+#### Run database migrations
+
+```bash
+  yarn node src/index.js
+```
 
 ```bash
   yarn start # Runs Start-script `yarn node src/app.js`
