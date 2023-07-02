@@ -6,5 +6,7 @@ block scripts
 
 block content
   h1= title
-  //- each pet in pets
-  //-   include pet.pug
+  ul
+    each item in data
+      li
+        span= item.uid+', '+item.author+', '+item.title
