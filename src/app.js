@@ -64,14 +64,14 @@ const router = express.Router();
 router.get('/test', async (req, res) => {
     let author = 'Jane Doe';
     const [results, metadata] = await db.query(
-        "SELECT * FROM books where author=? ORDER BY uid ASC LIMIT 1", 
+        "SELECT uid, title, author FROM books where author=? ORDER BY uid ASC LIMIT 1", 
         {
             replacements: [ author, ],
             type: QueryTypes.SELECT,
         },
     );
     const [results2, metadata2] = await db.query(
-        "SELECT * FROM books where author=:author ORDER BY uid DESC LIMIT 1", 
+        "SELECT uid, title, author FROM books where author=:author ORDER BY uid DESC LIMIT 1", 
         {
             replacements: { author, },
             type: QueryTypes.SELECT,
