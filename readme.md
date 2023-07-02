@@ -16,13 +16,13 @@ Nodejs, Mysql, Redis, Reactjs.
 
 ## Usage
 
-###### Run database migrations
+##### Run database migrations
 
 ```bash
   yarn node src/index.js
 ```
 
-###### Run start
+##### Run start
 ```bash
   yarn start # Runs Start-script `yarn node src/app.js`
   # Serves app to http://localhost:3000/.
