@@ -2,6 +2,10 @@ const Sequelize = require("sequelize");
 const { error, log, } = require('console');
 const config = require('../config');
 
+let logging = false;
+if ('production' !== config.nodeEnv) {
+   logging = true;
+}
 const db = new Sequelize(
    'hello_world_db',
    'root',
@@ -15,6 +19,7 @@ const db = new Sequelize(
          createdAt: 'created_at',
          updatedAt: 'updated_at',
       },
+      logging,
    },
 );
 

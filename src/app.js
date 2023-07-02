@@ -2,6 +2,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const sanitize = require('sanitize');
 const express = require('express');
+const { QueryTypes, } = require('sequelize');
+
 
 const config = require('./config');
 const db = require('./database');
@@ -31,9 +33,26 @@ app.use((req, res, next) => {
 
 const router = express.Router();
 router.get('/test', async (req, res) => {
-    const [results, metadata] = await db.query("SELECT * FROM books");
+    let author = 'Jane Doe';
+    const [results, metadata] = await db.query(
+        "SELECT * FROM books where author=? ORDER BY uid ASC LIMIT 1", 
+        {
+            replacements: [ author, ],
+            type: QueryTypes.SELECT,
+        },
+    );
+    const [results2, metadata2] = await db.query(
+        "SELECT * FROM books where author=:author ORDER BY uid DESC LIMIT 1", 
+        {
+            replacements: { author, },
+            type: QueryTypes.SELECT,
+        },
+    );
 
-    return res.send({ message: 'Success', data: results, });
+    return res.send({ message: 'Success', data: [
+        results, 
+        results2, 
+    ]});
 });
 app.use('/api/v1', router);
 
@@ -47,7 +66,7 @@ if (config.nodeEnv === 'production') {
     app.listen(config.appPort, () => {
         const url = `http://127.0.0.1:${config.appPort}`;
         console.log(`Listening on ${url}`);
-        if (config.nodeEnv === 'testing') {
+        if (['testing', 'development'].includes(config.nodeEnv)) {
             return;
         }
         const open = require('open');
