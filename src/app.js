@@ -3,12 +3,22 @@ const cookieParser = require('cookie-parser');
 const sanitize = require('sanitize');
 const express = require('express');
 const { QueryTypes, } = require('sequelize');
-
+const cons = require('consolidate');
 
 const config = require('./config');
 const db = require('./database');
 
 const app = express();
+
+// assign the pug engine to .html files
+app.engine('html', cons.pug);
+
+// set .html as the default extension
+app.set('view engine', 'html');
+app.set('views', path.join(
+    __dirname,
+    './views',
+));
 
 /** serving react with static path */
 const buildPath = path.join(
@@ -49,10 +59,13 @@ router.get('/test', async (req, res) => {
         },
     );
 
-    return res.send({ message: 'Success', data: [
-        results, 
-        results2, 
-    ]});
+    return res.render('home.pug', {
+        title: 'Homepage',
+        data: [
+            results, 
+            results2, 
+        ],
+    });
 });
 app.use('/api/v1', router);
 
