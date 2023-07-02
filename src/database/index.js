@@ -6,20 +6,27 @@ let logging = false;
 if ('production' !== config.nodeEnv) {
    logging = true;
 }
+
 const db = new Sequelize(
-   'hello_world_db',
-   'root',
-   '',
+   config.dbName,
+   config.dbUser,
+   config.dbPass,
    {
-      host: 'localhost',
-      dialect: 'mysql', /* 'mysql' | 'postgres' | 'sqlite' | 'mariadb' */
-      //storage: 'path/to/sqlitedb', // when sqlite dialect
+      host: config.dbHost,
+      dialect: config.dbDialect, /* 'mysql' | 'postgres' | 'sqlite' | 'mariadb' */
+      storage: config.dbStorage, // when sqlite dialect
       define: {
          timestamps: true,
          createdAt: 'created_at',
          updatedAt: 'updated_at',
       },
       logging,
+      pool: {
+         max: 5,
+         min: 0,
+         acquire: 30000,
+         idle: 10000,
+      },
    },
 );
 
