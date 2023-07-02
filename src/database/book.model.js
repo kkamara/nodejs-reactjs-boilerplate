@@ -27,7 +27,7 @@ const Book = sequelize.define("books", {
 sequelize.sync().then(() => {
    console.log('Book table created successfully!');
    Book.create({
-    title: 'Book 1',
+    title: 'Book '+parseInt(Math.random() * 100),
     author: 'Jane Doe',
    })
     .then(() => { log('Book created.'); })
