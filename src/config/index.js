@@ -22,7 +22,7 @@ const config = {
         return `/${path}`;
     },
     appName: process.env.APP_NAME,
-    nodeEnv: process.env.APP_ENV,
+    nodeEnv: process.env.NODE_ENV,
     appDebug: process.env.APP_DEBUG == 'true',
     appURL: process.env.APP_URL,
     appLocale: process.env.APP_LOCALE,
