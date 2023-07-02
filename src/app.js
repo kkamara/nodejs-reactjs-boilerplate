@@ -1,6 +1,7 @@
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const sanitize = require('sanitize');
+const minifyHTML = require("express-minify-html")
 const express = require('express');
 const { QueryTypes, } = require('sequelize');
 const cons = require('consolidate');
@@ -28,6 +29,24 @@ const buildPath = path.join(
     'build'
 );
 app.use(express.static(buildPath));
+app.use(express.static("public"));
+
+if (config.nodeEnv === 'production') {
+    app.use(
+        minifyHTML({
+            override: true,
+            exception_url: false,
+            htmlMinifier: {
+                removeComments: true,
+                collapseWhitespace: true,
+                collapseBooleanAttributes: true,
+                removeAttributeQuotes: true,
+                removeEmptyAttributes: true,
+                minifyJS: true,
+            },
+        })
+    );
+}
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
