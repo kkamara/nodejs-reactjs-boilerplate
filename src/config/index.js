@@ -26,7 +26,7 @@ const config = {
     appDebug: process.env.APP_DEBUG == 'true',
     appURL: process.env.APP_URL,
     appLocale: process.env.APP_LOCALE,
-    appPort: process.env.PORT || process.env.port || 8080,
+    appPort: process.env.PORT || process.env.port || 3000,
     databaseURL: process.env.DATABASE_URL
 };
 
