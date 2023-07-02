@@ -16,15 +16,27 @@ Nodejs, Mysql, Redis, Reactjs.
 
 ## Usage
 
-#### Run database migrations
+###### Run database migrations
 
 ```bash
   yarn node src/index.js
 ```
 
+###### Run start
 ```bash
   yarn start # Runs Start-script `yarn node src/app.js`
+  # Serves app to http://localhost:3000/.
+  # Serves api to http://localhost:3000/api/v1.
+  #   Example api route: http://localhost:3000/api/v1/test.
 ```
+
+###### Reload server on project files change
+
+```bash
+  yarn dev # Runs Dev-script `nodemon src/app.js`
+  # We can also `APP_ENV=development nodemon src/app.js`.
+```
+
 
 ## Using docker?
 
