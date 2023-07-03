@@ -31,7 +31,9 @@ const db = new Sequelize(
 );
 
 db.authenticate().then(() => {
-   log('Connection has been established successfully.');
+   if (config.nodeEnv !== 'production') {
+      log('Connection has been established successfully.');
+   }
 }).catch((err) => {
    error('Unable to connect to the database: ', err);
 });

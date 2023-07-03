@@ -10,7 +10,8 @@ const Book = sequelize.define("books", {
    },
    title: {
      type: DataTypes.STRING,
-     allowNull: false,
+     allowNull: true,
+     defaultValue: 'Title not available',
    },
    author: {
      type: DataTypes.STRING,
@@ -48,6 +49,11 @@ sequelize.sync().then(() => {
   log('Book table created successfully!');
   Book.create({
     title: 'Book '+parseInt(Math.random() * 100),
+    author: 'Jane Doe',
+  })
+  .then(() => { log('Book created.'); })
+  .catch(() => { log('Unable to create book.'); });
+  Book.create({
     author: 'Jane Doe',
   })
   .then(() => { log('Book created.'); })
