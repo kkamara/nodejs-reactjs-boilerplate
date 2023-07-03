@@ -7,22 +7,27 @@ const Book = sequelize.define("books", {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-   },
-   title: {
-     type: DataTypes.STRING,
-     allowNull: true,
-     defaultValue: 'Title not available',
-   },
-   author: {
-     type: DataTypes.STRING,
-     allowNull: false,
-   },
-   release_date: {
-     type: DataTypes.DATEONLY,
-   },
-   subject: {
-     type: DataTypes.INTEGER,
-   },
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: 'Title not available',
+    },
+    author: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    release_date: {
+      type: DataTypes.DATEONLY,
+    },
+    subject: {
+      type: DataTypes.INTEGER,
+    },
+    inStockStatus: {
+      type: DataTypes.ENUM,
+      values: ['active', 'pending', 'deleted'],
+      defaultValue: 'active',
+    },
 });
 /*
 Foo.hasOne(Bar, {
