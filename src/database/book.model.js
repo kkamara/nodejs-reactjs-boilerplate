@@ -38,7 +38,11 @@ Bar.belongsTo(Foo);
 A.belongsTo(B, {  });
 A.hasMany(B, {  });
 A.belongsToMany(B, { through: 'C',  });
-Movie.belongsToMany(Actor, { through: ActorMovies, });
+Movie.belongsToMany(Actor, {
+  through: ActorMovies,
+  uniqueKey: 'my_custom_unique',
+  // unique: false, // Doesn't set uniqueKey.
+});
 */
 sequelize.sync().then(() => {
   log('Book table created successfully!');
