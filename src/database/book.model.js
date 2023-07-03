@@ -1,5 +1,5 @@
-const { Sequelize, DataTypes, } = require("sequelize");
-const { log, } = require('console');
+const { DataTypes, } = require("sequelize");
+const { log, error, } = require('console');
 const sequelize = require('../database');
 
 const Book = sequelize.define("books", {
@@ -23,17 +23,33 @@ const Book = sequelize.define("books", {
      type: DataTypes.INTEGER,
    },
 });
-
+/*
+Foo.hasOne(Bar, {
+  foreignKey: {
+    name: 'my_foo_id',
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  onDelete: 'RESTRICT', //  RESTRICT, CASCADE, NO ACTION, SET DEFAULT and SET NULL
+  onUpdate: 'RESTRICT'
+});
+Bar.belongsTo(Foo);
+*/ /*
+A.belongsTo(B, {  });
+A.hasMany(B, {  });
+A.belongsToMany(B, { through: 'C',  });
+Movie.belongsToMany(Actor, { through: ActorMovies, });
+*/
 sequelize.sync().then(() => {
-   console.log('Book table created successfully!');
-   Book.create({
+  log('Book table created successfully!');
+  Book.create({
     title: 'Book '+parseInt(Math.random() * 100),
     author: 'Jane Doe',
-   })
-    .then(() => { log('Book created.'); })
-    .catch(() => { log('Unable to create book.'); });
-}).catch((error) => {
-   console.error('Unable to create table : ', error);
+  })
+  .then(() => { log('Book created.'); })
+  .catch(() => { log('Unable to create book.'); });
+}).catch((err) => {
+  error('Unable to create table : ', err);
 });
 
 module.exports = Book;
