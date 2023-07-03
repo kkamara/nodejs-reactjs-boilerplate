@@ -2,7 +2,7 @@
 
 ![node-react-boilerplate2.png](https://github.com/kkamara/useful/blob/main/node-react-boilerplate2.png?raw=true)
 
-# node-react-boilerplate [![Run CI](https://github.com/kkamara/node-react-boilerplate/actions/workflows/node.js.yml/badge.svg)](https://github.com/kkamara/node-react-boilerplate/actions/workflows/node.js.yml)
+# node-react-boilerplate
 
 Nodejs, Mysql, Redis, Reactjs.
 
