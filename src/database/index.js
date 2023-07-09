@@ -4,7 +4,7 @@ const config = require('../config');
 
 let logging = false;
 if ('production' !== config.nodeEnv) {
-   logging = true;
+   logging = log;
 }
 
 const db = new Sequelize(
