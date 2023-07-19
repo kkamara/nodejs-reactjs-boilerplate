@@ -92,6 +92,12 @@ app.all('*', (req, res) => {
     res.status(200).sendFile(`/`, {root: buildPath});
 });
 
+app.use((err, req, res, next) => {
+    res.status(500).json({
+        message: 'Something went wrong, please contact administrator.',
+    });
+});
+
 if (config.nodeEnv === 'production') {
     app.listen(config.appPort);
 } else {
