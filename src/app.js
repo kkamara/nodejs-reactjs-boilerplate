@@ -4,18 +4,13 @@ const sanitize = require('sanitize');
 const minifyHTML = require("express-minify-html")
 const express = require('express');
 const { QueryTypes, } = require('sequelize');
-const cons = require('consolidate');
 
 const config = require('./config');
 const db = require('./database');
 
 const app = express();
 
-// assign the pug engine to .html files
-app.engine('html', cons.pug);
-
-// set .html as the default extension
-app.set('view engine', 'html');
+app.set('view engine', 'pug');
 app.set('views', path.join(
     __dirname,
     './views',
