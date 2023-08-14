@@ -3,7 +3,7 @@ name: Tests Pipeline
 on: [push, pull_request]
 
 env:
-  NODE_ENV: "NODE_ENV='test'"
+  NODE_ARGS: "NODE_ENV='test'"
 
 jobs:
   node-react-boilerplate:
@@ -39,9 +39,9 @@ jobs:
     - name: Install dependencies
       run: yarn install --silent
     - name: Run database migrations
-      run: ${{ env.NODE_ENV }} yarn migrate
+      run: ${{ env.NODE_ARGS }} yarn migrate
     - name: Run database seeders
-      run: ${{ env.NODE_ENV }} yarn seed
+      run: ${{ env.NODE_ARGS }} yarn seed
     - name: Run server in background
       run: yarn start &
     - name: Run tests
