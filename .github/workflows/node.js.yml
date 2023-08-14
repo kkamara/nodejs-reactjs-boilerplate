@@ -7,7 +7,7 @@ env:
 
 jobs:
   node-react-boilerplate:
-    name: pipeline (Node ${{ matrix.node-version }})
+    name: Tests Pipeline (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
     services:
       mysql:
