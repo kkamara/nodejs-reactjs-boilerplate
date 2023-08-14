@@ -1,4 +1,4 @@
-name: Run CI
+name: Tests Pipeline
 
 on: [push, pull_request]
 
@@ -31,13 +31,15 @@ jobs:
         flags: --immutable-cache
     - name: Setup Env Variables
       run: |
-          cp .env.example .env
-          sed -i "s/APP_URL=http:\/\/localhost/APP_URL=http:\/\/127.0.0.1:8000/g" .env
-          sed -i "s/3306/${{ job.services.mysql.ports['3306'] }}/g" .env
-          sed -i "s/DB_HOST=mysql/DB_HOST=127.0.0.1/g" .env
-          sed -i "s/local/testing/g" .env
+          cp .env.testing .env
+          sed -i "s/3306/${{ job.services.mysql.ports['3306'] }}/g" config.json
     - name: Install dependencies
       run: yarn install --silent
+    - name: Run database migrations
+      run: NODE_ENV=test yarn migrate
+    - name: Run database seeders
+      run: NODE_ENV=test yarn seed
+    - name: Run server in background
+      run: yarn start &
     - name: Run tests
       run: yarn run test
-

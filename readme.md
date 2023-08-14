@@ -6,6 +6,8 @@
 
 Nodejs, Mysql, Redis, Reactjs.
 
+Supported databases: mysql, postgres, sqlite, mariadb.
+
 ## Installation
 
 * [Node.js](https://nodejs.org/en/)
@@ -16,27 +18,77 @@ Nodejs, Mysql, Redis, Reactjs.
   yarn install
 ```
 
+Add sequelize args for use with this project.
+
+```bash
+export SEQUELIZE_ARGS="--config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'"
+# Example usage:
+# npx sequelize-cli init $SEQUELIZE_ARGS
+```
+
+##### Sequelize tutorial
+
+```bash
+# Docs:
+#   https://sequelize.org/docs/v6/other-topics/migrations/
+# Creating a model & migration
+npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string $SEQUELIZE_ARGS
+# Creating a migration
+npx sequelize-cli migration:generate --name migration-skeleton $SEQUELIZE_ARGS
+# Running migrations
+npx sequelize-cli db:migrate $SEQUELIZE_ARGS
+# Revert the most recent migration
+npx sequelize-cli db:migrate:undo $SEQUELIZE_ARGS
+# Revert to a specific migration
+npx sequelize-cli db:migrate:undo:all --to XXXXXXXXXXXXXX-create-posts.js $SEQUELIZE_ARGS
+# Creating a seed (fake database data) to simulate production environment
+npx sequelize-cli seed:generate --name demo-user $SEQUELIZE_ARGS
+# Running seeds
+npx sequelize-cli db:seed:all $SEQUELIZE_ARGS
+# Undo the latest seed
+npx sequelize-cli db:seed:undo $SEQUELIZE_ARGS
+# Undo all seeds
+npx sequelize-cli db:seed:undo:all $SEQUELIZE_ARGS
+```
+
+See [package.json](https://github.com/kkamara/nodejs-react-boilerplate/blob/main/package.json) for helpful commands related to using the database.
+
+```json
+...
+    "migrate": "npx sequelize-cli db:migrate --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+    "seed": "npx sequelize-cli db:seed:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+    "seed:undo:all": "npx sequelize-cli db:seed:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'"
+...
+```
+
 ## Usage
 
 ##### Run database migrations
 
 ```bash
-  yarn node src/index.js
+  yarn migrate
+```
+
+##### Run database seeders
+
+```bash
+  yarn seed
 ```
 
 ##### Run start
 ```bash
-  yarn start # Runs Start-script `yarn node src/app.js`
-  # Serves app to http://localhost:3000/.
-  # Serves api to http://localhost:3000/api/v1.
-  #   Example api route: http://localhost:3000/api/v1/test.
+yarn start # Runs Start-script `yarn node src/app.js`
+# Serves app to http://localhost:3000/.
+# Serves api to http://localhost:3000/api/v1.
+#   Example api route: http://localhost:3000/api/v1/test.
 ```
 
 ###### Reload server on project files change
 
 ```bash
-  yarn dev # Runs Dev-script `nodemon src/app.js`
-  # We can also `APP_ENV=development nodemon src/app.js`.
+yarn dev # Runs Dev-script `nodemon src/app.js`
+# We can also `APP_ENV=development nodemon src/app.js`.
 ```
 
 
@@ -46,13 +98,13 @@ Nodejs, Mysql, Redis, Reactjs.
 * [docker-compose](https://docs.docker.com/compose/install/).
 
 ```bash
-  docker-compose up --build -d
+docker-compose up --build -d
 ```
 
 ## To run api tests
 
 ```bash
-  yarn test
+yarn test
 ```
 
 ## Contributing

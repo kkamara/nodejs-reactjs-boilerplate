@@ -6,7 +6,7 @@ const express = require('express');
 const { QueryTypes, } = require('sequelize');
 
 const config = require('./config');
-const db = require('./database');
+const db = require('./models/index');
 
 const app = express();
 
@@ -57,28 +57,20 @@ app.use((req, res, next) => {
 
 const router = express.Router();
 router.get('/test', async (req, res) => {
-    let author = 'Jane Doe';
-    const [results, metadata] = await db.query(
-        "SELECT uid, title, author FROM books where author=? ORDER BY uid ASC LIMIT 1", 
+    let email = 'doesntexist@example.com';
+    let [results, metadata] = await db.sequelize.query(
+        "SELECT id, firstName, lastName, email FROM Users where email != ?", 
         {
-            replacements: [ author, ],
+            replacements: [ email, ],
             type: QueryTypes.SELECT,
         },
     );
-    const [results2, metadata2] = await db.query(
-        "SELECT uid, title, author FROM books where author=:author ORDER BY uid DESC LIMIT 1", 
-        {
-            replacements: { author, },
-            type: QueryTypes.SELECT,
-        },
-    );
-
+    if (!Array.isArray(results)) {
+        results = [results];
+    }
     return res.render('home.pug', {
         title: 'Homepage',
-        data: [
-            results, 
-            results2, 
-        ],
+        data: results,
     });
 });
 app.use('/api/v1', router);
@@ -99,10 +91,5 @@ if (config.nodeEnv === 'production') {
     app.listen(config.appPort, () => {
         const url = `http://127.0.0.1:${config.appPort}`;
         console.log(`Listening on ${url}`);
-        if (['testing', 'development'].includes(config.nodeEnv)) {
-            return;
-        }
-        const open = require('open');
-        open(url);
     });
 }
