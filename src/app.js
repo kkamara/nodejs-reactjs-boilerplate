@@ -4,11 +4,22 @@ const sanitize = require('sanitize');
 const minifyHTML = require("express-minify-html")
 const express = require('express');
 const { QueryTypes, } = require('sequelize');
+const fs = require('fs');
+const morgan = require('morgan');
 
 const config = require('./config');
 const db = require('./models/index');
 
 const app = express();
+
+const accessLogStream = fs.createWriteStream(
+    path.join(__dirname, '..', 'logs', 'nodejs_react_boilerplate.log'), 
+    { flags: 'a' },
+);
+app.use(morgan(
+    'combined', 
+    { stream: accessLogStream },
+));
 
 app.set('view engine', 'pug');
 app.set('views', path.join(
