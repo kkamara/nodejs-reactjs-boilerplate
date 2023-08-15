@@ -4,3 +4,4 @@ yarn-error.log
 database.sqlite
 .DS_Store
 db.sqlite
+tmp
