@@ -1,7 +1,7 @@
 {
-  "name": "node-react-boilerplate",
+  "name": "nodejs-crm",
   "version": "1.0.0",
-  "description": "",
+  "description": "Nodejs, Mysql, Redis, Reactjs.",
   "main": "src/app.js",
   "scripts": {
     "test": "mocha tests/",
@@ -14,33 +14,37 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kkamara/node-react-app.git"
+    "url": "git+https://github.com/kkamara/nodejs-crm.git"
   },
   "author": "https://github.com/kkamara",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/kkamara/node-react-app/issues"
+    "url": "https://github.com/kkamara/nodejs-crm/issues"
   },
-  "homepage": "https://github.com/kkamara/node-react-app#readme",
+  "homepage": "https://github.com/kkamara/nodejs-crm#readme",
   "dependencies": {
     "axios": "^0.21.1",
     "chai": "^4.3.7",
     "chai-http": "^4.4.0",
     "cookie-parser": "^1.4.4",
+    "deep-clone": "^3",
     "dotenv": "^8.2.0",
+    "email-validator": "^2.0.4",
     "express": "^4.17.1",
     "express-minify-html": "^0.12.0",
+    "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
     "mysql2": "^2",
     "nodemon": "^2.0.22",
     "pug": "^3.0.2",
     "sanitize": "^2.1.0",
-    "sequelize": "^6.13.0"
+    "sequelize": "^6.13.0",
+    "vali-admin": "^4.0.0"
   },
   "devDependencies": {
     "assert": "^2.0.0",
     "mocha": "^9.1.4",
-    "sequelize-cli": "^6.6.1"
+    "open": "^8.2.1"
   }
 }

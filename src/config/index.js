@@ -1,17 +1,21 @@
-const path = require('path'); 
+'use strict';
+
+const path = require('path');
 const dotenv = require('dotenv');
 
-const parseEnvFile = dotenv.config({
-    path: path.join(
-        __dirname, 
-        '../', 
-        '../',
-        '.env',
-    ),
-});
+if (process.env.NODE_ENV !== 'production') {
+    const parseEnvFile = dotenv.config({
+        path: path.join(
+            __dirname, 
+            '../', 
+            '../',
+            '.env',
+        ),
+    });
 
-if (parseEnvFile.error) {
-    throw parseEnvFile.error;
+    if (parseEnvFile.error) {
+        throw parseEnvFile.error;
+    }
 }
 
 const config = {
@@ -20,6 +24,7 @@ const config = {
         return `/${path}`;
     },
     appName: process.env.APP_NAME,
+    appKey: process.env.APP_KEY,
     nodeEnv: process.env.NODE_ENV,
     appDebug: process.env.APP_DEBUG == 'true',
     appURL: process.env.APP_URL,

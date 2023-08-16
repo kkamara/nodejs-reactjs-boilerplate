@@ -1,3 +1,4 @@
+'use strict';
 const assert = require('assert');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -8,21 +9,14 @@ chai.use(chaiHttp);
 const app = `http://localhost:${config.appPort}`;
 
 describe('API Tests', () => {
-  it('Tests /api/v1/test', () => {
+  it('Tests /api/v1/auth', () => {
+    // {"data":{"routeName":"Login","user":{"page":{"title":"Login","loginEmails":["admin@mail.com","clientadmin@mail.com","clientuser@mail.com"]},"auth":null}}}
     chai.request(app)
-      .get('/api/v1/test')
+      .get('/api/v1/auth')
       .end((err, res) => {
         chai.expect(err).to.be.null;
         chai.expect(res).to.have.status(200);
+        chai.expect(res.body).to.have.property('data');
     });
-  })
-
-  it('Tests /', () => {
-    chai.request(app)
-      .get('/')
-      .end((err, res) => {
-        chai.expect(err).to.be.null;
-        chai.expect(res).to.have.status(200);
-    });
-  })
-})
+  });
+});

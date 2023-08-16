@@ -1,14 +1,15 @@
+'use strict';
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const sanitize = require('sanitize');
 const minifyHTML = require("express-minify-html")
 const express = require('express');
-const { QueryTypes, } = require('sequelize');
+const session = require('express-session')
 const fs = require('fs');
 const morgan = require('morgan');
 
 const config = require('./config');
-const db = require('./models/index');
+const routes = require('./routes');
 
 const app = express();
 
@@ -27,15 +28,9 @@ app.set('views', path.join(
     './views',
 ));
 
-/** serving react with static path */
-const buildPath = path.join(
-    __dirname,
-    '../',
-    'frontend',
-    'build'
-);
-app.use(express.static(buildPath));
 app.use(express.static("public"));
+app.use('/static', express.static("frontend/build/static"));
+app.get('/*', express.static('frontend/build'));
 
 if (config.nodeEnv === 'production') {
     app.use(
@@ -54,6 +49,12 @@ if (config.nodeEnv === 'production') {
     );
 }
 
+app.use(session({ // Sha1 hash.
+    secret: '46ed1ca3c67b873bc249bd0e98addd4dbbbcb4bf',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true, },
+}))
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -66,34 +67,16 @@ app.use((req, res, next) => {
     next();
 });
 
-const router = express.Router();
-router.get('/test', async (req, res) => {
-    let email = 'doesntexist@example.com';
-    let [results, metadata] = await db.sequelize.query(
-        "SELECT id, firstName, lastName, email FROM Users where email != ?", 
-        {
-            replacements: [ email, ],
-            type: QueryTypes.SELECT,
-        },
-    );
-    if (!Array.isArray(results)) {
-        results = [results];
-    }
-    return res.render('home.pug', {
-        title: 'Homepage',
-        data: results,
-    });
-});
-app.use('/api/v1', router);
+app.use('/', routes);
 
-app.all('*', (req, res) => {
-    res.status(200).sendFile(`/`, {root: buildPath});
-});
+// Comment this because we are serving react app.
+// This wouldn't conflict anyway.
+// app.get('/', (req, res) => {
+//     return res.redirect('/dashboard');
+// });
 
-app.use((err, req, res, next) => {
-    res.status(500).json({
-        message: 'Something went wrong, please contact administrator.',
-    });
+app.get('/test', (req, res) => {
+    res.status(200).send({ message: 'Success', });
 });
 
 if (config.nodeEnv === 'production') {
@@ -102,5 +85,10 @@ if (config.nodeEnv === 'production') {
     app.listen(config.appPort, () => {
         const url = `http://127.0.0.1:${config.appPort}`;
         console.log(`Listening on ${url}`);
+        if (['testing', 'development'].includes(config.nodeEnv)) {
+            return;
+        }
+        const open = require('open');
+        open(url);
     });
 }

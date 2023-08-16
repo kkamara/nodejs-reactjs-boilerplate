@@ -1,0 +1,12 @@
+
+if session.flashSuccess
+    br
+    div.panel.panel-success.text-center
+        div.panel-heading= session.flashSuccess
+    </div>
+
+if flashError
+    br
+    div.panel.panel-danger.text-center
+        div.panel-heading= session.flashError
+    </div>

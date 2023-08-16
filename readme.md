@@ -1,4 +1,8 @@
-![node-react-boilerplate.png](https://github.com/kkamara/useful/blob/main/node-react-boilerplate.png?raw=true)
+![nodejs-crm5.png](https://github.com/kkamara/useful/blob/main/nodejs-crm5.png?raw=true)
+
+![nodejs-crm2.png](https://github.com/kkamara/useful/blob/main/nodejs-crm2.png?raw=true)
+
+![nodejs-crm.png](https://github.com/kkamara/useful/blob/main/nodejs-crm.png?raw=true)
 
 ![node-react-boilerplate2.png](https://github.com/kkamara/useful/blob/main/node-react-boilerplate2.png?raw=true)
 

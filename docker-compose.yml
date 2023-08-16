@@ -49,16 +49,15 @@ services:
       - app
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-p${DB_PASS}"]
-  mailhog:
-    container_name: my-_mailhog
-    restart: unless-stopped
-    restart: always
-    image: mailhog/mailhog
+  selenium:
+    container_name: my-selenium
+    image: 'selenium/standalone-chrome'
     ports:
-      - 1025:1025
-      - 8025:8025 
+        - '${SELENIUM_PORT:-4000}:4444'
+    volumes:
+        - '/dev/shm:/dev/shm'
     networks:
-      - app
+        - app
 
 volumes:
   redis:

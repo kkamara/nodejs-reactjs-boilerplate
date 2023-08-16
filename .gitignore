@@ -2,6 +2,7 @@
 .env
 yarn-error.log
 database.sqlite
-.DS_Store
+/.DS_Store
+*.php
 db.sqlite
 tmp
