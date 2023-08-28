@@ -25,7 +25,7 @@ app.use(morgan(
 app.set('view engine', 'pug');
 app.set('views', path.join(
     __dirname,
-    './views',
+    'views',
 ));
 
 app.use(express.static("public"));
