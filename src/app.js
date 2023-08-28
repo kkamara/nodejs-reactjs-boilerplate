@@ -2,9 +2,9 @@
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const sanitize = require('sanitize');
-const minifyHTML = require("express-minify-html")
+const minifyHTML = require("express-minify-html");
 const express = require('express');
-const session = require('express-session')
+const session = require('express-session');
 const fs = require('fs');
 const morgan = require('morgan');
 
