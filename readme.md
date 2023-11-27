@@ -6,7 +6,7 @@
 
 ![node-react-boilerplate2.png](https://github.com/kkamara/useful/blob/main/node-react-boilerplate2.png?raw=true)
 
-# nodejs-react-boilerplate
+# nodejs-reactjs-boilerplate
 
 (2021) Nodejs, Mysql, Redis, Reactjs.
 
