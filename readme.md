@@ -4,7 +4,7 @@
 
 ![nodejs-crm.png](https://github.com/kkamara/useful/blob/main/nodejs-crm.png?raw=true)
 
-![node-react-boilerplate2.png](https://github.com/kkamara/useful/blob/main/node-react-boilerplate2.png?raw=true)
+![nodejs-reactjs-boilerplate2.png](https://github.com/kkamara/useful/blob/main/nodejs-reactjs-boilerplate2.png?raw=true)
 
 # nodejs-reactjs-boilerplate
 
@@ -57,7 +57,7 @@ npx sequelize-cli db:seed:undo $SEQUELIZE_ARGS
 npx sequelize-cli db:seed:undo:all $SEQUELIZE_ARGS
 ```
 
-See [package.json](https://github.com/kkamara/nodejs-react-boilerplate/blob/main/package.json) for helpful commands related to using the database.
+See [package.json](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/package.json) for helpful commands related to using the database.
 
 ```json
 ...
