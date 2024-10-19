@@ -8,18 +8,18 @@
 
 # nodejs-reactjs-boilerplate
 
-(2021) Nodejs, Mysql, Redis, Reactjs.
+(2021) NodeJS, MySQL, Redis, ReactJS.
 
-Supported databases: mysql, postgres, sqlite, mariadb.
+Supported databases: MySQL, PostgreSQL, SQLite, MariaDB.
 
 ## Installation
 
-* [Node.js](https://nodejs.org/en/)
-* [yarn](https://yarnpkg.com/).
+* [NodeJS](https://nodejs.org/en/)
+* [Yarn](https://yarnpkg.com/).
 
 ```bash
-  cp .env.example .env
-  yarn install
+cp .env.example .env
+yarn install
 ```
 
 Add sequelize args for use with this project.
@@ -61,10 +61,10 @@ See [package.json](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/ma
 
 ```json
 ...
-    "migrate": "npx sequelize-cli db:migrate --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-    "migrate:undo": "npx sequelize-cli db:migrate:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-    "seed": "npx sequelize-cli db:seed:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-    "seed:undo:all": "npx sequelize-cli db:seed:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'"
+"migrate": "npx sequelize-cli db:migrate --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+"migrate:undo": "npx sequelize-cli db:migrate:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+"seed": "npx sequelize-cli db:seed:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+"seed:undo:all": "npx sequelize-cli db:seed:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'"
 ...
 ```
 
@@ -73,13 +73,13 @@ See [package.json](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/ma
 ##### Run database migrations
 
 ```bash
-  yarn migrate
+yarn migrate
 ```
 
 ##### Run database seeders
 
 ```bash
-  yarn seed
+yarn seed
 ```
 
 ##### Run start
