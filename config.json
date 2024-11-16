@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "nodejs_react_boilerplate",
+    "database": "nodejs_reactjs_boilerplate",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "storage": "./db.sqlite"
@@ -11,7 +11,7 @@
     "port": 3306,
     "username": "user",
     "password": "secret",
-    "database": "nodejs_react_boilerplate",
+    "database": "nodejs_reactjs_boilerplate",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

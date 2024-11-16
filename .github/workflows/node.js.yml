@@ -14,7 +14,7 @@ jobs:
         image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: 'secret'
-          MYSQL_DATABASE: 'nodejs_react_boilerplate'
+          MYSQL_DATABASE: 'nodejs_reactjs_boilerplate'
           MYSQL_USER: 'user'
           MYSQL_PASSWORD: 'secret'
         ports:

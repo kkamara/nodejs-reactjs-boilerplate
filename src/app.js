@@ -14,7 +14,7 @@ const routes = require('./routes');
 const app = express();
 
 const accessLogStream = fs.createWriteStream(
-    path.join(__dirname, '..', 'logs', 'nodejs_react_boilerplate.log'), 
+    path.join(__dirname, '..', 'logs', 'nodejs_reactjs_boilerplate.log'), 
     { flags: 'a' },
 );
 app.use(morgan(
