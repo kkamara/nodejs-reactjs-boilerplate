@@ -58,7 +58,7 @@ home.get('/dashboard', async (req, res) => {
     });
   });
   
-  return res.render('home.pug', {
+  return res.render('home', {
       config,
       title: session.page.title,
       session,

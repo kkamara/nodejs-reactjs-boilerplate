@@ -32,7 +32,7 @@ login.get('/', async (req, res) => {
     });
   });
   
-  return res.render('admin/auth/login.pug', {
+  return res.render('admin/auth/login', {
       config,
       title: session.page.title,
       session,

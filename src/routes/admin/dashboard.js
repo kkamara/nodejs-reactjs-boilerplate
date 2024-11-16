@@ -33,7 +33,7 @@ dashboard.get('/', async (req, res) => {
   });
   
   return res.render(
-    'admin/dashboard.pug',
+    'admin/dashboard',
     {
       config,
       title: session.page.title,
