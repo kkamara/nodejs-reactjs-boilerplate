@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       try {
         const [results, metadata] = await sequelize.query(
-          `SELECT count(Users.uid) as usersCount
-          FROM Users;`,
+          `SELECT count(users.uid) as usersCount
+          FROM users;`,
         );
         res = { usersCount: results[0].usersCount, }
         return { ...res, }
@@ -77,8 +77,8 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       try {
         const [results, metadata] = await sequelize.query(
-          `UPDATE Users SET updatedAt=NOW()
-            WHERE Users.uid = :id`, 
+          `UPDATE users SET updatedAt=NOW()
+            WHERE users.uid = :id`, 
           {
                 replacements: { id, },
                 type: QueryTypes.UPDATE,
@@ -103,7 +103,7 @@ module.exports = (sequelize, DataTypes) => {
           `SELECT uid, password, passwordSalt, buildingNumber, city, contactNumber, 
           createdAt, email, emailResetKey, firstName, 
           lastName, password, lastLogin, rememberToken, streetName,
-          updatedAt, username FROM Users WHERE Users.uid=? LIMIT 1`, 
+          updatedAt, username FROM users WHERE users.uid=? LIMIT 1`, 
           {
               replacements: [ id, ],
               type: QueryTypes.SELECT,
@@ -124,12 +124,12 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       try {
         const [result, metadata] = await sequelize.query(
-          `SELECT Users.uid, password, passwordSalt, buildingNumber, 
-          city, contactNumber, Users.createdAt, email, emailResetKey, firstName, 
+          `SELECT users.uid, password, passwordSalt, buildingNumber, 
+          city, contactNumber, users.createdAt, email, emailResetKey, firstName, 
           lastName, password, lastLogin, rememberToken, streetName,
-          Users.updatedAt, username FROM Users
-          LEFT JOIN UserTokens ON UserTokens.usersId = Users.uid
-          WHERE UserTokens.token=? LIMIT 1`, 
+          users.updatedAt, username FROM users
+          LEFT JOIN user_tokens ON user_tokens.usersId = users.uid
+          WHERE user_tokens.token=? LIMIT 1`, 
           {
               replacements: [ token, ],
               type: QueryTypes.SELECT,
@@ -155,7 +155,7 @@ module.exports = (sequelize, DataTypes) => {
           `SELECT uid, password, passwordSalt, buildingNumber, city, contactNumber, 
           createdAt, email, emailResetKey, firstName, 
           lastName, password, lastLogin, rememberToken, streetName,
-          updatedAt, username FROM Users WHERE Users.email=? LIMIT 1`, 
+          updatedAt, username FROM users WHERE users.email=? LIMIT 1`, 
         {
             replacements: [ email, ],
             type: QueryTypes.SELECT,
@@ -182,7 +182,7 @@ module.exports = (sequelize, DataTypes) => {
         .encrypt(config.appKey);
       try {
         const [addToken, metadata] = await sequelize.query(
-          `INSERT INTO UserTokens(
+          `INSERT INTO user_tokens(
             usersId, token, createdAt, updatedAt
           ) VALUES(
             ?, ?, NOW(), NOW()
@@ -270,6 +270,7 @@ module.exports = (sequelize, DataTypes) => {
       return res;
     }
   }
+  
   User.init({
     uid: DataTypes.INTEGER,
     userCreated: DataTypes.INTEGER,
@@ -292,6 +293,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    tableName: "users",
   });
   
   return User;

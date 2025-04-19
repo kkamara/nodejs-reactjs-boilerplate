@@ -13,7 +13,7 @@ const { hash: hash3 } = db.sequelize.models
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('UserTokens', [
+    return queryInterface.bulkInsert('user_tokens', [
       {
         usersId: 1,
         token: hash1,
@@ -36,6 +36,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    return queryInterface.bulkDelete('Users', null, {});
+    return queryInterface.bulkDelete('user_tokens', null, {});
   }
 };

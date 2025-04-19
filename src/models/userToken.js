@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
+
   UserToken.init({
     usersId: DataTypes.INTEGER,
     token: DataTypes.STRING,
@@ -21,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'UserToken',
+    tableName: "user_tokens",
   });
+  
   return UserToken;
 };

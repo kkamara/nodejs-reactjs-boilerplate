@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
+  
   Log.init({
     clientId: DataTypes.STRING,
     userCreated: DataTypes.INTEGER,
@@ -26,6 +27,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Log',
+    tableName: "logs",
   });
+
   return Log;
 };
