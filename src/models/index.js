@@ -25,6 +25,7 @@ sequelize = new Sequelize(
   config.password,
   {
      host: config.host,
+     port: config.port || 3306,
      dialect: config.dialect, /* 'mysql' | 'postgres' | 'sqlite' | 'mariadb' */
      storage: config.storage || false, // when sqlite dialect
      define: {
