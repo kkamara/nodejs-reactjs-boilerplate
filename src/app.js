@@ -70,6 +70,15 @@ app.use(session({ // Sha1 hash.
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// The following jsonErrorHandler goes after express.json() middleware. Otherwise, it doesn't run.
+const jsonErrorHandler = (err, req, res, next) => {
+  return res.status(err.status).send({
+    message: "Something went wrong. Please contact an administrator.",
+  });
+};
+app.use(jsonErrorHandler);
+
 app.use(sanitize.middleware);
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', config.appURL+':'+config.appPort);
