@@ -1,7 +1,7 @@
 {
   "name": "nodejs-crm",
   "version": "1.0.0",
-  "description": "Nodejs, Mysql, Redis, Reactjs.",
+  "description": "(2021) Nodejs, Mysql, Redis, Reactjs.",
   "main": "src/app.js",
   "scripts": {
     "test": "mocha tests/",
