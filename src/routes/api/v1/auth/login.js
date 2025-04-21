@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const deepClone = require('deep-clone');
-const db = require('../../../models/index');
+const db = require('../../../../models/index');
 
 const login = express.Router();
 

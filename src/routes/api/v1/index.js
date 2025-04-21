@@ -1,9 +1,9 @@
 'use strict';
 const express = require('express');
-const health = require('./health');
+const auth = require('./auth');
 
 const router = express.Router();
 
-router.use('/health', health);
+router.use('/auth', auth);
 
 module.exports = router;

@@ -4,6 +4,6 @@ const health = require('./health');
 
 const router = express.Router();
 
-router.use('/health', health);
+router.use('/', health);
 
 module.exports = router;
