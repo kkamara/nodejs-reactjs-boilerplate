@@ -8,8 +8,10 @@
     "start": "cross-env DEBUG=express:* yarn node src/app.js",
     "dev": "cross-env DEBUG=express:* yarn nodemon src/app.js --trace-warnings",
     "migrate": "cross-env NODE_ENV=development npx sequelize-cli db:migrate --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+    "migrate:test": "cross-env NODE_ENV=test npx sequelize-cli db:migrate --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
     "migrate:undo": "cross-env NODE_ENV=development npx sequelize-cli db:migrate:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
     "seed": "cross-env NODE_ENV=development npx sequelize-cli db:seed:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+    "seed:test": "cross-env NODE_ENV=test npx sequelize-cli db:seed:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
     "seed:undo:all": "cross-env NODE_ENV=development npx sequelize-cli db:seed:undo:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'"
   },
   "repository": {

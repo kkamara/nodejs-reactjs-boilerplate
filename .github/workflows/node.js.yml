@@ -39,9 +39,9 @@ jobs:
     - name: Install dependencies
       run: yarn install --silent
     - name: Run database migrations
-      run: ${{ env.NODE_ARGS }} yarn migrate
+      run: ${{ env.NODE_ARGS }} yarn migrate:test
     - name: Run database seeders
-      run: ${{ env.NODE_ARGS }} yarn seed
+      run: ${{ env.NODE_ARGS }} yarn seed:test
     - name: Run server in background
       run: yarn start &
     - name: Run tests
