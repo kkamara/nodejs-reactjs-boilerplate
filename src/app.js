@@ -7,6 +7,7 @@ const express = require('express');
 const session = require('express-session');
 const fs = require('fs');
 const morgan = require('morgan');
+const moment = require("moment-timezone");
 
 const config = require('./config');
 const routes = require('./routes');
@@ -21,8 +22,15 @@ const accessLogStream = fs.createWriteStream(
     path.join(__dirname, '..', 'logs', 'nodejs_reactjs_boilerplate.log'), 
     { flags: 'a' },
 );
+morgan.token('date', (req, res, tz) => {
+  return moment().tz(tz).format('YYYY-MM-DD HH:mm:ss');
+});
+morgan.format(
+  'boilerplate-request-log-format',
+  `:remote-addr - :remote-user [:date[${config.appTimezone}]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"`,
+);
 app.use(morgan(
-    'combined', 
+  'boilerplate-request-log-format',  
     { stream: accessLogStream },
 ));
 
