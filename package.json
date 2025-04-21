@@ -5,12 +5,12 @@
   "main": "src/app.js",
   "scripts": {
     "test": "mocha tests/",
-    "start": "DEBUG=express:* yarn node src/app.js",
-    "dev": "DEBUG=express:* yarn nodemon src/app.js --trace-warnings",
-    "migrate": "npx sequelize-cli db:migrate --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-    "migrate:undo": "npx sequelize-cli db:migrate:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-    "seed": "npx sequelize-cli db:seed:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-    "seed:undo:all": "npx sequelize-cli db:seed:undo:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'"
+    "start": "cross-env DEBUG=express:* yarn node src/app.js",
+    "dev": "cross-env DEBUG=express:* yarn nodemon src/app.js --trace-warnings",
+    "migrate": "cross-env NODE_ENV=development npx sequelize-cli db:migrate --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+    "migrate:undo": "cross-env NODE_ENV=development npx sequelize-cli db:migrate:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+    "seed": "cross-env NODE_ENV=development npx sequelize-cli db:seed:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+    "seed:undo:all": "cross-env NODE_ENV=development npx sequelize-cli db:seed:undo:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'"
   },
   "repository": {
     "type": "git",
@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "assert": "^2.0.0",
+    "cross-env": "^7.0.3",
     "mocha": "^9.1.4",
     "open": "^8.2.1",
     "sequelize-cli": "^6.6.2"
