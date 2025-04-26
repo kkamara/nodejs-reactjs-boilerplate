@@ -7,14 +7,14 @@ const authenticate = express.Router();
 
 authenticate.post('/', async (req, res) => {
   if (
-    !req.headers.authorization || 
-    null === req.headers.authorization.match(/Basic /)
+    !req.headerString("authorization") || 
+    null === req.headerString("authorization").match(/Basic /)
   ) {
     res.status(401);
     return res.json({ message: 'Unauthorized.' });
   }
 
-  const token = req.headers.authorization
+  const token = req.headerString("authorization")
     .replace('Basic ', '');
   req.session.auth = await db.sequelize.models
     .User
