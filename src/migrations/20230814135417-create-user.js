@@ -76,6 +76,7 @@ module.exports = {
           allowNull: true,
         }
       }, { transaction, });
+      await transaction.commit();
     } catch (err) {
       await transaction.rollback();
       throw err;
@@ -85,6 +86,7 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction();
     try {
       await queryInterface.dropTable('users', { transaction, });
+      await transaction.commit();
     } catch (err) {
       await transaction.rollback();
       throw err;
