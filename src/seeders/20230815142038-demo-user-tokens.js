@@ -1,6 +1,10 @@
 'use strict';
+const moment = require("moment-timezone");
 const db = require('../models/index');
 const config = require('../config/index');
+const { appTimezone, } = require("../config/index");
+const { mysqlTimeFormat, } = require("../utils/time");
+
 const { hash: hash1 } = db.sequelize.models
   .User
   .encrypt(config.appKey);
@@ -17,20 +21,20 @@ module.exports = {
       {
         usersId: 1,
         token: hash1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
       },
       {
         usersId: 2,
         token: hash2,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
       },
       {
         usersId: 3,
         token: hash3,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
       },
     ]);
   },

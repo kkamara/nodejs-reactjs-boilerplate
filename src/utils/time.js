@@ -1,0 +1,1 @@
+export const mysqlTimeFormat = "YYYY-MM-DD HH:mm:ss";

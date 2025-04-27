@@ -1,6 +1,8 @@
 'use strict';
+const moment = require("moment-timezone");
+const { mysqlTimeFormat, } = require("../utils/time");
 const db = require('../models/index');
-
+const { appTimezone, } = require("../config/index");
 const { hash, salt } = db.sequelize.models
   .User
   .encrypt('secret');
@@ -15,8 +17,8 @@ module.exports = {
         email: 'admin@mail.com',
         password: hash,
         passwordSalt: salt,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
       },
       {
         username: 'qiwi',
@@ -25,8 +27,8 @@ module.exports = {
         email: 'clientadmin@mail.com',
         password: hash,
         passwordSalt: salt,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
       },
       {
         username: 'cabbage.orange',
@@ -35,8 +37,8 @@ module.exports = {
         email: 'clientuser@mail.com',
         password: hash,
         passwordSalt: salt,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
       }
     ]);
   },
