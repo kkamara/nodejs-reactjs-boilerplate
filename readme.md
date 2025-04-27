@@ -24,10 +24,14 @@ Supported databases: MySQL, PostgreSQL, SQLite, MariaDB.
 
 * [To run API tests](#to-run-api-tests)
 
+* [Contributing](#contributing)
+
+* [License](#license)
+
 <a name="postman"></a>
 ## Using Postman?
 
-[Get Postman HTTP client](https://www.postman.com/).
+[Get Postman HTTP client](https://www.postman.com).
 
 [Postman API Collection for NodeJS ReactJS Boilerplate](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/nodejs-reactjs-boilerplate.postman_collection.json).
 
