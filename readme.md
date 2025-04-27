@@ -36,6 +36,8 @@ Supported databases: MySQL, PostgreSQL, SQLite, MariaDB.
 * [NodeJS](https://nodejs.org/en/)
 * [Yarn](https://yarnpkg.com/).
 
+Update `config.json` with details of your database credentials. The core package we use is Sequelize, and that supports the following databases: MySQL, PostgreSQL, SQLite, MariaDB.
+
 ```bash
 cp .env.example .env
 yarn install
