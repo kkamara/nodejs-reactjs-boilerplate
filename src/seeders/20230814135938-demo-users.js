@@ -9,10 +9,6 @@ const { hash, salt } = db.sequelize.models
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    console.log("appTimezone", appTimezone)
-    console.log("moment()", moment())
-    console.log("moment().tz(appTimezone)", moment().tz(appTimezone))
-    console.log("moment().tz(appTimezone).format(mysqlTimeFormat)", moment().tz(appTimezone).format(mysqlTimeFormat))
     return queryInterface.bulkInsert('users', [
       {
         username: 'tomato.pear',
