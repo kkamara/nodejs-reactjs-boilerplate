@@ -12,6 +12,25 @@
 
 Supported databases: MySQL, PostgreSQL, SQLite, MariaDB.
 
+* [Using Postman?](#postman)
+
+* [Installation](#installation)
+
+* [Usage](#usage)
+
+* [Using Docker?](#using-docker)
+
+* [To run API tests](#to-run-api-tests)
+
+<a name="postman"></a>
+## Using Postman?
+
+[Get Postman HTTP client](https://www.postman.com/).
+
+[Postman API Collection for Wagers Service](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/nodejs-reactjs-boilerplate.postman_collection.json).
+
+[Postman API Environment for Wagers Service](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/nodejs-reactjs-boilerplate.postman_environment.json).
+
 ## Installation
 
 * [NodeJS](https://nodejs.org/en/)
@@ -97,7 +116,7 @@ yarn dev # Runs Dev-script `nodemon src/app.js`
 # We can also `APP_ENV=development nodemon src/app.js`.
 ```
 
-
+<a name="using-docker"></a>
 ## Using docker?
 
 * [docker](https://docs.docker.com/engine/install/) 
