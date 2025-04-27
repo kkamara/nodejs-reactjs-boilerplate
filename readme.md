@@ -29,9 +29,9 @@ Supported databases: MySQL, PostgreSQL, SQLite, MariaDB.
 
 [Get Postman HTTP client](https://www.postman.com/).
 
-[Postman API Collection for Wagers Service](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/nodejs-reactjs-boilerplate.postman_collection.json).
+[Postman API Collection for NodeJS ReactJS Boilerplate](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/nodejs-reactjs-boilerplate.postman_collection.json).
 
-[Postman API Environment for Wagers Service](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/nodejs-reactjs-boilerplate.postman_environment.json).
+[Postman API Environment for NodeJS ReactJS Boilerplate](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/nodejs-reactjs-boilerplate.postman_environment.json).
 
 ## Important Note
 
