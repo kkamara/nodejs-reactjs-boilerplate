@@ -6,7 +6,7 @@ env:
   NODE_ARGS: "NODE_ENV='test'"
 
 jobs:
-  nodejs-crm:
+  nodejs-reactjs-boilerplate:
     name: Tests Pipeline (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
     services:

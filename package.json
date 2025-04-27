@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-crm",
+  "name": "nodejs-reactjs-boilerplate",
   "version": "0.1.0-development",
   "description": "(2021) Nodejs, Mysql, Redis, Reactjs.",
   "main": "src/app.js",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kkamara/nodejs-crm.git"
+    "url": "git+https://github.com/kkamara/nodejs-reactjs-boilerplate.git"
   },
   "author": "https://github.com/kkamara",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/kkamara/nodejs-crm/issues"
+    "url": "https://github.com/kkamara/nodejs-reactjs-boilerplate/issues"
   },
-  "homepage": "https://github.com/kkamara/nodejs-crm#readme",
+  "homepage": "https://github.com/kkamara/nodejs-reactjs-boilerplate#readme",
   "dependencies": {
     "axios": "^0.21.1",
     "chai": "^4.3.7",
