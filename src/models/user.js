@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
  
-    static async getStats(id) {
+    static async getStats() {
       let res = false;
       try {
         const [results, metadata] = await sequelize.query(
