@@ -129,8 +129,8 @@ yarn dev
 <a name="using-docker"></a>
 ## Using docker?
 
-* [docker](https://docs.docker.com/engine/install/) 
-* [docker-compose](https://docs.docker.com/compose/install/).
+* [Docker](https://docs.docker.com/engine/install/) 
+* [Docker Compose](https://docs.docker.com/compose/install/).
 
 ```bash
 docker-compose up --build -d
