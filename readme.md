@@ -8,7 +8,7 @@
 
 # nodejs-reactjs-boilerplate
 
-(2021) NodeJS, MySQL, Redis, ReactJS.
+(2021) NodeJS, MySQL, Redis, ReactJS 16.
 
 Supported databases: MySQL, PostgreSQL, SQLite, MariaDB.
 
