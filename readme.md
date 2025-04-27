@@ -14,6 +14,8 @@ Supported databases: MySQL, PostgreSQL, SQLite, MariaDB.
 
 * [Using Postman?](#postman)
 
+* [Important Note](#important-note)
+
 * [Installation](#installation)
 
 * [Usage](#usage)
@@ -31,27 +33,58 @@ Supported databases: MySQL, PostgreSQL, SQLite, MariaDB.
 
 [Postman API Environment for Wagers Service](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/nodejs-reactjs-boilerplate.postman_environment.json).
 
+## Important Note
+
+You should remove `config.json` from version-control because all database credentials are stored there.
+
+For database usage in pipelines, I recommend creating a `testing_config.json` and adding database commands to `package.json`, like `migrate:test` and `seed:test`.
+
 ## Installation
 
-* [NodeJS](https://nodejs.org/en/)
-* [Yarn](https://yarnpkg.com/).
-
-Update `config.json` with details of your database credentials. The core package we use is Sequelize, and that supports the following databases: MySQL, PostgreSQL, SQLite, MariaDB.
+* [NodeJS](https://nodejs.org/en/).
 
 ```bash
+# Create our environment file.
 cp .env.example .env
+# Update values in .env file like port, timezone, and app name.
+# Install our app dependencies.
+npm install --global yarn
 yarn install
+# Before running the next command:
+# Update your database details in config.json
+yarn migrate
+yarn seed
 ```
 
-Add sequelize args for use with this project.
+You can add Sequelize CLI-args for use with this project.
 
 ```bash
 export SEQUELIZE_ARGS="--config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'"
 # Example usage:
-# npx sequelize-cli init $SEQUELIZE_ARGS
+#   npx sequelize-cli db:migrate $SEQUELIZE_ARGS
 ```
 
-##### Sequelize tutorial
+#### Frontend Installation
+
+```bash
+cd frontend
+yarn install
+yarn build
+```
+
+#### Sequelize tutorial
+
+See [package.json](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/package.json) for helpful commands related to using the database.
+
+```json
+...
+"migrate": "npx sequelize-cli db:migrate --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+"migrate:undo": "npx sequelize-cli db:migrate:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+"migrate:undo:all": "cross-env NODE_ENV=development npx sequelize-cli db:migrate:undo:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+"seed": "npx sequelize-cli db:seed:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
+"seed:undo:all": "npx sequelize-cli db:seed:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'"
+...
+```
 
 ```bash
 # Docs:
@@ -78,44 +111,19 @@ npx sequelize-cli db:seed:undo $SEQUELIZE_ARGS
 npx sequelize-cli db:seed:undo:all $SEQUELIZE_ARGS
 ```
 
-See [package.json](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/package.json) for helpful commands related to using the database.
-
-```json
-...
-"migrate": "npx sequelize-cli db:migrate --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-"migrate:undo": "npx sequelize-cli db:migrate:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-"seed": "npx sequelize-cli db:seed:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-"seed:undo:all": "npx sequelize-cli db:seed:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'"
-...
-```
-
 ## Usage
 
-##### Run database migrations
-
-```bash
-yarn migrate
-```
-
-##### Run database seeders
-
-```bash
-yarn seed
-```
-
-##### Run start
 ```bash
 yarn start # Runs Start-script `yarn node src/app.js`
-# Serves app to http://localhost:3000/.
-# Serves api to http://localhost:3000/api/v1.
-#   Example api route: http://localhost:3000/api/v1/test.
+# Serves app to http://localhost:3000.
+# Serves API to http://localhost:3000/api/v1.
+#   Example API route: http://localhost:3000/api/health.
 ```
 
-###### Reload server on project files change
+#### Reload server on project files change
 
 ```bash
-yarn dev # Runs Dev-script `nodemon src/app.js`
-# We can also `APP_ENV=development nodemon src/app.js`.
+yarn dev
 ```
 
 <a name="using-docker"></a>
