@@ -76,7 +76,7 @@ module.exports = (sequelize, DataTypes) => {
     static async refreshUser(id) {
       let res = false;
       try {
-        const [results, metadata] = await sequelize.query(
+        const result = await sequelize.query(
           `UPDATE users SET updatedAt=NOW()
             WHERE users.uid = :id`, 
           {
