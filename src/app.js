@@ -14,10 +14,12 @@ const routes = require('./routes');
 
 const app = express();
 
-// For request logs, if we don't do this, the logs show remote address as "127.0.0.1".
-if (["production"].includes(config.nodeEnv)) {
+// For request logs when deployed on remote servers.
+// If we don't do this, the logs show the remote address as "127.0.0.1".
+if ("production" === config.nodeEnv) {
     app.enable("trust proxy");
 }
+
 const accessLogStream = fs.createWriteStream(
     path.join(__dirname, '..', 'logs', 'nodejs_reactjs_boilerplate.log'), 
     { flags: 'a' },
