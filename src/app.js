@@ -63,12 +63,14 @@ if (config.nodeEnv === 'production') {
     );
 }
 
-app.use(session({ // Sha1 hash.
-    secret: '46ed1ca3c67b873bc249bd0e98addd4dbbbcb4bf',
+app.use(session({
+    secret: config.appKey,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true, },
-}))
+    cookie: {
+        secure: "production" === config.nodeEnv,
+    },
+}));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
