@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 
-FROM node:14
+FROM node:23
 
-ENV NODE_ENV=development
+ENV NODE_ENV=local
 
 WORKDIR /app
 
@@ -12,4 +12,4 @@ RUN yarn install
 
 COPY . .
 
-CMD ["npm", "run", "start"]
+CMD ["yarn", "run", "start"]

@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   app:
     container_name: nrb-app
@@ -19,20 +17,8 @@ services:
       - mysql
     networks: 
       - app
-  redis:
-    container_name: my-redis
-    image: "redis:alpine" 
-    restart: unless-stopped
-    ports:
-      - '${REDIS_PORT:-6379}:6379'
-    volumes:
-      - 'redis:/data'
-    networks:
-      - app
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
   mysql:
-    container_name: my-db
+    container_name: nrb-db
     image: 'mysql:8.0'
     restart: unless-stopped
     ports:
@@ -49,15 +35,27 @@ services:
       - app
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-p${DB_PASS}"]
+  redis:
+    container_name: nrb-redis
+    image: "redis:alpine" 
+    restart: unless-stopped
+    ports:
+      - '${REDIS_PORT:-6379}:6379'
+    volumes:
+      - 'redis:/data'
+    networks:
+      - app
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
   selenium:
-    container_name: my-selenium
+    container_name: nrb-selenium
     image: 'selenium/standalone-chrome'
     ports:
-        - '${SELENIUM_PORT:-4000}:4444'
+      - '${SELENIUM_PORT:-4000}:4444'
     volumes:
-        - '/dev/shm:/dev/shm'
+      - '/dev/shm:/dev/shm'
     networks:
-        - app
+      - app
 
 volumes:
   redis:
