@@ -71,7 +71,7 @@ app.use(session({
         secure: "production" === config.nodeEnv,
     },
 }));
-app.use(cookieParser());
+app.use(cookieParser({ secret: config.appKey, }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
