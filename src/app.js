@@ -90,16 +90,6 @@ app.use((req, res, next) => {
 
 app.use('/', routes);
 
-// Comment this because we are serving react app.
-// This wouldn't conflict anyway.
-// app.get('/', (req, res) => {
-//     return res.redirect('/dashboard');
-// });
-
-app.get('/test', (req, res) => {
-    res.status(200).send({ message: 'Success', });
-});
-
 if (config.nodeEnv === 'production') {
     app.listen(config.appPort);
 } else {
