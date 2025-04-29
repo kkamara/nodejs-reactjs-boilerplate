@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const deepClone = require('deep-clone');
+const { status, } = require("http-status");
 const db = require('../../../../models/index');
 
 const login = express.Router();
@@ -39,7 +40,7 @@ login.get('/', async (req, res) => {
     });
   });
   
-  res.status(200);
+  res.status(status.OK);
   return res.json({
       data: {
         routeName: session.page.title,
@@ -74,7 +75,7 @@ login.post('/', async (req, res) => {
     req.bodyString('password'),
   );
   if (validInput !== true) {
-    res.status(400);    
+    res.status(status.BAD_REQUEST);    
     return res.json({
       message: 'Bad request.',
       error: validInput[0],
@@ -88,7 +89,7 @@ login.post('/', async (req, res) => {
       req.bodyString('password'),
     );  
   if (false === req.session.auth) {
-    res.status(400);
+    res.status(status.BAD_REQUEST);
     return res.json({
       message: 'Bad Request.',
       error: 'Unable to authenticate user due to invalid combination.',
@@ -101,7 +102,7 @@ login.post('/', async (req, res) => {
       req.session.auth.uid,
     );  
   if (false === req.session.auth.token) {
-    res.status(500);
+    res.status(status.INTERNAL_SERVER_ERROR);
     return res.json({
       message: 'Internal Server Error.',
       error: 'Encountered unexpected error when creating a new token.',

@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const deepClone = require('deep-clone');
+const { status, } = require("http-status");
 const config = require('../../config');
 const db = require('../../models/index');
 
@@ -47,7 +48,7 @@ dashboard.post('/', async (req, res) => {
     !req.headerString("authorization") || 
     null === req.headerString("authorization").match(/Basic /)
   ) {
-    res.status(401);
+    res.status(status.UNAUTHORIZED);
     return res.json({ message: 'Unauthorized.' });
   }
 
@@ -58,7 +59,7 @@ dashboard.post('/', async (req, res) => {
     .getUserByToken(token);
   req.session.auth.token = token;
   if (req.session.auth === false) {
-    res.status(401);
+    res.status(status.UNAUTHORIZED);
     return res.json({ 
       message: 'Unauthorized.',
       error: 'Error encountered when getting user details with authorized token.',
@@ -83,7 +84,7 @@ dashboard.post('/', async (req, res) => {
       req.session.auth.uid,
     );
   if (stats === false) {
-    res.status(500);
+    res.status(status.INTERNAL_SERVER_ERROR);
     return res.json({ 
       message: 'Internal Server Error.',
       error: 'Encountered error when retrieving your stat data.',
