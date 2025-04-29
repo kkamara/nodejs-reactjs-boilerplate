@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const deepClone = require('deep-clone');
+const { status, } = require("http-status");
 const db = require('../../models/index');
 
 const authenticate = express.Router();
@@ -10,7 +11,7 @@ authenticate.post('/', async (req, res) => {
     !req.headerString("authorization") || 
     null === req.headerString("authorization").match(/Basic /)
   ) {
-    res.status(401);
+    res.status(status.UNAUTHORIZED);
     return res.json({ message: 'Unauthorized.' });
   }
 
@@ -21,7 +22,7 @@ authenticate.post('/', async (req, res) => {
     .getUserByToken(token);
   req.session.auth.token = token;
   if (req.session.auth === false) {
-    res.status(401);
+    res.status(status.UNAUTHORIZED);
     return res.json({ message: 'Unauthorized.' });
   }
 

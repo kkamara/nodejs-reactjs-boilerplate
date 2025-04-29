@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const deepClone = require('deep-clone');
+const { status, } = require("http-status");
 const config = require('../../config');
 const db = require('../../models/index');
 
@@ -60,7 +61,7 @@ login.post('/', async (req, res) => {
     .User
     .validateAuthenticate(email, password);  
   if (validInput instanceof Array) {
-    res.status(400);
+    res.status(status.BAD_REQUEST);
     return res.json({ 
       message: 'Bad request.',
       errors: validInput,
@@ -75,13 +76,13 @@ login.post('/', async (req, res) => {
       console.log('req.session.auth :',req.session.auth)
     }
     if (req.session.auth === false) {
-      res.status(400);
+      res.status(status.BAD_REQUEST);
       return res.json({ 
         message: 'Invalid user and password combination.',
       });
     }
   } catch(err) {
-    res.status(400);
+    res.status(status.BAD_REQUEST);
     return res.json({ 
       message: 'Invalid user and password combination.',
     });
@@ -93,7 +94,7 @@ login.post('/', async (req, res) => {
         req.session.auth.uid,
       );
   } catch(err) {
-    res.status(500);
+    res.status(status.INTERNAL_SERVER_ERROR);
     return res.json({ 
       message: 'Please try again and contact administrator.',
     });
@@ -111,7 +112,7 @@ login.post('/', async (req, res) => {
     });
   });
   
-  res.status(200);
+  res.status(status.OK);
   return res.json({ 
     routeName: session.page.title,
     data: session, 
