@@ -1,7 +1,7 @@
 {
   "name": "nodejs-reactjs-boilerplate",
   "version": "0.1.0-development",
-  "description": "(2021) Nodejs, Mysql, Redis, ReactJS 16.",
+  "description": "(2021) A NodeJS boilerplate with ReactJS 19 Redux SPA.",
   "main": "src/app.js",
   "scripts": {
     "test": "mocha tests/",
