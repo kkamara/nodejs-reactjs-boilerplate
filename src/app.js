@@ -47,7 +47,7 @@ app.use(express.static("public"));
 app.use('/static', express.static("frontend/build/static"));
 app.get('/*', express.static('frontend/build'));
 
-if (config.nodeEnv === 'production') {
+if ('production' === config.nodeEnv) {
     app.use(
         minifyHTML({
             override: true,
@@ -95,7 +95,7 @@ app.use((req, res, next) => {
 
 app.use('/', routes);
 
-if (config.nodeEnv === 'production') {
+if ('production' === config.nodeEnv) {
     app.listen(config.appPort);
 } else {
     app.listen(config.appPort, () => {

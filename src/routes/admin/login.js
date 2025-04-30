@@ -39,10 +39,10 @@ login.post('/', async (req, res) => {
     const auth = await db.sequelize.models
       .User
       .authenticate(email, password);
-    if (config.nodeEnv !== 'production') {
+    if ('production' !== config.nodeEnv) {
       console.log('auth :',auth)
     }
-    if (auth === false) {
+    if (false === auth) {
       res.status(status.BAD_REQUEST);
       return res.json({ 
         message: 'Invalid user and password combination.',
