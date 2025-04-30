@@ -1,6 +1,6 @@
 {
   "name": "nodejs-reactjs-boilerplate",
-  "version": "0.1.0-development",
+  "version": "0.1.0",
   "description": "(2021) A NodeJS boilerplate with ReactJS 19 Redux SPA.",
   "main": "src/app.js",
   "scripts": {
