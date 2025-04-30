@@ -58,59 +58,12 @@ yarn migrate
 yarn seed
 ```
 
-You can add Sequelize CLI-args for use with this project.
-
-```bash
-export SEQUELIZE_ARGS="--config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'"
-# Example usage:
-#   npx sequelize-cli db:migrate $SEQUELIZE_ARGS
-```
-
 #### Frontend Installation
 
 ```bash
 cd frontend
 yarn install
 yarn build
-```
-
-#### Sequelize tutorial
-
-See [package.json](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/package.json) for helpful commands related to using the database.
-
-```json
-...
-"migrate": "npx sequelize-cli db:migrate --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-"migrate:undo": "npx sequelize-cli db:migrate:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-"migrate:undo:all": "cross-env NODE_ENV=development npx sequelize-cli db:migrate:undo:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-"seed": "npx sequelize-cli db:seed:all --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'",
-"seed:undo:all": "npx sequelize-cli db:seed:undo --config='./config.json' --models-path='src/models' --migrations-path='src/migrations' --seeders-path='src/seeders'"
-...
-```
-
-```bash
-# Docs:
-#   https://sequelize.org/docs/v6/other-topics/migrations/
-# Running a specific database seeder
-npx sequelize-cli db:seed --seed 20230814135938-demo-user.js $SEQUELIZE_ARGS
-# Creating a model & migration
-npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string $SEQUELIZE_ARGS
-# Creating a migration
-npx sequelize-cli migration:generate --name migration-skeleton $SEQUELIZE_ARGS
-# Running migrations
-npx sequelize-cli db:migrate $SEQUELIZE_ARGS
-# Revert the most recent migration
-npx sequelize-cli db:migrate:undo $SEQUELIZE_ARGS
-# Revert to a specific migration
-npx sequelize-cli db:migrate:undo:all --to XXXXXXXXXXXXXX-create-posts.js $SEQUELIZE_ARGS
-# Creating a seed (fake database data) to simulate production environment
-npx sequelize-cli seed:generate --name demo-user $SEQUELIZE_ARGS
-# Running seeds
-npx sequelize-cli db:seed:all $SEQUELIZE_ARGS
-# Undo the latest seed
-npx sequelize-cli db:seed:undo $SEQUELIZE_ARGS
-# Undo all seeds
-npx sequelize-cli db:seed:undo:all $SEQUELIZE_ARGS
 ```
 
 ## Usage
