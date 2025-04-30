@@ -12,6 +12,7 @@ const moment = require("moment-timezone");
 const config = require('./config');
 const routes = require('./routes');
 const { messageDefaultSystemError, } = require('./utils/httpResponses');
+const { status, } = require('http-status');
 
 const app = express();
 
@@ -78,9 +79,13 @@ app.use(express.json());
 
 // The following jsonErrorHandler goes after express.json() middleware. Otherwise, it doesn't run.
 const jsonErrorHandler = (err, req, res, next) => {
-  return res.status(err.status).send({
-    message: messageDefaultSystemError,
-  });
+  if ("production" !== config.nodeEnv) {
+    console.log(err);
+  }
+  return res.status(err.status || status.INTERNAL_SERVER_ERROR)
+    .send({
+      message: messageDefaultSystemError,
+    });
 };
 app.use(jsonErrorHandler);
 
