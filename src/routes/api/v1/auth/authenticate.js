@@ -2,6 +2,7 @@
 const express = require('express');
 const { status, } = require("http-status");
 const db = require('../../../../models/index');
+const { message200, } = require('../../../../utils/httpResponses');
 
 const authenticate = express.Router();
 
@@ -26,7 +27,7 @@ authenticate.post('/', async (req, res) => {
   auth.token = token;
   
   return res.json({ 
-    message: 'Success',
+    message: message200,
     data: session,
   });
 });
