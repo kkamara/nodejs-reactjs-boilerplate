@@ -3,6 +3,7 @@ const express = require('express');
 const { status, } = require("http-status");
 const config = require('../../config');
 const db = require('../../models/index');
+const { message400, message500, } = require('../../utils/httpResponses');
 
 const login = express.Router();
 
@@ -29,7 +30,7 @@ login.post('/', async (req, res) => {
   if (validInput instanceof Array) {
     res.status(status.BAD_REQUEST);
     return res.json({ 
-      message: 'Bad request.',
+      message: message400,
       errors: validInput,
     });
   }
@@ -62,7 +63,7 @@ login.post('/', async (req, res) => {
   } catch(err) {
     res.status(status.INTERNAL_SERVER_ERROR);
     return res.json({ 
-      message: 'Please try again and contact administrator.',
+      message: message500,
     });
   }
 

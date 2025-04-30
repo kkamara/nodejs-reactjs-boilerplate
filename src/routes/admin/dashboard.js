@@ -3,6 +3,11 @@ const express = require('express');
 const { status, } = require("http-status");
 const config = require('../../config');
 const db = require('../../models/index');
+const {
+  message400,
+  message500,
+  message200,
+} = require('../../utils/httpResponses');
 
 const dashboard = express.Router();
 
@@ -27,7 +32,7 @@ dashboard.post('/', async (req, res) => {
     null === req.headerString("authorization").match(/Basic /)
   ) {
     res.status(status.UNAUTHORIZED);
-    return res.json({ message: 'Unauthorized.' });
+    return res.json({ message: message400, });
   }
 
   const token = req.headerString("authorization")
@@ -38,7 +43,7 @@ dashboard.post('/', async (req, res) => {
   if (auth === false) {
     res.status(status.UNAUTHORIZED);
     return res.json({ 
-      message: 'Unauthorized.',
+      message: message400,
       error: 'Error encountered when getting user details with authorized token.',
     });
   }
@@ -52,13 +57,13 @@ dashboard.post('/', async (req, res) => {
   if (stats === false) {
     res.status(status.INTERNAL_SERVER_ERROR);
     return res.json({ 
-      message: 'Internal Server Error.',
+      message: message500,
       error: 'Encountered error when retrieving your stat data.',
     });
   }
   
   return res.json({ 
-    message: 'Success',
+    message: message200,
     data: stats,
   });
 });

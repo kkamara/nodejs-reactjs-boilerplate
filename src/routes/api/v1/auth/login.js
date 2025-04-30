@@ -2,6 +2,7 @@
 const express = require('express');
 const { status, } = require("http-status");
 const db = require('../../../../models/index');
+const { message400, message500, } = require('../../../../utils/httpResponses');
 
 const login = express.Router();
 
@@ -45,7 +46,7 @@ login.post('/', async (req, res) => {
   if (validInput !== true) {
     res.status(status.BAD_REQUEST);    
     return res.json({
-      message: 'Bad request.',
+      message: message400,
       error: validInput[0],
     });
   }
@@ -59,7 +60,7 @@ login.post('/', async (req, res) => {
   if (false === session.auth) {
     res.status(status.BAD_REQUEST);
     return res.json({
-      message: 'Bad Request.',
+      message: message400,
       error: 'Unable to authenticate user due to invalid combination.',
     });
   }
@@ -72,7 +73,7 @@ login.post('/', async (req, res) => {
   if (false === session.auth.token) {
     res.status(status.INTERNAL_SERVER_ERROR);
     return res.json({
-      message: 'Internal Server Error.',
+      message: message500,
       error: 'Encountered unexpected error when creating a new token.',
     });
   }
