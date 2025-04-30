@@ -7,7 +7,7 @@ const {
   scryptSync, 
   randomBytes, 
   timingSafeEqual,
-} = require('crypto');
+} = require('node:crypto');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
