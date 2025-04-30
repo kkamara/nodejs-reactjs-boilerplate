@@ -18,7 +18,9 @@ home.get('/dashboard', async (req, res) => {
       },
     );
   } catch (err) {
-    console.log(err.message)
+    if ("production" !== config.nodeEnv) {
+      console.log(err.message);
+    }
   }
 
   const title = { title: 'Dashboard', };
