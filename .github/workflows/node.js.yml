@@ -42,7 +42,7 @@ jobs:
     - name: Run database migrations
       run: ${{ env.NODE_ARGS }} yarn migrate:test
     - name: Run database seeders
-      run: ${{ env.NODE_ARGS }} yarn seed:test
+      run: ${{ env.NODE_ARGS }} yarn seed:all:test
     - name: Run server in background
       run: yarn start &
     - name: Run tests

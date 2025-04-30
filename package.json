@@ -7,12 +7,16 @@
     "test": "mocha tests/",
     "start": "cross-env DEBUG=express:* yarn node src/app.js",
     "dev": "cross-env DEBUG=express:* yarn nodemon src/app.js --trace-warnings",
+    "model:generate": "cross-env NODE_ENV=development npx sequelize-cli model:generate",
+    "migration:generate": "cross-env NODE_ENV=development npx sequelize-cli migration:generate",
+    "seed:generate": "cross-env NODE_ENV=development npx sequelize-cli seed:generate",
     "migrate": "cross-env NODE_ENV=development npx sequelize-cli db:migrate",
     "migrate:test": "cross-env NODE_ENV=test npx sequelize-cli db:migrate",
     "migrate:undo": "cross-env NODE_ENV=development npx sequelize-cli db:migrate:undo",
     "migrate:undo:all": "cross-env NODE_ENV=development npx sequelize-cli db:migrate:undo:all",
-    "seed": "cross-env NODE_ENV=development npx sequelize-cli db:seed:all",
-    "seed:test": "cross-env NODE_ENV=test npx sequelize-cli db:seed:all",
+    "seed": "cross-env NODE_ENV=development npx sequelize-cli db:seed",
+    "seed:all": "cross-env NODE_ENV=development npx sequelize-cli db:seed:all",
+    "seed:all:test": "cross-env NODE_ENV=test npx sequelize-cli db:seed:all",
     "seed:undo:all": "cross-env NODE_ENV=development npx sequelize-cli db:seed:undo:all"
   },
   "repository": {

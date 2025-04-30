@@ -66,6 +66,35 @@ yarn install
 yarn build
 ```
 
+#### Sequelize tutorial
+
+See [package.json](https://github.com/kkamara/nodejs-reactjs-boilerplate/blob/main/package.json) for helpful commands related to using the database.
+
+```bash
+# Docs:
+#   https://sequelize.org/docs/v6/other-topics/migrations/
+# Running a specific database seeder
+NODE_ENV=development npx sequelize-cli db:seed --seed 20230814135938-demo-user.js
+# Creating a model & migration
+NODE_ENV=development npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+# Creating a migration
+NODE_ENV=development npx sequelize-cli migration:generate --name migration-skeleton
+# Running migrations
+NODE_ENV=development npx sequelize-cli db:migrate
+# Revert the most recent migration
+NODE_ENV=development npx sequelize-cli db:migrate:undo
+# Revert to a specific migration
+NODE_ENV=development npx sequelize-cli db:migrate:undo:all --to XXXXXXXXXXXXXX-create-posts.js
+# Creating a seed (fake database data) to simulate production environment
+NODE_ENV=development npx sequelize-cli seed:generate --name demo-user
+# Running seeds
+NODE_ENV=development npx sequelize-cli db:seed:all
+# Undo the latest seed
+NODE_ENV=development npx sequelize-cli db:seed:undo
+# Undo all seeds
+NODE_ENV=development npx sequelize-cli db:seed:undo:all
+```
+
 ## Usage
 
 ```bash
