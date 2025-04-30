@@ -36,7 +36,7 @@ jobs:
       run: |
           cp .env.example .env
           sed -i "s/development/test/g" .env
-          sed -i "s/3306/${{ job.services.mysql.ports['3306'] }}/g" config.json
+          sed -i "s/3306/${{ job.services.mysql.ports['3306'] }}/g" testing_config.json
     - name: Install dependencies
       run: yarn install --silent
     - name: Run database migrations
