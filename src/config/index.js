@@ -11,10 +11,11 @@ if ('production' !== process.env.NODE_ENV) {
       '../',
       '.env',
     ),
+  });
 
-    if (parseEnvFile.error) {
-      throw parseEnvFile.error;
-    }
+  if (parseEnvFile.error) {
+    throw parseEnvFile.error;
+  }
 }
 
 const config = {
