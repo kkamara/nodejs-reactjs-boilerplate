@@ -2,6 +2,7 @@
 const express = require('express');
 const { status, } = require("http-status");
 const db = require('../../models/index');
+const { message400, message200, } = require('../../utils/httpResponses');
 
 const authenticate = express.Router();
 
@@ -11,7 +12,7 @@ authenticate.post('/', async (req, res) => {
     null === req.headerString("authorization").match(/Basic /)
   ) {
     res.status(status.UNAUTHORIZED);
-    return res.json({ message: 'Unauthorized.' });
+    return res.json({ message: message400, });
   }
 
   const token = req.headerString("authorization")
@@ -21,13 +22,13 @@ authenticate.post('/', async (req, res) => {
     .getUserByToken(token);
   if (auth === false) {
     res.status(status.UNAUTHORIZED);
-    return res.json({ message: 'Unauthorized.' });
+    return res.json({ message: message400, });
   }
   auth.token = token;
   const session = { auth, };
   
   return res.json({ 
-    message: 'Success',
+    message: message200,
     data: session,
   });
 });
