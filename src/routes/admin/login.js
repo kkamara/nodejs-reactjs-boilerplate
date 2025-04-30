@@ -34,9 +34,11 @@ login.post('/', async (req, res) => {
       errors: validInput,
     });
   }
+
+  let auth;
   
   try {
-    const auth = await db.sequelize.models
+    auth = await db.sequelize.models
       .User
       .authenticate(email, password);
     if ('production' !== config.nodeEnv) {
