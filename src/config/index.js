@@ -3,7 +3,7 @@
 const path = require('node:path');
 const dotenv = require('dotenv');
 
-if (process.env.NODE_ENV !== 'production') {
+if ('production' !== process.env.NODE_ENV) {
   const parseEnvFile = dotenv.config({
     path: path.join(
       __dirname, 
@@ -11,7 +11,6 @@ if (process.env.NODE_ENV !== 'production') {
       '../',
       '.env',
     ),
-    });
 
     if (parseEnvFile.error) {
       throw parseEnvFile.error;

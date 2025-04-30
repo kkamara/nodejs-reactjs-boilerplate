@@ -164,7 +164,7 @@ module.exports = (sequelize, DataTypes) => {
         res = result;
         return res;
       } catch(err) {
-        if (config.nodeEnv !== 'production') {
+        if ('production' !== config.nodeEnv) {
           console.log('error : '+err.message);
         }
         return res;
@@ -201,7 +201,7 @@ module.exports = (sequelize, DataTypes) => {
         }
         return result.hash;
       } catch(err) {
-        if (config.nodeEnv !== 'production') {
+        if ('production' !== config.nodeEnv) {
           console.log('error : '+err.message);
         }
         return false;
@@ -231,8 +231,8 @@ module.exports = (sequelize, DataTypes) => {
           user.password,
           user.passwordSalt
         );
-        
-      if (compareHash === false) {
+      
+      if (false === compareHash) {
         return res;
       }
       

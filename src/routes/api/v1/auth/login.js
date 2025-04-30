@@ -43,7 +43,7 @@ login.post('/', async (req, res) => {
     req.bodyString('email'),
     req.bodyString('password'),
   );
-  if (validInput !== true) {
+  if (true !== validInput) {
     res.status(status.BAD_REQUEST);    
     return res.json({
       message: message400,
