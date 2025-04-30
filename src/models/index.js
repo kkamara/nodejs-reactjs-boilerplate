@@ -8,7 +8,7 @@ const basename = path.basename(__filename);
 require('../config/index.js');
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../../config.json')[env];
-const { error, log, } = require('console');
+const { log, } = require('console');
 
 const db = {};
 
@@ -16,7 +16,7 @@ let sequelize;
 let logging = false;
 
 if ('production' !== config.nodeEnv) {
-   logging = log;
+  logging = log;
 }
 
 sequelize = new Sequelize(

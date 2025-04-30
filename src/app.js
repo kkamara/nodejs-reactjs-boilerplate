@@ -18,12 +18,12 @@ const app = express();
 // For request logs when deployed on remote servers.
 // If we don't do this, the logs show the remote address as "127.0.0.1".
 if ("production" === config.nodeEnv) {
-    app.enable("trust proxy");
+  app.enable("trust proxy");
 }
 
 const accessLogStream = fs.createWriteStream(
-    path.join(__dirname, '..', 'logs', 'nodejs_reactjs_boilerplate.log'), 
-    { flags: 'a' },
+  path.join(__dirname, '..', 'logs', 'nodejs_reactjs_boilerplate.log'), 
+  { flags: 'a' },
 );
 morgan.token('date', (req, res, tz) => {
   return moment().tz(tz).format('YYYY-MM-DD HH:mm:ss');
@@ -34,13 +34,13 @@ morgan.format(
 );
 app.use(morgan(
   'boilerplate-request-log-format',  
-    { stream: accessLogStream },
+  { stream: accessLogStream, },
 ));
 
 app.set('view engine', 'pug');
 app.set('views', path.join(
-    __dirname,
-    'views',
+  __dirname,
+  'views',
 ));
 
 app.use(express.static("public"));
@@ -48,29 +48,29 @@ app.use('/static', express.static("frontend/build/static"));
 app.get('/*', express.static('frontend/build'));
 
 if (config.nodeEnv === 'production') {
-    app.use(
-        minifyHTML({
-            override: true,
-            exception_url: false,
-            htmlMinifier: {
-                removeComments: true,
-                collapseWhitespace: true,
-                collapseBooleanAttributes: true,
-                removeAttributeQuotes: true,
-                removeEmptyAttributes: true,
-                minifyJS: true,
-            },
-        })
-    );
+  app.use(
+    minifyHTML({
+      override: true,
+      exception_url: false,
+      htmlMinifier: {
+        removeComments: true,
+        collapseWhitespace: true,
+        collapseBooleanAttributes: true,
+        removeAttributeQuotes: true,
+        removeEmptyAttributes: true,
+        minifyJS: true,
+      },
+    })
+  );
 }
 
 app.use(session({
-    secret: config.appKey,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        secure: "production" === config.nodeEnv,
-    },
+  secret: config.appKey,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: "production" === config.nodeEnv,
+  },
 }));
 app.use(cookieParser({ secret: config.appKey, }));
 app.use(express.urlencoded({ extended: false }));
@@ -86,25 +86,25 @@ app.use(jsonErrorHandler);
 
 app.use(sanitize.middleware);
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', config.appURL+':'+config.appPort);
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization, x-id, Content-Length, X-Requested-With');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-    next();
+  res.header('Access-Control-Allow-Origin', config.appURL+':'+config.appPort);
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization, x-id, Content-Length, X-Requested-With');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  next();
 });
 
 app.use('/', routes);
 
 if (config.nodeEnv === 'production') {
-    app.listen(config.appPort);
+  app.listen(config.appPort);
 } else {
-    app.listen(config.appPort, () => {
-        const url = `http://127.0.0.1:${config.appPort}`;
-        console.log(`Listening on ${url}`);
-        if (['testing', 'development'].includes(config.nodeEnv)) {
-            return;
-        }
-        const open = require('open');
-        open(url);
-    });
+  app.listen(config.appPort, () => {
+    const url = `http://127.0.0.1:${config.appPort}`;
+    console.log(`Listening on ${url}`);
+    if (['test', 'development'].includes(config.nodeEnv)) {
+        return;
+    }
+    const open = require('open');
+    open(url);
+  });
 }
