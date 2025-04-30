@@ -19,7 +19,7 @@ authenticate.post('/', async (req, res) => {
   const auth = await db.sequelize.models
     .User
     .getUserByToken(token);
-  if (auth === false) {
+  if (false === auth) {
     res.status(status.UNAUTHORIZED);
     return res.json({ message: 'Unauthorized.' });
   }
