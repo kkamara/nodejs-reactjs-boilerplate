@@ -3,6 +3,7 @@ const moment = require("moment-timezone");
 const { mysqlTimeFormat, } = require("../utils/time");
 const db = require('../models/index');
 const { appTimezone, } = require("../config/index");
+
 const { hash, salt } = db.sequelize.models
   .User
   .encrypt('secret');
