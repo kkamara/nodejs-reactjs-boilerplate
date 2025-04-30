@@ -6,9 +6,17 @@ const Sequelize = require('sequelize');
 const process = require('node:process');
 const basename = path.basename(__filename);
 require('../config/index.js');
+const { log, } = require('node:console');
+
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../../config.json')[env];
-const { log, } = require('node:console');
+
+let seqConfig;
+if (["production", "development"].includes(env)) {
+  seqConfig = require(__dirname + '/../../config.json')[env];
+} else {
+  seqConfig = require(__dirname + '/../../testing_config.json')[env];
+}
 
 const db = {};
 
