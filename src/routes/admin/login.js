@@ -1,6 +1,5 @@
 'use strict';
 const express = require('express');
-const deepClone = require('deep-clone');
 const { status, } = require("http-status");
 const config = require('../../config');
 const db = require('../../models/index');
@@ -8,51 +7,18 @@ const db = require('../../models/index');
 const login = express.Router();
 
 login.get('/', async (req, res) => {
-  req.session.page = { title: 'Admin Login', };
-  req.session.auth = null;
-
-  await new Promise((resolve, reject) => {
-    req.session.save(function(err) {
-      if (err) {
-        console.log(err)
-        return reject(err);
-      }
-      resolve()
-    });
-  });
-  
-  const newSession = { page: req.session.page, auth: req.session.auth, };
-  const session = deepClone(newSession);
-  await new Promise((resolve, reject) => {
-    req.session.destroy(function(err) {
-      if (err) {
-        console.log(err)
-        return reject(err);
-      }
-      resolve();
-    });
-  });
+  const title = 'Admin Login';  
+  const session = { page: null, auth: null, };
   
   return res.render('admin/auth/login', {
       config,
-      title: session.page.title,
+      title,
       session,
   });
 });
 
 login.post('/', async (req, res) => {
-  req.session.page = { title: 'Admin Login Action', };
-  req.session.auth = null;
-
-  await new Promise((resolve, reject) => {
-    req.session.save(function(err) {
-      if (err) {
-        console.log(err)
-        return reject(err);
-      }
-      resolve()
-    });
-  });
+  const title = 'Admin Login Action';
   
   const email = req.bodyString('email');
   const password = req.bodyString('password');
@@ -69,13 +35,13 @@ login.post('/', async (req, res) => {
   }
   
   try {
-    req.session.auth = await db.sequelize.models
+    const auth = await db.sequelize.models
       .User
       .authenticate(email, password);
     if (config.nodeEnv !== 'production') {
-      console.log('req.session.auth :',req.session.auth)
+      console.log('auth :',auth)
     }
-    if (req.session.auth === false) {
+    if (auth === false) {
       res.status(status.BAD_REQUEST);
       return res.json({ 
         message: 'Invalid user and password combination.',
@@ -88,10 +54,10 @@ login.post('/', async (req, res) => {
     });
   }
   try {
-    req.session.auth.token = await db.sequelize.models
+    auth.token = await db.sequelize.models
       .User
       .getNewToken(
-        req.session.auth.uid,
+        auth.uid,
       );
   } catch(err) {
     res.status(status.INTERNAL_SERVER_ERROR);
@@ -100,21 +66,11 @@ login.post('/', async (req, res) => {
     });
   }
 
-  const newSession = { page: req.session.page, auth: req.session.auth, };
-  const session = deepClone(newSession);
-  await new Promise((resolve, reject) => {
-    req.session.destroy(function(err) {
-      if (err) {
-        console.log(err)
-        return reject(err);
-      }
-      resolve();
-    });
-  });
+  const session = { auth, };
   
   res.status(status.OK);
   return res.json({ 
-    routeName: session.page.title,
+    routeName: title,
     data: session, 
   });
 });
