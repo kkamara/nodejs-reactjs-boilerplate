@@ -1,6 +1,5 @@
 'use strict';
 const express = require('express');
-const deepClone = require('deep-clone');
 const { status, } = require("http-status");
 const db = require('../../models/index');
 
@@ -17,39 +16,15 @@ authenticate.post('/', async (req, res) => {
 
   const token = req.headerString("authorization")
     .replace('Basic ', '');
-  req.session.auth = await db.sequelize.models
+  const auth = await db.sequelize.models
     .User
     .getUserByToken(token);
-  req.session.auth.token = token;
-  if (req.session.auth === false) {
+  if (auth === false) {
     res.status(status.UNAUTHORIZED);
     return res.json({ message: 'Unauthorized.' });
   }
-
-  req.session.page = { title: 'Admin Authenticate', };
-  
-  await new Promise((resolve, reject) => {
-    req.session.save(function(err) {
-      if (err) {
-        console.log(err)
-        return reject(err);
-      }
-      resolve()
-    });
-  });
-  
-  const newSession = { page: req.session.page, auth: req.session.auth, };
-  newSession.auth.token = token;
-  const session = deepClone(newSession);
-  await new Promise((resolve, reject) => {
-    req.session.destroy(function(err) {
-      if (err) {
-        console.log(err)
-        return reject(err);
-      }
-      resolve();
-    });
-  });
+  auth.token = token;
+  const session = { auth, };
   
   return res.json({ 
     message: 'Success',

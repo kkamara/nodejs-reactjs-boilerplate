@@ -1,7 +1,6 @@
 'use strict';
 const express = require('express');
 const { QueryTypes, } = require('sequelize');
-const deepClone = require('deep-clone');
 const config = require('../config');
 const db = require('../models');
 
@@ -22,8 +21,9 @@ home.get('/dashboard', async (req, res) => {
     console.log(err.message)
   }
 
-  req.session.page = { title: 'Dashboard', };
-  req.session.auth = {
+  const title = { title: 'Dashboard', };
+  const session = {};
+  session.auth = {
     name: 'Jane Doe',
     lastLogin: '2023-07-03 16:40:00',
     permissions: [
@@ -35,32 +35,10 @@ home.get('/dashboard', async (req, res) => {
       'create log',
     ], 
   };
-
-  await new Promise((resolve, reject) => {
-    req.session.save(function(err) {
-      if (err) {
-        console.log(err)
-        return reject(err);
-      }
-      resolve()
-    });
-  });
-  
-  const newSession = { page: req.session.page, auth: req.session.auth, };
-  const session = deepClone(newSession);
-  await new Promise((resolve, reject) => {
-    req.session.destroy(function(err) {
-      if (err) {
-        console.log(err)
-        return reject(err);
-      }
-      resolve();
-    });
-  });
   
   return res.render('home', {
       config,
-      title: session.page.title,
+      title,
       session,
   });
 })

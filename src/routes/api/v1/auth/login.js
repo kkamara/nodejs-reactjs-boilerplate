@@ -1,74 +1,42 @@
 'use strict';
 const express = require('express');
-const deepClone = require('deep-clone');
 const { status, } = require("http-status");
 const db = require('../../../../models/index');
 
 const login = express.Router();
 
 login.get('/', async (req, res) => {
-
-  req.session.page = { 
-    title: 'Login',
+  const title = 'Login';
+  const session = {};
+  session.page = { 
     loginEmails: [
       'admin@mail.com',
       'clientadmin@mail.com',
       'clientuser@mail.com',
     ],
   };
-  req.session.auth = null;
-
-  await new Promise((resolve, reject) => {
-    req.session.save(function(err) {
-      if (err) {
-        console.log(err)
-        return reject(err);
-      }
-      resolve()
-    });
-  });
-  
-  const newSession = { page: req.session.page, auth: req.session.auth, };
-  const session = deepClone(newSession);
-  await new Promise((resolve, reject) => {
-    req.session.destroy(function(err) {
-      if (err) {
-        console.log(err)
-        return reject(err);
-      }
-      resolve();
-    });
-  });
+  session.auth = null;
   
   res.status(status.OK);
   return res.json({
       data: {
-        routeName: session.page.title,
+        routeName: title,
         user: session,
       },
   });
 })
 
 login.post('/', async (req, res) => {
-  req.session.page = { 
-    title: 'Login Action',
+  const title = 'Login Action';
+  let session = {};
+  session.page = { 
     loginEmails: [
       'admin@mail.com',
       'clientadmin@mail.com',
       'clientuser@mail.com',
     ],
   };
-  req.session.auth = null;
-
-  await new Promise((resolve, reject) => {
-    req.session.save(function(err) {
-      if (err) {
-        console.log(err)
-        return reject(err);
-      }
-      resolve()
-    });
-  });
+  session.auth = null;
 
   const validInput = db.sequelize.models.User.validateAuthenticate(
     req.bodyString('email'),
@@ -82,13 +50,13 @@ login.post('/', async (req, res) => {
     });
   }
 
-  req.session.auth = await db.sequelize.models
+  session.auth = await db.sequelize.models
     .User
     .authenticate(
       req.bodyString('email'),
       req.bodyString('password'),
     );  
-  if (false === req.session.auth) {
+  if (false === session.auth) {
     res.status(status.BAD_REQUEST);
     return res.json({
       message: 'Bad Request.',
@@ -96,34 +64,22 @@ login.post('/', async (req, res) => {
     });
   }
   
-  req.session.auth.token = await db.sequelize.models
+  session.auth.token = await db.sequelize.models
     .User
     .getNewToken(
-      req.session.auth.uid,
+      session.auth.uid,
     );  
-  if (false === req.session.auth.token) {
+  if (false === session.auth.token) {
     res.status(status.INTERNAL_SERVER_ERROR);
     return res.json({
       message: 'Internal Server Error.',
       error: 'Encountered unexpected error when creating a new token.',
     });
   }
-  
-  const newSession = { page: req.session.page, auth: req.session.auth, };
-  const session = deepClone(newSession);
-  await new Promise((resolve, reject) => {
-    req.session.destroy(function(err) {
-      if (err) {
-        console.log(err)
-        return reject(err);
-      }
-      resolve();
-    });
-  });
 
   return res.json({
     data: {
-      routeName: session.page.title,
+      routeName: title,
       data: session,
     },
   });
