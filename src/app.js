@@ -1,11 +1,11 @@
 'use strict';
-const path = require('path');
+const path = require('node:path');
 const cookieParser = require('cookie-parser');
 const sanitize = require('sanitize');
 const minifyHTML = require("express-minify-html");
 const express = require('express');
 const session = require('express-session');
-const fs = require('fs');
+const fs = require('node:fs');
 const morgan = require('morgan');
 const moment = require("moment-timezone");
 

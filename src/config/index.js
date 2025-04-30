@@ -1,6 +1,6 @@
 'use strict';
 
-const path = require('path');
+const path = require('node:path');
 const dotenv = require('dotenv');
 
 if (process.env.NODE_ENV !== 'production') {
