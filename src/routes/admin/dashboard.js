@@ -38,7 +38,7 @@ dashboard.post('/', async (req, res) => {
   const token = req.headerString("authorization")
     .replace('Basic ', '');
   const auth = await db.sequelize.models
-    .User
+    .user
     .getUserByToken(token);
   if (auth === false) {
     res.status(status.UNAUTHORIZED);
@@ -50,7 +50,7 @@ dashboard.post('/', async (req, res) => {
   auth.token = token;
 
   const stats = await db.sequelize.models
-    .User
+    .user
     .getStats(
       auth.id,
     );

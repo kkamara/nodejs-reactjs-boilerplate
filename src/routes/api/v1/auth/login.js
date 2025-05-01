@@ -39,7 +39,7 @@ login.post('/', async (req, res) => {
   };
   session.auth = null;
 
-  const validInput = db.sequelize.models.User.validateAuthenticate(
+  const validInput = db.sequelize.models.user.validateAuthenticate(
     req.bodyString('email'),
     req.bodyString('password'),
   );
@@ -52,7 +52,7 @@ login.post('/', async (req, res) => {
   }
 
   session.auth = await db.sequelize.models
-    .User
+    .user
     .authenticate(
       req.bodyString('email'),
       req.bodyString('password'),
@@ -66,7 +66,7 @@ login.post('/', async (req, res) => {
   }
   
   session.auth.token = await db.sequelize.models
-    .User
+    .user
     .getNewToken(
       session.auth.id,
     );  

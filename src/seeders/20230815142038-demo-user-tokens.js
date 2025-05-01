@@ -6,13 +6,13 @@ const { appTimezone, } = require("../config/index");
 const { mysqlTimeFormat, } = require("../utils/time");
 
 const { hash: hash1 } = db.sequelize.models
-  .User
+  .user
   .encrypt(config.appKey);
 const { hash: hash2 } = db.sequelize.models
-  .User
+  .user
   .encrypt(config.appKey);
 const { hash: hash3 } = db.sequelize.models
-  .User
+  .user
   .encrypt(config.appKey);
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

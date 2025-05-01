@@ -5,7 +5,7 @@ const db = require('../models/index');
 const { appTimezone, } = require("../config/index");
 
 const { hash, salt } = db.sequelize.models
-  .User
+  .user
   .encrypt('secret');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

@@ -25,7 +25,7 @@ login.post('/', async (req, res) => {
   const password = req.bodyString('password');
   
   const validInput = db.sequelize.models
-    .User
+    .user
     .validateAuthenticate(email, password);  
   if (validInput instanceof Array) {
     res.status(status.BAD_REQUEST);
@@ -39,7 +39,7 @@ login.post('/', async (req, res) => {
   
   try {
     auth = await db.sequelize.models
-      .User
+      .user
       .authenticate(email, password);
     if ('production' !== config.nodeEnv) {
       console.log('auth :',auth)
@@ -58,7 +58,7 @@ login.post('/', async (req, res) => {
   }
   try {
     auth.token = await db.sequelize.models
-      .User
+      .user
       .getNewToken(
         auth.id,
       );

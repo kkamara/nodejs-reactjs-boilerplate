@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
         return res;
       }
 
-      res = await sequelize.models.User.getUserById(id);
+      res = await sequelize.models.user.getUserById(id);
       return res;
     }
 
@@ -132,8 +132,8 @@ module.exports = (sequelize, DataTypes) => {
             lastName, password, lastLogin, rememberToken, streetName,
             ${this.getTableName()}.updatedAt, username
             FROM ${this.getTableName()}
-            LEFT JOIN ${sequelize.models.UserToken.getTableName()} ON ${sequelize.models.UserToken.getTableName()}.usersId = ${this.getTableName()}.id
-            WHERE ${sequelize.models.UserToken.getTableName()}.token=? LIMIT 1`, 
+            LEFT JOIN ${sequelize.models.userToken.getTableName()} ON ${sequelize.models.userToken.getTableName()}.usersId = ${this.getTableName()}.id
+            WHERE ${sequelize.models.userToken.getTableName()}.token=? LIMIT 1`, 
           {
               replacements: [ token, ],
               type: QueryTypes.SELECT,
@@ -185,11 +185,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static async getNewToken(id) {
       const result = sequelize.models
-        .User
+        .user
         .encrypt(config.appKey);
       try {
         const [addToken, metadata] = await sequelize.query(
-          `INSERT INTO ${sequelize.models.UserToken.getTableName()}(
+          `INSERT INTO ${sequelize.models.userToken.getTableName()}(
               usersId, token, createdAt, updatedAt
             ) VALUES(
               ?, ?, NOW(), NOW()
@@ -201,7 +201,7 @@ module.exports = (sequelize, DataTypes) => {
         );
         
         const user = await sequelize.models
-          .User
+          .user
           .refreshUser(id);
         if (user === false) {
           return false;
@@ -225,14 +225,14 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       
       const user = await sequelize.models
-        .User
+        .user
         .getUser(email);
       if (!user) {
         return res;
       }
       
       const compareHash = sequelize.models
-        .User
+        .user
         .compare(
           password,
           user.password,
@@ -244,7 +244,7 @@ module.exports = (sequelize, DataTypes) => {
       }
       
       res = await sequelize.models
-        .User
+        .user
         .refreshUser(user.id);
       
       return res;
@@ -353,7 +353,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'user',
     tableName: "users",
   });
   
