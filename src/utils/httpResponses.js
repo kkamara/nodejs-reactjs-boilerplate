@@ -1,3 +1,4 @@
+'use strict';
 export const message404 = "Something went wrong. Please contact an administrator.";
 export const message200 = "Success";
 export const messageDefaultSystemError = "Something went wrong. Please contact an administrator.";
