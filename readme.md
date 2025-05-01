@@ -39,7 +39,7 @@
 
 You should remove `config.json` from version-control because all database credentials are stored there.
 
-For database usage in pipelines, I recommend creating a `testing_config.json` and adding database commands to `package.json`, like `migrate:test` and `seed:test`.
+For database usage in pipelines, I recommend creating a `testing_config.json` and adding database commands to `package.json`, like `migrate:test` and `seed:all:test`.
 
 ## Installation
 
@@ -55,7 +55,7 @@ yarn install
 # Before running the next command:
 # Update your database details in config.json
 yarn migrate
-yarn seed
+yarn seed:all
 ```
 
 #### Frontend Installation
