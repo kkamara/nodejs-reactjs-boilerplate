@@ -1,6 +1,4 @@
 'use strict';
-const { DataTypes, } = require('sequelize');
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -14,65 +12,65 @@ module.exports = {
           type: Sequelize.INTEGER
         },
         userCreated: {
-          type: DataTypes.INTEGER,
+          type: Sequelize.INTEGER,
           allowNull: true,
         },
         username: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
         },
         firstName: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
         },
         lastName: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
         },
         email: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
         },
         password: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
         },
         passwordSalt: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
         },
         contactNumber: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
           allowNull: true,
         },
         streetName: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
           allowNull: true,
         },
         buildingNumber: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
           allowNull: true,
         },
         city: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
           allowNull: true,
         },
         postcode: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
           allowNull: true,
         },
         rememberToken: {
-          type: DataTypes.STRING,
+          type: Sequelize.STRING,
           allowNull: true,
         },
         createdAt: {
-          type: DataTypes.DATE,
-          defaultValue: DataTypes.NOW,
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.NOW,
         },
         updatedAt: {
-          type: DataTypes.DATE,
-          defaultValue: DataTypes.NOW,
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.NOW,
         },
         lastLogin: {
-          type: DataTypes.DATE,
+          type: Sequelize.DATE,
           allowNull: true,
         },
         emailResetKey: {
-          type: DataTypes.INTEGER,
+          type: Sequelize.INTEGER,
           allowNull: true,
         }
       }, { transaction, });
@@ -88,6 +86,24 @@ module.exports = {
         unique: true,
         transaction,
       });
+      await queryInterface.addIndex('users', ['createdAt'], {
+        name: "usersCreatedAt",
+        fields: 'createdAt',
+        unique: false,
+        transaction,
+      });
+      await queryInterface.addIndex('users', ['updatedAt'], {
+        name: "usersUpdatedAt",
+        fields: 'updatedAt',
+        unique: false,
+        transaction,
+      });
+      await queryInterface.addIndex('users', ['lastLogin'], {
+        name: "usersLastLogin",
+        fields: 'lastLogin',
+        unique: false,
+        transaction,
+      });
       await transaction.commit();
     } catch (err) {
       await transaction.rollback();
@@ -99,6 +115,9 @@ module.exports = {
     try {
       await queryInterface.removeIndex('users', 'usersUsername', { transaction });
       await queryInterface.removeIndex('users', 'usersEmail', { transaction });
+      await queryInterface.removeIndex('users', 'usersCreatedAt', { transaction });
+      await queryInterface.removeIndex('users', 'usersUpdatedAt', { transaction });
+      await queryInterface.removeIndex('users', 'usersLastLogin', { transaction });
       await queryInterface.dropTable('users', { transaction, });
       await transaction.commit();
     } catch (err) {

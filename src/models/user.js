@@ -279,24 +279,74 @@ module.exports = (sequelize, DataTypes) => {
   }
   
   User.init({
-    id: DataTypes.INTEGER,
-    userCreated: DataTypes.INTEGER,
-    username: DataTypes.STRING,
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    passwordSalt: DataTypes.STRING,
-    contactNumber: DataTypes.STRING,
-    streetName: DataTypes.STRING,
-    buildingNumber: DataTypes.STRING,
-    city: DataTypes.STRING,
-    postcode: DataTypes.STRING,
-    rememberToken: DataTypes.STRING,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
-    lastLogin: DataTypes.DATE,
-    emailResetKey: DataTypes.INTEGER,
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
+    userCreated: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    username: {
+      type: DataTypes.STRING,
+    },
+    firstName: {
+      type: DataTypes.STRING,
+    },
+    lastName: {
+      type: DataTypes.STRING,
+    },
+    email: {
+      type: DataTypes.STRING,
+    },
+    password: {
+      type: DataTypes.STRING,
+    },
+    passwordSalt: {
+      type: DataTypes.STRING,
+    },
+    contactNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    streetName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    buildingNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    postcode: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    rememberToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    lastLogin: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    emailResetKey: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    }
   }, {
     sequelize,
     modelName: 'User',
