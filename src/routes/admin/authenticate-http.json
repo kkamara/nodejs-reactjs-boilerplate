@@ -5,7 +5,7 @@
       "title": "Admin Authenticate"
     },
     "auth": {
-      "uid": 1,
+      "id": 1,
       "password": "b900413fc4b8252f0a47ae492e793b5f7b48a6cb956c4100e7e3c02963b9b2bb7a261afbd679742210d609784a2ffc92ea13ff7e9b6922eaee351c8a0b14fea8",
       "building_number": null,
       "city": null,

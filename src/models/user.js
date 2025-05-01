@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       try {
         const [results, metadata] = await sequelize.query(
-          `SELECT count(${this.getTableName()}.uid) as usersCount
+          `SELECT count(${this.getTableName()}.id) as usersCount
             FROM ${this.getTableName()};`,
         );
         res = { usersCount: results[0].usersCount, }
@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const result = await sequelize.query(
           `UPDATE ${this.getTableName()} SET updatedAt=NOW()
-            WHERE ${this.getTableName()}.uid = :id`, 
+            WHERE ${this.getTableName()}.id = :id`, 
           {
                 replacements: { id, },
                 type: QueryTypes.UPDATE,
@@ -100,12 +100,12 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       try {
         const [result, metadata] = await sequelize.query(
-          `SELECT uid, password, passwordSalt, buildingNumber, city, contactNumber, 
+          `SELECT id, password, passwordSalt, buildingNumber, city, contactNumber, 
             createdAt, email, emailResetKey, firstName, 
             lastName, password, lastLogin, rememberToken, streetName,
             updatedAt, username
             FROM ${this.getTableName()}
-            WHERE ${this.getTableName()}.uid=?
+            WHERE ${this.getTableName()}.id=?
             LIMIT 1`, 
           {
               replacements: [ id, ],
@@ -127,12 +127,12 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       try {
         const [result, metadata] = await sequelize.query(
-          `SELECT ${this.getTableName()}.uid, password, passwordSalt, buildingNumber, 
+          `SELECT ${this.getTableName()}.id, password, passwordSalt, buildingNumber, 
             city, contactNumber, ${this.getTableName()}.createdAt, email, emailResetKey, firstName, 
             lastName, password, lastLogin, rememberToken, streetName,
             ${this.getTableName()}.updatedAt, username
             FROM ${this.getTableName()}
-            LEFT JOIN ${sequelize.models.UserToken.getTableName()} ON ${sequelize.models.UserToken.getTableName()}.usersId = ${this.getTableName()}.uid
+            LEFT JOIN ${sequelize.models.UserToken.getTableName()} ON ${sequelize.models.UserToken.getTableName()}.usersId = ${this.getTableName()}.id
             WHERE ${sequelize.models.UserToken.getTableName()}.token=? LIMIT 1`, 
           {
               replacements: [ token, ],
@@ -156,7 +156,7 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       try {
         const [result, metadata] = await sequelize.query(
-          `SELECT uid, password, passwordSalt, buildingNumber, city, contactNumber, 
+          `SELECT id, password, passwordSalt, buildingNumber, city, contactNumber, 
             createdAt, email, emailResetKey, firstName, 
             lastName, password, lastLogin, rememberToken, streetName,
             updatedAt, username
@@ -245,7 +245,7 @@ module.exports = (sequelize, DataTypes) => {
       
       res = await sequelize.models
         .User
-        .refreshUser(user.uid);
+        .refreshUser(user.id);
       
       return res;
     }
@@ -279,7 +279,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   
   User.init({
-    uid: DataTypes.INTEGER,
+    id: DataTypes.INTEGER,
     userCreated: DataTypes.INTEGER,
     username: DataTypes.STRING,
     firstName: DataTypes.STRING,

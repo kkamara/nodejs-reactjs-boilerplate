@@ -60,7 +60,7 @@ login.post('/', async (req, res) => {
     auth.token = await db.sequelize.models
       .User
       .getNewToken(
-        auth.uid,
+        auth.id,
       );
   } catch(err) {
     res.status(status.INTERNAL_SERVER_ERROR);

@@ -5,7 +5,7 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction();
     try {
       await queryInterface.createTable('logs', {
-        uid: {
+        id: {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,

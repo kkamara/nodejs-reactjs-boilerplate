@@ -52,7 +52,7 @@ dashboard.post('/', async (req, res) => {
   const stats = await db.sequelize.models
     .User
     .getStats(
-      auth.uid,
+      auth.id,
     );
   if (stats === false) {
     res.status(status.INTERNAL_SERVER_ERROR);

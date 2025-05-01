@@ -68,7 +68,7 @@ login.post('/', async (req, res) => {
   session.auth.token = await db.sequelize.models
     .User
     .getNewToken(
-      session.auth.uid,
+      session.auth.id,
     );  
   if (false === session.auth.token) {
     res.status(status.INTERNAL_SERVER_ERROR);

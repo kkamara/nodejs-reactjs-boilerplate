@@ -7,7 +7,7 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction();
     try {
       await queryInterface.createTable('users', {
-        uid: {
+        id: {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
