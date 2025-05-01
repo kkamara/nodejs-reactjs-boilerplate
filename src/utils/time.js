@@ -1,2 +1,6 @@
 'use strict';
-export const mysqlTimeFormat = "YYYY-MM-DD HH:mm:ss";
+const mysqlTimeFormat = "YYYY-MM-DD HH:mm:ss";
+
+module.exports = {
+  mysqlTimeFormat,
+};
