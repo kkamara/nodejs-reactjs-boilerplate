@@ -128,8 +128,8 @@ module.exports = (sequelize, DataTypes) => {
           city, contactNumber, users.createdAt, email, emailResetKey, firstName, 
           lastName, password, lastLogin, rememberToken, streetName,
           users.updatedAt, username FROM users
-          LEFT JOIN user_tokens ON user_tokens.usersId = users.uid
-          WHERE user_tokens.token=? LIMIT 1`, 
+          LEFT JOIN userTokens ON userTokens.usersId = users.uid
+          WHERE userTokens.token=? LIMIT 1`, 
           {
               replacements: [ token, ],
               type: QueryTypes.SELECT,
@@ -182,7 +182,7 @@ module.exports = (sequelize, DataTypes) => {
         .encrypt(config.appKey);
       try {
         const [addToken, metadata] = await sequelize.query(
-          `INSERT INTO user_tokens(
+          `INSERT INTO userTokens(
             usersId, token, createdAt, updatedAt
           ) VALUES(
             ?, ?, NOW(), NOW()

@@ -17,29 +17,41 @@ const { hash: hash3 } = db.sequelize.models
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('user_tokens', [
-      {
-        usersId: 1,
-        token: hash1,
-        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-      },
-      {
-        usersId: 2,
-        token: hash2,
-        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-      },
-      {
-        usersId: 3,
-        token: hash3,
-        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-      },
-    ]);
+    const transaction = await queryInterface.sequelize.transaction();
+    try {
+      await queryInterface.bulkInsert('userTokens', [
+        {
+          usersId: 1,
+          token: hash1,
+          createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+          updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+        },
+        {
+          usersId: 2,
+          token: hash2,
+          createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+          updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+        },
+        {
+          usersId: 3,
+          token: hash3,
+          createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+          updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+        },
+      ]);
+    } catch (err) {
+      await transaction.rollback();
+      throw err;
+    }
   },
 
   async down (queryInterface, Sequelize) {
-    return queryInterface.bulkDelete('user_tokens', null, {});
+    const transaction = await queryInterface.sequelize.transaction();
+    try {
+      await queryInterface.bulkDelete('userTokens', null, { transaction, });
+    } catch (err) {
+      await transaction.rollback();
+      throw err;
+    }
   }
 };

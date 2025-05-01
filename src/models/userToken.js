@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'UserToken',
-    tableName: "user_tokens",
+    tableName: "userTokens",
   });
   
   return UserToken;
