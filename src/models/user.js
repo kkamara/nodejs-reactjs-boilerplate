@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const [results, metadata] = await sequelize.query(
           `SELECT count(users.uid) as usersCount
-          FROM users;`,
+          FROM ${this.getTableName()};`,
         );
         res = { usersCount: results[0].usersCount, }
         return { ...res, }
@@ -77,7 +77,7 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       try {
         const result = await sequelize.query(
-          `UPDATE users SET updatedAt=NOW()
+          `UPDATE ${this.getTableName()} SET updatedAt=NOW()
             WHERE users.uid = :id`, 
           {
                 replacements: { id, },
@@ -103,7 +103,10 @@ module.exports = (sequelize, DataTypes) => {
           `SELECT uid, password, passwordSalt, buildingNumber, city, contactNumber, 
           createdAt, email, emailResetKey, firstName, 
           lastName, password, lastLogin, rememberToken, streetName,
-          updatedAt, username FROM users WHERE users.uid=? LIMIT 1`, 
+          updatedAt, username
+          FROM ${this.getTableName()}
+          WHERE ${this.getTableName()}.uid=?
+          LIMIT 1`, 
           {
               replacements: [ id, ],
               type: QueryTypes.SELECT,
@@ -127,8 +130,9 @@ module.exports = (sequelize, DataTypes) => {
           `SELECT users.uid, password, passwordSalt, buildingNumber, 
           city, contactNumber, users.createdAt, email, emailResetKey, firstName, 
           lastName, password, lastLogin, rememberToken, streetName,
-          users.updatedAt, username FROM users
-          LEFT JOIN userTokens ON userTokens.usersId = users.uid
+          users.updatedAt, username
+          FROM ${this.getTableName()}
+          LEFT JOIN userTokens ON userTokens.usersId = ${this.getTableName()}.uid
           WHERE userTokens.token=? LIMIT 1`, 
           {
               replacements: [ token, ],
@@ -155,7 +159,10 @@ module.exports = (sequelize, DataTypes) => {
           `SELECT uid, password, passwordSalt, buildingNumber, city, contactNumber, 
           createdAt, email, emailResetKey, firstName, 
           lastName, password, lastLogin, rememberToken, streetName,
-          updatedAt, username FROM users WHERE users.email=? LIMIT 1`, 
+          updatedAt, username
+          FROM ${this.getTableName()}
+          WHERE ${this.getTableName()}.email=?
+          LIMIT 1`, 
         {
             replacements: [ email, ],
             type: QueryTypes.SELECT,
