@@ -76,6 +76,18 @@ module.exports = {
           allowNull: true,
         }
       }, { transaction, });
+      await queryInterface.addIndex('users', ['username'], {
+        name: "users_username",
+        fields: 'username',
+        unique: true,
+        transaction,
+      });
+      await queryInterface.addIndex('users', ['email'], {
+        name: "users_email",
+        fields: 'email',
+        unique: true,
+        transaction,
+      });
       await transaction.commit();
     } catch (err) {
       await transaction.rollback();
@@ -85,6 +97,8 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction();
     try {
+      await queryInterface.removeIndex('users', 'users_username', { transaction });
+      await queryInterface.removeIndex('users', 'users_email', { transaction });
       await queryInterface.dropTable('users', { transaction, });
       await transaction.commit();
     } catch (err) {
