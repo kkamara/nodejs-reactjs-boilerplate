@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       try {
         const [results, metadata] = await sequelize.query(
-          `SELECT count(users.uid) as usersCount
+          `SELECT count(${this.getTableName()}.uid) as usersCount
             FROM ${this.getTableName()};`,
         );
         res = { usersCount: results[0].usersCount, }
@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const result = await sequelize.query(
           `UPDATE ${this.getTableName()} SET updatedAt=NOW()
-            WHERE users.uid = :id`, 
+            WHERE ${this.getTableName()}.uid = :id`, 
           {
                 replacements: { id, },
                 type: QueryTypes.UPDATE,
@@ -127,13 +127,13 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       try {
         const [result, metadata] = await sequelize.query(
-          `SELECT users.uid, password, passwordSalt, buildingNumber, 
-            city, contactNumber, users.createdAt, email, emailResetKey, firstName, 
+          `SELECT ${this.getTableName()}.uid, password, passwordSalt, buildingNumber, 
+            city, contactNumber, ${this.getTableName()}.createdAt, email, emailResetKey, firstName, 
             lastName, password, lastLogin, rememberToken, streetName,
-            users.updatedAt, username
+            ${this.getTableName()}.updatedAt, username
             FROM ${this.getTableName()}
-            LEFT JOIN userTokens ON userTokens.usersId = ${this.getTableName()}.uid
-            WHERE userTokens.token=? LIMIT 1`, 
+            LEFT JOIN ${sequelize.models.UserToken.getTableName()} ON ${sequelize.models.UserToken.getTableName()}.usersId = ${this.getTableName()}.uid
+            WHERE ${sequelize.models.UserToken.getTableName()}.token=? LIMIT 1`, 
           {
               replacements: [ token, ],
               type: QueryTypes.SELECT,
@@ -189,7 +189,7 @@ module.exports = (sequelize, DataTypes) => {
         .encrypt(config.appKey);
       try {
         const [addToken, metadata] = await sequelize.query(
-          `INSERT INTO userTokens(
+          `INSERT INTO ${sequelize.models.UserToken.getTableName()}(
               usersId, token, createdAt, updatedAt
             ) VALUES(
               ?, ?, NOW(), NOW()
