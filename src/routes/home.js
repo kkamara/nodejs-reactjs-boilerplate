@@ -11,7 +11,11 @@ home.get('/dashboard', async (req, res) => {
   let results, metadata;
   try {
     [results, metadata] = await db.sequelize.query(
-      "SELECT id FROM users WHERE users.email = ? ORDER BY id DESC LIMIT 1", 
+      `SELECT id
+        FROM users
+        WHERE users.email = ? AND
+          deletedAt = null
+        ORDER BY id DESC LIMIT 1`, 
       {
           replacements: [ adminUser, ],
           type: QueryTypes.SELECT,

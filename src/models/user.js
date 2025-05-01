@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const [results, metadata] = await sequelize.query(
           `SELECT count(${this.getTableName()}.id) as usersCount
-            FROM ${this.getTableName()};`,
+            FROM ${this.getTableName()}
+           WHERE deletedAt = null`,
         );
         res = { usersCount: results[0].usersCount, }
         return { ...res, }
@@ -105,7 +106,7 @@ module.exports = (sequelize, DataTypes) => {
             lastName, password, lastLogin, rememberToken, streetName,
             updatedAt, username
             FROM ${this.getTableName()}
-            WHERE ${this.getTableName()}.id=?
+            WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt = null
             LIMIT 1`, 
           {
               replacements: [ id, ],
@@ -133,7 +134,10 @@ module.exports = (sequelize, DataTypes) => {
             ${this.getTableName()}.updatedAt, username
             FROM ${this.getTableName()}
             LEFT JOIN ${sequelize.models.userToken.getTableName()} ON ${sequelize.models.userToken.getTableName()}.usersId = ${this.getTableName()}.id
-            WHERE ${sequelize.models.userToken.getTableName()}.token=? LIMIT 1`, 
+            WHERE ${sequelize.models.userToken.getTableName()}.token=? AND
+              ${sequelize.models.user.getTableName()}.deletedAt = null
+              ${sequelize.models.userToken.getTableName()}.deletedAt = null
+            LIMIT 1`, 
           {
               replacements: [ token, ],
               type: QueryTypes.SELECT,
@@ -161,7 +165,7 @@ module.exports = (sequelize, DataTypes) => {
             lastName, password, lastLogin, rememberToken, streetName,
             updatedAt, username
             FROM ${this.getTableName()}
-            WHERE ${this.getTableName()}.email=?
+            WHERE ${this.getTableName()}.email=? AND ${this.getTableName()}.deletedAt = null
             LIMIT 1`, 
         {
             replacements: [ email, ],
