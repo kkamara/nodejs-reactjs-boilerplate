@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const [results, metadata] = await sequelize.query(
           `SELECT count(users.uid) as usersCount
-          FROM ${this.getTableName()};`,
+            FROM ${this.getTableName()};`,
         );
         res = { usersCount: results[0].usersCount, }
         return { ...res, }
@@ -101,12 +101,12 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const [result, metadata] = await sequelize.query(
           `SELECT uid, password, passwordSalt, buildingNumber, city, contactNumber, 
-          createdAt, email, emailResetKey, firstName, 
-          lastName, password, lastLogin, rememberToken, streetName,
-          updatedAt, username
-          FROM ${this.getTableName()}
-          WHERE ${this.getTableName()}.uid=?
-          LIMIT 1`, 
+            createdAt, email, emailResetKey, firstName, 
+            lastName, password, lastLogin, rememberToken, streetName,
+            updatedAt, username
+            FROM ${this.getTableName()}
+            WHERE ${this.getTableName()}.uid=?
+            LIMIT 1`, 
           {
               replacements: [ id, ],
               type: QueryTypes.SELECT,
@@ -128,12 +128,12 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const [result, metadata] = await sequelize.query(
           `SELECT users.uid, password, passwordSalt, buildingNumber, 
-          city, contactNumber, users.createdAt, email, emailResetKey, firstName, 
-          lastName, password, lastLogin, rememberToken, streetName,
-          users.updatedAt, username
-          FROM ${this.getTableName()}
-          LEFT JOIN userTokens ON userTokens.usersId = ${this.getTableName()}.uid
-          WHERE userTokens.token=? LIMIT 1`, 
+            city, contactNumber, users.createdAt, email, emailResetKey, firstName, 
+            lastName, password, lastLogin, rememberToken, streetName,
+            users.updatedAt, username
+            FROM ${this.getTableName()}
+            LEFT JOIN userTokens ON userTokens.usersId = ${this.getTableName()}.uid
+            WHERE userTokens.token=? LIMIT 1`, 
           {
               replacements: [ token, ],
               type: QueryTypes.SELECT,
@@ -157,12 +157,12 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const [result, metadata] = await sequelize.query(
           `SELECT uid, password, passwordSalt, buildingNumber, city, contactNumber, 
-          createdAt, email, emailResetKey, firstName, 
-          lastName, password, lastLogin, rememberToken, streetName,
-          updatedAt, username
-          FROM ${this.getTableName()}
-          WHERE ${this.getTableName()}.email=?
-          LIMIT 1`, 
+            createdAt, email, emailResetKey, firstName, 
+            lastName, password, lastLogin, rememberToken, streetName,
+            updatedAt, username
+            FROM ${this.getTableName()}
+            WHERE ${this.getTableName()}.email=?
+            LIMIT 1`, 
         {
             replacements: [ email, ],
             type: QueryTypes.SELECT,
@@ -190,10 +190,10 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const [addToken, metadata] = await sequelize.query(
           `INSERT INTO userTokens(
-            usersId, token, createdAt, updatedAt
-          ) VALUES(
-            ?, ?, NOW(), NOW()
-          )`, 
+              usersId, token, createdAt, updatedAt
+            ) VALUES(
+              ?, ?, NOW(), NOW()
+            )`, 
           {
               replacements: [ id, result.hash, ],
                 type: QueryTypes.INSERT,
