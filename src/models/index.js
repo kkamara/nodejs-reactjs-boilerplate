@@ -37,7 +37,7 @@ sequelize = new Sequelize(
      dialect: config.dialect, /* 'mysql' | 'postgres' | 'sqlite' | 'mariadb' */
      storage: config.storage || false, // when sqlite dialect
      define: {
-        timestamps: true,
+        timestamps: false,
      },
      logging,
      pool: {
