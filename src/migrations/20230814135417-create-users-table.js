@@ -72,7 +72,11 @@ module.exports = {
         emailResetKey: {
           type: Sequelize.INTEGER,
           allowNull: true,
-        }
+        },
+        deletedAt: {
+          type: Sequelize.DATE,
+          allowNull: true,
+        },
       }, { transaction, });
       await queryInterface.addIndex('users', ['username'], {
         name: "usersUsername",

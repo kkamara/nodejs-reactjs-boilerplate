@@ -343,6 +343,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: true,
     },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
     emailResetKey: {
       type: DataTypes.INTEGER,
       allowNull: true,

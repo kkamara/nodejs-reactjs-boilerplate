@@ -38,6 +38,7 @@ sequelize = new Sequelize(
      storage: config.storage || false, // when sqlite dialect
      define: {
         timestamps: false,
+        paranoid: true,
      },
      logging,
      pool: {
