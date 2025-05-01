@@ -45,14 +45,14 @@ module.exports = {
           allowNull: true,
         },
       }, { transaction, });
-      await queryInterface.addIndex('userTokens', ['createdAt'], {
-        name: "userTokensCreatedAt",
+      await queryInterface.addIndex('logs', ['createdAt'], {
+        name: "logsCreatedAt",
         fields: 'createdAt',
         unique: false,
         transaction,
       });
-      await queryInterface.addIndex('userTokens', ['updatedAt'], {
-        name: "usersUpdatedAt",
+      await queryInterface.addIndex('logs', ['updatedAt'], {
+        name: "logsUpdatedAt",
         fields: 'updatedAt',
         unique: false,
         transaction,
