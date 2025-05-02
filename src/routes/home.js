@@ -14,7 +14,7 @@ home.get('/dashboard', async (req, res) => {
       `SELECT id
         FROM users
         WHERE users.email = ? AND
-          deletedAt = null
+          deletedAt IS NULL
         ORDER BY id DESC LIMIT 1`, 
       {
           replacements: [ adminUser, ],

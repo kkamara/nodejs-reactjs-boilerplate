@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         const [results, metadata] = await sequelize.query(
           `SELECT count(${this.getTableName()}.id) as usersCount
             FROM ${this.getTableName()}
-           WHERE deletedAt = null`,
+           WHERE deletedAt IS NULL`,
         );
         res = { usersCount: results[0].usersCount, }
         return { ...res, }
@@ -106,7 +106,7 @@ module.exports = (sequelize, DataTypes) => {
             lastName, password, lastLogin, rememberToken, streetName,
             updatedAt, username
             FROM ${this.getTableName()}
-            WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt = null
+            WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
           {
               replacements: [ id, ],
@@ -135,8 +135,8 @@ module.exports = (sequelize, DataTypes) => {
             FROM ${this.getTableName()}
             LEFT JOIN ${sequelize.models.userToken.getTableName()} ON ${sequelize.models.userToken.getTableName()}.usersId = ${this.getTableName()}.id
             WHERE ${sequelize.models.userToken.getTableName()}.token=? AND
-              ${sequelize.models.user.getTableName()}.deletedAt = null
-              ${sequelize.models.userToken.getTableName()}.deletedAt = null
+              ${sequelize.models.user.getTableName()}.deletedAt IS NULL
+              ${sequelize.models.userToken.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
           {
               replacements: [ token, ],
@@ -165,7 +165,7 @@ module.exports = (sequelize, DataTypes) => {
             lastName, password, lastLogin, rememberToken, streetName,
             updatedAt, username
             FROM ${this.getTableName()}
-            WHERE ${this.getTableName()}.email=? AND ${this.getTableName()}.deletedAt = null
+            WHERE ${this.getTableName()}.email=? AND ${this.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
         {
             replacements: [ email, ],
