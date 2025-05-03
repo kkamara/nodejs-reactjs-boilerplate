@@ -9,13 +9,13 @@ require('../config/index.js');
 const { log, } = require('node:console');
 
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../../config.json')[env];
+const config = require('../../config.json')[env];
 
 let seqConfig;
 if (["production", "development"].includes(env)) {
-  seqConfig = require(__dirname + '/../../config.json')[env];
+  seqConfig = require('../../config.json')[env];
 } else {
-  seqConfig = require(__dirname + '/../../testing_config.json')[env];
+  seqConfig = require('../../testing_config.json')[env];
 }
 
 const db = {};
