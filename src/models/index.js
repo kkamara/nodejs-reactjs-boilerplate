@@ -5,11 +5,10 @@ const path = require('node:path');
 const Sequelize = require('sequelize');
 const process = require('node:process');
 const basename = path.basename(__filename);
-require('../config/index.js');
+const config = require('../config/index.js');
 const { log, } = require('node:console');
 
 const env = process.env.NODE_ENV || 'development';
-const config = require('../../config.json')[env];
 
 let seqConfig;
 if (["production", "development"].includes(env)) {
@@ -28,14 +27,14 @@ if ('production' !== config.nodeEnv) {
 }
 
 sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
+  seqConfig.database,
+  seqConfig.username,
+  seqConfig.password,
   {
-     host: config.host,
-     port: config.port || 3306,
-     dialect: config.dialect, /* 'mysql' | 'postgres' | 'sqlite' | 'mariadb' */
-     storage: config.storage || false, // when sqlite dialect
+     host: seqConfig.host,
+     port: seqConfig.port || 3306,
+     dialect: seqConfig.dialect, /* 'mysql' | 'postgres' | 'sqlite' | 'mariadb' */
+     storage: seqConfig.storage || false, // when sqlite dialect
      define: {
         timestamps: false,
         paranoid: true,
@@ -47,7 +46,7 @@ sequelize = new Sequelize(
         acquire: 30000,
         idle: 10000,
      },
-     timezone: config.sequelizeTimezone,
+     timezone: seqConfig.sequelizeTimezone,
   },
 );
 
