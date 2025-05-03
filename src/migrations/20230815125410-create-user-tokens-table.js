@@ -37,7 +37,7 @@ module.exports = {
         transaction,
       });
       await queryInterface.addIndex('userTokens', ['updatedAt'], {
-        name: "usersUpdatedAt",
+        name: "userTokensUpdatedAt",
         fields: 'updatedAt',
         unique: false,
         transaction,
