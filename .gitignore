@@ -1,6 +1,7 @@
 /node_modules
 .env
 yarn-error.log
+/.DB_Store
 database.sqlite
 db.sqlite
 tmp
