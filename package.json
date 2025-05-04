@@ -48,7 +48,6 @@
     "vali-admin": "^4.0.0"
   },
   "devDependencies": {
-    "assert": "^2.0.0",
     "chai": "^4.3.7",
     "chai-http": "^4.4.0",
     "cross-env": "^7.0.3",
