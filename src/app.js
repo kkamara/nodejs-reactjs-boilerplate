@@ -23,7 +23,7 @@ if ("production" === config.nodeEnv) {
 }
 
 const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, '..', 'logs', 'nodejs_reactjs_boilerplate.log'), 
+  path.join(__dirname, '..', 'logs', 'boilerplate.log'), 
   { flags: 'a' },
 );
 morgan.token('date', (req, res, tz) => {
