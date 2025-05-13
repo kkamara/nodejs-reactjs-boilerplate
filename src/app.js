@@ -101,7 +101,7 @@ app.use((req, res, next) => {
 app.use('/', routes);
 
 if ('production' === config.nodeEnv) {
-    app.listen(config.appPort);
+  app.listen(config.appPort);
 } else {
   app.listen(config.appPort, () => {
     const url = `http://127.0.0.1:${config.appPort}`;
