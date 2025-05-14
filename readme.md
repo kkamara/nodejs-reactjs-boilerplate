@@ -99,9 +99,9 @@ NODE_ENV=development npx sequelize-cli db:seed:undo:all
 
 ```bash
 yarn start # Runs Start-script `yarn node src/app.js`
-# Serves app to http://localhost:3000.
-# Serves API to http://localhost:3000/api/v1.
-#   Example API route: http://localhost:3000/api/health.
+# Serves app to http://localhost:8000.
+# Serves API to http://localhost:8000/api/v1.
+#   Example API route: http://localhost:8000/api/health.
 ```
 
 #### Reload server on project files change
