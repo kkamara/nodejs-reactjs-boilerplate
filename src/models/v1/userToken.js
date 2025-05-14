@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     token: {
       type: DataTypes.STRING
     },
-    updatesAt: {
+    expiredAt: {
       allowNull: false,
       type: DataTypes.DATE
     },
