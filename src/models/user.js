@@ -3,11 +3,8 @@ const { Model, } = require('sequelize');
 const { QueryTypes, } = require('sequelize');
 const config = require('../config');
 const { validate, } = require('email-validator');
-const { 
-  scryptSync, 
-  randomBytes, 
-  timingSafeEqual,
-} = require('node:crypto');
+const { generateToken, } = require("../utils/tokens");
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -32,42 +29,6 @@ module.exports = (sequelize, DataTypes) => {
       } catch(err) {
         return res;
       }
-    }
-
-    /**
-     * Returns the salt and hash
-     * @param {string} plainText
-     * @return {object} Like { salt, hash, }.
-     */
-    static encrypt(plainText) {
-      const salt = randomBytes(16).toString('hex');
-      const hash = scryptSync(plainText, salt, 64)
-        .toString('hex');
-      return { salt, hash, };
-    }
-
-    /**
-     * Compare resulting hashes.
-     * @param {string} plainText
-     * @param {string} hash
-     * @param {string} hashSalt
-     * @return {bool}
-     */
-    static compare(plainText, hash, hashSalt) {
-      let res = false;
-      const hashedBuffer = scryptSync(
-        plainText, hashSalt, 64,
-      );
-      
-      const keyBuffer = Buffer.from(hash, 'hex');
-      const match = timingSafeEqual(hashedBuffer, keyBuffer);
-      
-      if (!match) {
-        return res;
-      }
-
-      res = true;
-      return res;
     }
 
     /**
@@ -188,9 +149,7 @@ module.exports = (sequelize, DataTypes) => {
      * @return {string|false} String token. 
      */
     static async getNewToken(id) {
-      const result = sequelize.models
-        .user
-        .encrypt(config.appKey);
+      const result = generateToken();
       try {
         const [addToken, metadata] = await sequelize.query(
           `INSERT INTO ${sequelize.models.userToken.getTableName()}(

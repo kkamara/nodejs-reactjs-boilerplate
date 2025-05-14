@@ -1,19 +1,10 @@
 'use strict';
 const moment = require("moment-timezone");
-const db = require('../models/index');
 const config = require('../config/index');
 const { appTimezone, } = require("../config/index");
 const { mysqlTimeFormat, } = require("../utils/time");
+const { generateToken, } = require("../utils/tokens");
 
-const { hash: hash1 } = db.sequelize.models
-  .user
-  .encrypt(config.appKey);
-const { hash: hash2 } = db.sequelize.models
-  .user
-  .encrypt(config.appKey);
-const { hash: hash3 } = db.sequelize.models
-  .user
-  .encrypt(config.appKey);
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -22,19 +13,19 @@ module.exports = {
       await queryInterface.bulkInsert('userTokens', [
         {
           usersId: 1,
-          token: hash1,
+          token: generateToken(),
           createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
           updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
         },
         {
           usersId: 2,
-          token: hash2,
+          token: generateToken(),
           createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
           updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
         },
         {
           usersId: 3,
-          token: hash3,
+          token: generateToken(),
           createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
           updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
         },

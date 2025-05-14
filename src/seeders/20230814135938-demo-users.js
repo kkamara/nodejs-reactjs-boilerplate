@@ -1,46 +1,31 @@
 'use strict';
 const moment = require("moment-timezone");
+const { faker, } = require('@faker-js/faker');
 const { mysqlTimeFormat, } = require("../utils/time");
-const db = require('../models/index');
 const { appTimezone, } = require("../config/index");
+const { encrypt, } = require("../utils/tokens");
 
-const { hash, salt } = db.sequelize.models
-  .user
-  .encrypt('secret');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: (queryInterface, Sequelize) => {
+    const fakeUsers = [];
+
+    for(let i=0; i < 31; i++) {
+      const { hash, salt, } = encrypt("secret");
+      fakeUsers.push({
+        username: faker.internet.username(),
+        email: faker.internet.email(),
+        firstName: faker.person.firstName(),
+        lastName: faker.person.lastName(),
+        password: hash,
+        passwordSalt: salt,
+        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+      })
+    }
+
     return queryInterface.bulkInsert('users', [
-      {
-        username: 'tomato.pear',
-        firstName: 'Admin',
-        lastName: 'User',
-        email: 'admin@mail.com',
-        password: hash,
-        passwordSalt: salt,
-        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-      },
-      {
-        username: 'qiwi',
-        firstName: 'Client',
-        lastName: 'Admin',
-        email: 'clientadmin@mail.com',
-        password: hash,
-        passwordSalt: salt,
-        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-      },
-      {
-        username: 'cabbage.orange',
-        firstName: 'Client',
-        lastName: 'User',
-        email: 'clientuser@mail.com',
-        password: hash,
-        passwordSalt: salt,
-        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-      }
+      ...fakeUsers,
     ]);
   },
   down: (queryInterface, Sequelize) => {
