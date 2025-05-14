@@ -1,26 +1,35 @@
 <img src="https://codedthemes.com/wp-content/uploads/edd/2022/05/Materially-ReactJS-Admin-Dashboard.webp" alt="Materially-ReactJS-Admin-Dashboard.webp" width=""/>
 
-# react-boilerplate
+<img src="https://github.com/kkamara/useful/blob/main/reactjs-boilerplate.png?raw=true" alt="reactjs-boilerplate.png" width=""/>
 
-:electron: (Live Link) (2022) Reactjs 16 with redux.
+# reactjs-boilerplate
+
+:electron: (2022) ReactJS 19 with Redux.
 
 ## Requirements
 
-* [Node.js](https://nodejs.org/en/)
-* [Yarn](https://yarnpkg.com/).
+* [NodeJS](https://nodejs.org/en/).
 
 ## Installation
 
 ```bash
-  yarn install
-  # yarn
+npm install -g yarn
+yarn install
 ```
 
 ## Usage
 
 ```bash
-  yarn start
+yarn start
 ```
+
+## Misc
+
+[See PHP ReactJS Boilerplate](https://github.com/kkamara/php-reactjs-boilerplate).
+
+[See Python ReactJS Boilerplate](https://github.com/kkamara/python-reactjs-boilerplate).
+
+[See NodeJS ReactJS Boilerplate](https://github.com/kkamara/nodejs-reactjs-boilerplate).
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
