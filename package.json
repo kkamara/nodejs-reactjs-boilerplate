@@ -53,6 +53,7 @@
     "@faker-js/faker": "^9.7.0",
     "chai": "^4.3.7",
     "chai-http": "^4.4.0",
+    "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "mocha": "^9.1.4",
     "nodemon": "^2.0.22",
