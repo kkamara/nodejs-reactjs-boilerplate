@@ -110,6 +110,12 @@ yarn start # Runs Start-script `yarn node src/app.js`
 yarn dev
 ```
 
+#### Reload server and frontend app on project files change
+
+```bash
+yarn dev:frontend
+```
+
 <a name="using-docker"></a>
 ## Using docker?
 
