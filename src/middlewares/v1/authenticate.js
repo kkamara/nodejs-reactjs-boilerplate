@@ -1,20 +1,38 @@
 "use strict";
 const { status, } = require("http-status");
+const moment = require("moment-timezone");
 const { message401, } = require("../../utils/httpResponses");
+const db = require("../../models/v1/index");
+const { appTimezone, } = require("../../config");
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   if (!req.headers.authorization) {
     res.status(status.UNAUTHORIZED);
     return res.json({
       message: message401,
     });
   }
-  if (false) {
+  const authTokenResult = await db.sequelize
+    .models
+    .userToken(
+      req.headerString("authorization"),
+    );
+  if (false === authTokenResult) {
     res.status(status.UNAUTHORIZED);
     return res.json({
       message: message401,
     });
   }
-  req.session.userId = 1;
+  const tokenIsExpired = moment(authTokenResult.expiredAt)
+    .add(1, "hour")
+    .tz(appTimezone)
+    .unix() < moment().tz(appTimezone).unix();
+  if (true === tokenIsExpired) {
+    res.status(status.UNAUTHORIZED);
+    return res.json({
+      message: message401,
+    });
+  }
+  req.session.userId = authTokenResult.userId;
   return next();
 };

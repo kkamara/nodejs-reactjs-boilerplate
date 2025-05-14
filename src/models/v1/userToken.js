@@ -12,6 +12,37 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
+    /**
+     * @param {string} token
+     * @returns {object|false}
+     */
+    static async getAuthTokenByToken(token) {
+      try {
+        const results = await sequelize.query(
+          `SELECT *
+            FROM ${this.getTableName()}
+            WHERE token = :token AND deletedAt IS NULL
+            ORDER BY id DESC
+            LIMIT 1`,
+          {
+            replacements: { token, },
+            type: sequelize.QueryTypes.SELECT,
+          },
+        );
+        
+        if (0 === results.length) {
+          return false;
+        }
+        
+        return results[0];
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
   }
 
   UserToken.init({
