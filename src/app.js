@@ -9,6 +9,7 @@ const fs = require('node:fs');
 const morgan = require('morgan');
 const moment = require("moment-timezone");
 const { status, } = require('http-status');
+const FileStore = require('session-file-store');
 
 const config = require('./config');
 const routes = require('./routes');
@@ -66,6 +67,15 @@ if ('production' === config.nodeEnv) {
 }
 
 app.use(session({
+  store: "production" === config.nodeEnv ? 
+    new (FileStore(session))({
+      path: path.join(
+        __dirname,
+        "..",
+        "sessions",
+      ),
+    }) :
+    undefined,
   secret: config.appKey,
   resave: false,
   saveUninitialized: true,
