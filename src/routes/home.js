@@ -2,7 +2,7 @@
 const express = require('express');
 const { QueryTypes, } = require('sequelize');
 const config = require('../config');
-const db = require('../models');
+const db = require('../models/v1');
 
 const home = express.Router();
 

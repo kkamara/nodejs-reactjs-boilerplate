@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const { status, } = require("http-status");
-const db = require('../../../../models/index');
+const db = require('../../../../models/v1/index');
 const { message400, message500, } = require('../../../../utils/httpResponses');
 
 const login = express.Router();
