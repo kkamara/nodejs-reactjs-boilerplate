@@ -1,9 +1,9 @@
 'use strict';
 const express = require('express');
-const web = require("./web");
+const users = require("./users");
 
 const router = express.Router();
 
-router.use("/web", web);
+router.use("/users", users);
 
 module.exports = router;
