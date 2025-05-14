@@ -8,7 +8,7 @@
 
 # nodejs-reactjs-boilerplate
 
-(2021) A NodeJS boilerplate with ReactJS 16 Redux SPA.
+(2021) A NodeJS boilerplate with ReactJS 19 Redux SPA.
 
 * [Using Postman?](#postman)
 
