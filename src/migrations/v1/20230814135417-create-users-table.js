@@ -90,18 +90,6 @@ module.exports = {
         unique: true,
         transaction,
       });
-      await queryInterface.addIndex('users', ['createdAt'], {
-        name: "usersCreatedAt",
-        fields: 'createdAt',
-        unique: false,
-        transaction,
-      });
-      await queryInterface.addIndex('users', ['updatedAt'], {
-        name: "usersUpdatedAt",
-        fields: 'updatedAt',
-        unique: false,
-        transaction,
-      });
       await queryInterface.addIndex('users', ['lastLogin'], {
         name: "usersLastLogin",
         fields: 'lastLogin',
@@ -119,8 +107,6 @@ module.exports = {
     try {
       await queryInterface.removeIndex('users', 'usersUsername', { transaction });
       await queryInterface.removeIndex('users', 'usersEmail', { transaction });
-      await queryInterface.removeIndex('users', 'usersCreatedAt', { transaction });
-      await queryInterface.removeIndex('users', 'usersUpdatedAt', { transaction });
       await queryInterface.removeIndex('users', 'usersLastLogin', { transaction });
       await queryInterface.dropTable('users', { transaction, });
       await transaction.commit();

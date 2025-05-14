@@ -40,18 +40,6 @@ module.exports = {
         unique: false,
         transaction,
       });
-      await queryInterface.addIndex('userTokens', ['createdAt'], {
-        name: "userTokensCreatedAt",
-        fields: 'createdAt',
-        unique: false,
-        transaction,
-      });
-      await queryInterface.addIndex('userTokens', ['updatedAt'], {
-        name: "userTokensUpdatedAt",
-        fields: 'updatedAt',
-        unique: false,
-        transaction,
-      });
       await transaction.commit();
     } catch (err) {
       await transaction.rollback();
@@ -61,9 +49,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      await queryInterface.removeIndex('userTokens', 'userTokensExpiresAt', { transaction })
-      await queryInterface.removeIndex('userTokens', 'userTokensCreatedAt', { transaction });
-      await queryInterface.removeIndex('userTokens', 'userTokensUpdatedAt', { transaction });
+      await queryInterface.removeIndex('userTokens', 'userTokensExpiresAt', { transaction });
       await queryInterface.dropTable('userTokens', { transaction, });
       await transaction.commit();
     } catch (err) {
