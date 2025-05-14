@@ -1,8 +1,8 @@
 if flashSuccess
-  .alert.alert-success.alert-dismissible.fade.show(role='alert')
+  .alert.alert-success.alert-dismissible.fade.show.text-start(role='alert')
     = flashSuccess
     button.btn-close(type='button' data-bs-dismiss='alert' aria-label='Close')
 
 if flashError
-  .alert.alert-danger.alert-dismissible.fade.show(role='alert')= flashError
+  .alert.alert-danger.alert-dismissible.fade.show.text-start(role='alert')= flashError
     button.btn-close(type='button' data-bs-dismiss='alert' aria-label='Close')
