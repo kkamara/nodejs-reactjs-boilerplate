@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
     token: {
       type: DataTypes.STRING
     },
+    updatesAt: {
+      allowNull: false,
+      type: DataTypes.DATE
+    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE

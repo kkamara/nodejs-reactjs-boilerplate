@@ -17,6 +17,10 @@ module.exports = {
         token: {
           type: Sequelize.STRING
         },
+        expiresAt: {
+          allowNull: true,
+          type: Sequelize.DATE
+        },
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE
@@ -30,6 +34,12 @@ module.exports = {
           allowNull: true,
         },
       }, { transaction, });
+      await queryInterface.addIndex('userTokens', ['expiresAt'], {
+        name: "userTokensExpiresAt",
+        fields: 'expiresAt',
+        unique: false,
+        transaction,
+      });
       await queryInterface.addIndex('userTokens', ['createdAt'], {
         name: "userTokensCreatedAt",
         fields: 'createdAt',
@@ -51,6 +61,7 @@ module.exports = {
   async down(queryInterface, Sequelize) {
     const transaction = await queryInterface.sequelize.transaction();
     try {
+      await queryInterface.removeIndex('userTokens', 'userTokensExpiresAt', { transaction })
       await queryInterface.removeIndex('userTokens', 'userTokensCreatedAt', { transaction });
       await queryInterface.removeIndex('userTokens', 'userTokensUpdatedAt', { transaction });
       await queryInterface.dropTable('userTokens', { transaction, });
