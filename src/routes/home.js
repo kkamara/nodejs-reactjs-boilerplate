@@ -4,7 +4,7 @@ const config = require("../config");
 
 const home = express.Router();
 
-home.get('/home', async (req, res) => {
+home.get('/', async (req, res) => {
   return res.render('home', {
       title: "Home",
       appName: config.appName,
