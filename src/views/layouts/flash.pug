@@ -1,10 +1,8 @@
-
-if session.flashSuccess
-  br
-  div.panel.panel-success.text-center
-    div.panel-heading= session.flashSuccess
+if flashSuccess
+  .alert.alert-success.alert-dismissible.fade.show(role='alert')
+    = flashSuccess
+    button.btn-close(type='button' data-bs-dismiss='alert' aria-label='Close')
 
 if flashError
-  br
-  div.panel.panel-danger.text-center
-    div.panel-heading= session.flashError
+  .alert.alert-danger.alert-dismissible.fade.show(role='alert')= flashError
+    button.btn-close(type='button' data-bs-dismiss='alert' aria-label='Close')

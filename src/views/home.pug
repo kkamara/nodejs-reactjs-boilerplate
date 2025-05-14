@@ -1,6 +1,8 @@
 extends layouts/main.pug
 
 block content
-
-  div
-    Show different graph statistics here based on permissions
+  .container.mt-5
+    .row
+      .col-md-4.offset-md-4.text-center
+        include layouts/flash
+        div= "Hello, World!"
