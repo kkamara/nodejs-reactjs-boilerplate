@@ -1,9 +1,9 @@
 'use strict';
 const moment = require("moment-timezone");
 const { faker, } = require('@faker-js/faker');
-const { mysqlTimeFormat, } = require("../utils/time");
-const { appTimezone, } = require("../config/index");
-const { encrypt, } = require("../utils/tokens");
+const { mysqlTimeFormat, } = require("../../utils/time");
+const { appTimezone, } = require("../../config/index");
+const { encrypt, } = require("../../utils/tokens");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

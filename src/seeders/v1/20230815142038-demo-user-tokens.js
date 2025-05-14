@@ -1,9 +1,9 @@
 'use strict';
 const moment = require("moment-timezone");
-const config = require('../config/index');
-const { appTimezone, } = require("../config/index");
-const { mysqlTimeFormat, } = require("../utils/time");
-const { generateToken, } = require("../utils/tokens");
+const config = require('../../config/index');
+const { appTimezone, } = require("../../config/index");
+const { mysqlTimeFormat, } = require("../../utils/time");
+const { generateToken, } = require("../../utils/tokens");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

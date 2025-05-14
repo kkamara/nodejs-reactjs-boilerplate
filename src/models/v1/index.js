@@ -5,16 +5,16 @@ const path = require('node:path');
 const Sequelize = require('sequelize');
 const process = require('node:process');
 const basename = path.basename(__filename);
-const config = require('../config/index.js');
+const config = require('../../config/index.js');
 const { log, } = require('node:console');
 
 const env = process.env.NODE_ENV || 'development';
 
 let seqConfig;
 if (["production", "development"].includes(env)) {
-  seqConfig = require('../../config.json')[env];
+  seqConfig = require('../../../config.json')[env];
 } else {
-  seqConfig = require('../../testing_config.json')[env];
+  seqConfig = require('../../../testing_config.json')[env];
 }
 
 const db = {};

@@ -1,9 +1,9 @@
 'use strict';
 const { Model, } = require('sequelize');
 const { QueryTypes, } = require('sequelize');
-const config = require('../config');
+const config = require('../../config');
 const { validate, } = require('email-validator');
-const { generateToken, } = require("../utils/tokens");
+const { generateToken, } = require("../../utils/tokens");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
