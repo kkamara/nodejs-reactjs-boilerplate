@@ -106,10 +106,5 @@ if ('production' === config.nodeEnv) {
   app.listen(config.appPort, () => {
     const url = `http://127.0.0.1:${config.appPort}`;
     console.log(`Listening on ${url}`);
-    if (['test', 'development'].includes(config.nodeEnv)) {
-      return;
-    }
-    const open = require('open');
-    open(url);
   });
 }
