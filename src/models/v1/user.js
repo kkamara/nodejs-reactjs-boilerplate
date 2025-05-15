@@ -346,11 +346,11 @@ module.exports = (sequelize, DataTypes) => {
           },
         );
         
-        if (undefined === results) {
+        if (0 === results.length) {
           return false;
         }
         
-        return false;
+        return true;
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);
@@ -378,7 +378,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         );
         
-        if (undefined === results) {
+        if (0 === results.length) {
           return false;
         }
         
