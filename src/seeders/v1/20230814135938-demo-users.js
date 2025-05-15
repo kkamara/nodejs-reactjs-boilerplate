@@ -13,7 +13,6 @@ module.exports = {
     for(let i=0; i < 31; i++) {
       const { hash, salt, } = encrypt("secret");
       fakeUsers.push({
-        username: faker.internet.username(),
         email: faker.internet.email(),
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
