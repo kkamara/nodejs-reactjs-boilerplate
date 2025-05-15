@@ -181,6 +181,39 @@ module.exports = (sequelize, DataTypes) => {
         return false;
       }
     }
+    
+    /**
+     * @param {number} userId
+     * @param {string} token
+     * @returns {boolean}
+     */
+    static async logoutUser(userId, token) {
+      try {
+        await sequelize.query(
+          `UPDATE ${this.getTableName()}
+            SET expiresAt = :expiresAt, updatedAt = :updatedAt
+            WHERE token = :token AND
+              usersId = :userId AND
+              deletedAt IS NULL`,
+          {
+            replacements: {
+              expiresAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+              updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+              token,
+              userId,
+            },
+            type: sequelize.QueryTypes.UPDATE,
+          },
+        );
+        
+        return true;
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
   }
 
   UserToken.init({

@@ -168,4 +168,35 @@ router.get("/authorize", authenticate, async (req, res) => {
   });
 });
 
+router.delete('/', authenticate, async (req, res) => {
+  const user = await db.sequelize.models.user
+    .getUserByAuthToken(
+      req.session.extractedToken,
+    );
+  if (false === user) {
+    res.status(status.INTERNAL_SERVER_ERROR);
+    return res.json({ error: message500, });
+  }
+  
+  const logoutUser = db.sequelize.models.userToken.logoutUser(
+    user.id,
+    req.session.extractedToken,
+  );
+  if (false === logoutUser) {
+    res.status(status.INTERNAL_SERVER_ERROR);
+    return res.json({
+      error: message500,
+    });
+  }
+  
+  await db.sequelize.models.user.updateUserTimestamp(
+    req.session.userId,
+  );
+
+  res.status(status.OK);
+  return res.json({
+    success: true,
+  });
+});
+
 module.exports = router;
