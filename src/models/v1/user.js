@@ -2,8 +2,12 @@
 const { Model, } = require('sequelize');
 const { QueryTypes, } = require('sequelize');
 const moment = require("moment-timezone");
-const config = require('../../config');
-const { generateToken, encrypt, } = require("../../utils/tokens");
+const { nodeEnv, appTimezone, } = require('../../config');
+const {
+  generateToken,
+  encrypt,
+  compare,
+} = require("../../utils/tokens");
 const { validEmailRegex, } = require("../../utils/regexes");
 const { mysqlTimeFormat, } = require("../../utils/time");
 
@@ -39,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         
         return true;
       } catch(err) {
-        if ("production" !== config.nodeEnv) {
+        if ("production" !== nodeEnv) {
           console.log(err);
         }
         return false;
@@ -106,7 +110,9 @@ module.exports = (sequelize, DataTypes) => {
         res = result;
         return res;
       } catch(err) {
-        console.log('err',err.message);
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
         return res;
       }
     }
@@ -138,8 +144,8 @@ module.exports = (sequelize, DataTypes) => {
         res = result;
         return res;
       } catch(err) {
-        if ('production' !== config.nodeEnv) {
-          console.log('error : '+err.message);
+        if ("production" !== nodeEnv) {
+          console.log(err);
         }
         return res;
       }
@@ -173,8 +179,8 @@ module.exports = (sequelize, DataTypes) => {
         }
         return result.hash;
       } catch(err) {
-        if ('production' !== config.nodeEnv) {
-          console.log('error : '+err.message);
+        if ("production" !== nodeEnv) {
+          console.log(err);
         }
         return false;
       }
@@ -233,7 +239,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         }
       } catch (err) {
-        if ('production' !== config.nodeEnv) {
+        if ('production' !== nodeEnv) {
           console.log(err);
         }
         return false;
@@ -346,7 +352,7 @@ module.exports = (sequelize, DataTypes) => {
         
         return false;
       } catch(err) {
-        if ("production" !== config.nodeEnv) {
+        if ("production" !== nodeEnv) {
           console.log(err);
         }
         return false;
@@ -378,7 +384,7 @@ module.exports = (sequelize, DataTypes) => {
         
         return false;
       } catch(err) {
-        if ("production" !== config.nodeEnv) {
+        if ("production" !== nodeEnv) {
           console.log(err);
         }
         return false;
@@ -400,10 +406,10 @@ module.exports = (sequelize, DataTypes) => {
           {
             replacements: {
               createdAt: moment()
-                .tz(config.appTimezone)
+                .tz(appTimezone)
                 .format(mysqlTimeFormat),
               updatedAt: moment()
-                .tz(config.appTimezone)
+                .tz(appTimezone)
                 .format(mysqlTimeFormat),
               firstName: data.firstName,
               lastName: data.lastName,
@@ -417,7 +423,7 @@ module.exports = (sequelize, DataTypes) => {
         
         return { userId: result[0] };
       } catch(err) {
-        if ("production" !== config.nodeEnv) {
+        if ("production" !== nodeEnv) {
           console.log(err);
         }
         return false;
@@ -435,12 +441,98 @@ module.exports = (sequelize, DataTypes) => {
         lastName: data.lastName,
         email: data.email,
         createdAt: moment(data.createdAt)
-          .tz(config.appTimezone)
+          .tz(appTimezone)
           .format(mysqlTimeFormat),
         updatedAt: moment(data.updatedAt)
-          .tz(config.appTimezone)
+          .tz(appTimezone)
           .format(mysqlTimeFormat),
       };
+    }
+
+    /**
+     * @param {number} email
+     * @returns {object|false}
+     */
+    static async getUserByEmail(email) {
+      try {
+        const results = await sequelize.query(
+          `SELECT *
+            FROM ${this.getTableName()}
+            WHERE email = :email AND deletedAt IS NULL
+            ORDER BY id DESC
+            LIMIT 1`,
+          {
+            replacements: { email, },
+            type: sequelize.QueryTypes.SELECT,
+          },
+        );
+
+        if (undefined === results || 0 === results.length) {
+          return false;
+        }
+        
+        return results[0];
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
+
+    /**
+     * @param {object} BodyInput
+     * @returns {false|string}
+     */
+    static getLoginError(bodyInput) {
+      if (undefined === bodyInput.email) {
+        return "The email field is missing.";
+      } else if (typeof bodyInput.email !== "string") {
+        return "The email field must be of type string";
+      } else if (30 < bodyInput.email.length) {
+        return "The email field length must not exceed 30 characters.";
+      } else if (null === bodyInput.email.match(validEmailRegex)) {
+        return "The email field must be a valid email address.";
+      }
+
+      if (undefined === bodyInput.password) {
+        return "The password field is missing.";
+      } else if (typeof bodyInput.password !== "string") {
+        return "The password field must be of type string";
+      } else if (20 < bodyInput.password.length) {
+        return "The password field length must not exceed 20 characters.";
+      } else if (5 > bodyInput.password.length) {
+        return "The password field length must be greater than 5 characters.";
+      }
+
+      return false;
+    }
+
+    /**
+     * @param {string} email
+     * @param {string} password
+     * @returns {object|false}
+     */
+    static getCleanLoginData(email, password) {
+      if (undefined === email) {
+        return false;
+      }
+
+      if (undefined === password) {
+        return false;
+      }
+      
+      return { email, password, };
+    }
+
+    /**
+     * @param {string} plainTextInput
+     * @param {string} passwordHash
+     * @param {string} passwordSalt
+     * @returns {boolean}
+     */
+    static async loginUser(plainTextInput, passwordHash, passwordSalt) {
+      return compare(plainTextInput, passwordHash, passwordSalt);
     }
   }
   

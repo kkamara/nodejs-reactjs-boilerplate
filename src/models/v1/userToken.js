@@ -2,6 +2,11 @@
 const {
   Model,
 } = require('sequelize');
+const moment = require("moment-timezone");
+const { generateToken, } = require("../../utils/tokens");
+const { nodeEnv, appTimezone, } = require("../../config");
+const { mysqlTimeFormat, } = require("../../utils/time");
+
 module.exports = (sequelize, DataTypes) => {
   class UserToken extends Model {
     /**
@@ -31,11 +36,76 @@ module.exports = (sequelize, DataTypes) => {
           },
         );
         
-        if (0 === results.length) {
+        if (undefined === results) {
           return false;
         }
         
         return results[0];
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
+
+    /**
+     * @param {string} id
+     * @returns {object|false}
+     */
+    static async getAuthToken(id) {
+      try {
+        const results = await sequelize.query(
+          `SELECT *
+            FROM ${this.getTableName()}
+            WHERE id = :id AND deletedAt IS NULL
+            ORDER BY id DESC
+            LIMIT 1`,
+          {
+            replacements: { id, },
+            type: sequelize.QueryTypes.SELECT,
+          },
+        );
+        
+        if (undefined === results) {
+          return false;
+        }
+        
+        return results[0];
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
+    
+    /**
+     * @param {number} usersId
+     * @returns {object|false}
+     */
+    static async createAuthToken(usersId) {
+      try {
+        const newToken = generateToken();
+
+        const result = await sequelize.query(
+          `INSERT INTO ${this.getTableName()}(usersId, token, expiresAt, createdAt, updatedAt)
+            VALUES(:usersId, :token, :expiresAt, :createdAt, :updatedAt)`,
+          {
+            replacements: {
+              token: newToken,
+              expiresAt: moment().tz(appTimezone)
+                .add(1, "days")
+                .format(mysqlTimeFormat),
+              createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+              updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+              usersId, 
+            },
+            type: sequelize.QueryTypes.INSERT,
+          },
+        );
+        
+        return { authTokenId: result[0] };
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);

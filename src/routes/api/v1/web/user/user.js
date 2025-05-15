@@ -63,4 +63,85 @@ router.post("/register", async (req, res) => {
   });
 });
 
+router.post("/", async (req, res) => {
+  const inputError = db.sequelize.models
+    .user
+    .getLoginError(req.body);
+  if (false !== inputError) {
+    res.status(status.BAD_REQUEST);
+    return res.json({ error: inputError, });
+  }
+
+  const cleanData = db.sequelize.models
+    .user
+    .getCleanLoginData(
+      req.bodyString("email"),
+      req.bodyString("password"),
+    );
+  if (false === cleanData) {
+    res.status(status.BAD_REQUEST);
+    return res.json({ error: message400, });
+  }
+
+  const emailExists = db.sequelize.models.user
+    .emailExists(cleanData.email);
+  if (false === emailExists) {
+    res.status(status.BAD_REQUEST);
+    return res.json({ error: "The email given does not exist in our records.", });
+  }
+  
+  const user = await db.sequelize.models.user
+    .getUserByEmail(
+      cleanData.email,
+    );
+  if (false === user) {
+    res.status(status.BAD_REQUEST);
+    return res.json({ error: "The email is not in our records.", });
+  }
+  
+  const successLogin = await db.sequelize.models.user
+    .loginUser(
+      cleanData.password,
+      user.password,
+      user.passwordSalt,
+    );
+  if (false === successLogin) {
+    res.status(status.BAD_REQUEST);
+    return res.json({ error: "The email and password combination did not match.", });
+  }
+
+  const authTokenInsert = await db.sequelize.models
+    .userToken
+    .createAuthToken(user.id);
+  if (false === authTokenInsert) {
+    res.status(status.BAD_REQUEST);
+    return res.json({ error: message500, });
+  }
+
+  const authTokenResult = await db.sequelize.models
+    .userToken
+    .getAuthToken(
+      authTokenInsert.authTokenId,
+    );
+  if (false === authTokenResult) {
+    res.status(status.BAD_REQUEST);
+    return res.json({ error: message500, });
+  }
+
+  await db.sequelize.models.user.updateUserTimestamp(
+    user.id,
+  );
+  
+  res.status(status.OK);
+  return res.json({
+    success: true,
+    data: {
+      authToken: authTokenResult.token,
+      user: db.sequelize.models
+        .user
+        .getFormattedUserData(user),
+    },
+  });
+});
+
 module.exports = router;
