@@ -10,6 +10,97 @@
 			"name": "Web",
 			"item": [
 				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Bearer Token Restricted",
+							"item": [
+								{
+									"name": "Authorize User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{web}}/user/authorize",
+											"host": [
+												"{{web}}"
+											],
+											"path": [
+												"user",
+												"authorize"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Register User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"Jane\",\r\n    \"lastName\": \"Doe\",\r\n    \"email\": \"jane@doe.com\",\r\n    \"password\": \"secret\",\r\n    \"passwordConfirmation\": \"secret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{web}}/user/register",
+									"host": [
+										"{{web}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"jane@doe.com\",\r\n    \"password\": \"secret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{web}}/user",
+									"host": [
+										"{{web}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Get Users",
 					"request": {
 						"method": "GET",
