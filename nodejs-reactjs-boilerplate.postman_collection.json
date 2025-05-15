@@ -42,6 +42,33 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "Logout User",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{web}}/user",
+											"host": [
+												"{{web}}"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						},
