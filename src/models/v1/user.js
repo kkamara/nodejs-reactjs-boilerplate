@@ -15,27 +15,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
- 
-    static async getStats() {
-      let res = false;
-      try {
-        const [results, metadata] = await sequelize.query(
-          `SELECT count(${this.getTableName()}.id) as usersCount
-            FROM ${this.getTableName()}
-           WHERE deletedAt IS NULL`,
-        );
-        res = { usersCount: results[0].usersCount, }
-        return { ...res, }
-      } catch(err) {
-        return res;
-      }
-    }
 
     /**
      * @param {Number} id
      * @return {object|false}
      */
-    static async refreshUser(id) {
+    static async setUpdatedAt(id) {
       let res = false;
       try {
         const result = await sequelize.query(
@@ -165,7 +150,7 @@ module.exports = (sequelize, DataTypes) => {
         
         const user = await sequelize.models
           .user
-          .refreshUser(id);
+          .setUpdatedAt(id);
         if (user === false) {
           return false;
         }
@@ -208,7 +193,7 @@ module.exports = (sequelize, DataTypes) => {
       
       res = await sequelize.models
         .user
-        .refreshUser(user.id);
+        .setUpdatedAt(user.id);
       
       return res;
     }
