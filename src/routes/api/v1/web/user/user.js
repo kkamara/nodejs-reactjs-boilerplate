@@ -156,6 +156,10 @@ router.get("/authorize", authenticate, async (req, res) => {
     });
   }
   
+  await db.sequelize.models.user.updateUserTimestamp(
+    req.session.userId,
+  );
+  
   res.status(status.OK);
   return res.json({
     success: true,
