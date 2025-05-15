@@ -1,9 +1,11 @@
 'use strict';
 const { Model, } = require('sequelize');
 const { QueryTypes, } = require('sequelize');
+const moment = require("moment-timezone");
 const config = require('../../config');
-const { validate, } = require('email-validator');
-const { generateToken, } = require("../../utils/tokens");
+const { generateToken, encrypt, } = require("../../utils/tokens");
+const { validEmailRegex, } = require("../../utils/regexes");
+const { mysqlTimeFormat, } = require("../../utils/time");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -47,10 +49,8 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       try {
         const [result, metadata] = await sequelize.query(
-          `SELECT id, password, passwordSalt, buildingNumber, city, contactNumber, 
-            createdAt, email, emailResetKey, firstName, 
-            lastName, password, lastLogin, rememberToken, streetName,
-            updatedAt, username
+          `SELECT id, firstName, lastName, email,
+              password, passwordSalt, updatedAt
             FROM ${this.getTableName()}
             WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
@@ -59,6 +59,11 @@ module.exports = (sequelize, DataTypes) => {
               type: QueryTypes.SELECT,
           },
         );
+        
+        if (undefined === result) {
+          return false;
+        }
+
         res = result;
         return res;
       } catch(err) {
@@ -74,9 +79,8 @@ module.exports = (sequelize, DataTypes) => {
       let res = false;
       try {
         const [result, metadata] = await sequelize.query(
-          `SELECT ${this.getTableName()}.id, password, passwordSalt, buildingNumber, 
-            city, contactNumber, ${this.getTableName()}.createdAt, email, emailResetKey, firstName, 
-            lastName, password, lastLogin, rememberToken, streetName,
+          `SELECT id, firstName, lastName, email,
+              password, passwordSalt, updatedAt
             ${this.getTableName()}.updatedAt, username
             FROM ${this.getTableName()}
             LEFT JOIN ${sequelize.models.userToken.getTableName()} ON ${sequelize.models.userToken.getTableName()}.usersId = ${this.getTableName()}.id
@@ -89,8 +93,12 @@ module.exports = (sequelize, DataTypes) => {
               type: QueryTypes.SELECT,
           },
         );
+        
+        if (undefined === result) {
+          return false;
+        }
+
         res = result;
-        console.log('res',res);
         return res;
       } catch(err) {
         console.log('err',err.message);
@@ -99,25 +107,29 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {string} email
+     * @param {number} id
      * @return {object|false}
      */
-    static async getUser(email) {
+    static async getUser(id) {
       let res = false;
       try {
         const [result, metadata] = await sequelize.query(
-          `SELECT id, password, passwordSalt, buildingNumber, city, contactNumber, 
-            createdAt, email, emailResetKey, firstName, 
-            lastName, password, lastLogin, rememberToken, streetName,
-            updatedAt, username
+          `SELECT id, firstName, lastName, email,
+              password, passwordSalt, updatedAt
             FROM ${this.getTableName()}
-            WHERE ${this.getTableName()}.email=? AND ${this.getTableName()}.deletedAt IS NULL
+            WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
-        {
-            replacements: [ email, ],
-            type: QueryTypes.SELECT,
-        },
-      );
+          {
+              replacements: [ id, ],
+              type: QueryTypes.SELECT,
+          },
+        );
+
+        if (undefined === result) {
+          res = false;
+          return res;
+        }
+
         res = result;
         return res;
       } catch(err) {
@@ -161,68 +173,6 @@ module.exports = (sequelize, DataTypes) => {
         }
         return false;
       }
-    }
-
-    /**
-     * Authenticate user credentials.
-     * @param {string} email
-     * @param {string} password
-     * @return {object|false}
-     */
-    static async authenticate(email, password) {
-      let res = false;
-      
-      const user = await sequelize.models
-        .user
-        .getUser(email);
-      if (!user) {
-        return res;
-      }
-      
-      const compareHash = sequelize.models
-        .user
-        .compare(
-          password,
-          user.password,
-          user.passwordSalt
-        );
-      
-      if (false === compareHash) {
-        return res;
-      }
-      
-      res = await sequelize.models
-        .user
-        .setUpdatedAt(user.id);
-      
-      return res;
-    }
-
-    /**
-    * 
-    * @param {string} email 
-    * @param {string} password 
-    * @return {true|array}
-    */
-    static validateAuthenticate(email, password) {
-      let res = [];
-      if (!email) {
-        res.push('Missing email field.');
-      } else if (email.length > 1024) {
-        res.push('Email field exceeds 1024 character limit.')
-      } else if (!validate(email)) {
-        res.push('Email field must be a valid email.')
-      }
-      if (!password) {
-        res.push('Missing email field.');
-      } else if (password.length > 100) {
-        res.push('Password field exceeds 100 character limit.')
-      }
-
-      if (!res.length) {
-        res = true;
-      }
-      return res;
     }
 
     static async getUsersPaginated(
@@ -283,6 +233,209 @@ module.exports = (sequelize, DataTypes) => {
         }
         return false;
       }
+    }
+
+    /**
+     * @param {false|object} bodyInput 
+     */
+    static getRegisterError(bodyInput) {
+      if (undefined === bodyInput.firstName) {
+        return "The firstName field is missing.";
+      } else if (typeof bodyInput.firstName !== "string") {
+        return "The firstName field must be of type string";
+      } else if (20 < bodyInput.firstName.trim().length) {
+        return "The firstName field length must not exceed 20 characters.";
+      } else if (3 > bodyInput.firstName.trim().length) {
+        return "The firstName field length must be greater than 2 characters.";
+      }
+
+      if (undefined === bodyInput.lastName) {
+        return "The lastName field is missing.";
+      } else if (typeof bodyInput.lastName !== "string") {
+        return "The lastName field must be of type string";
+      } else if (20 < bodyInput.lastName.trim().length) {
+        return "The lastName field length must not exceed 20 characters.";
+      } else if (3 > bodyInput.lastName.trim().length) {
+        return "The lastName field length must be greater than 2 characters.";
+      }
+
+      if (undefined === bodyInput.email) {
+        return "The email field is missing.";
+      } else if (typeof bodyInput.email !== "string") {
+        return "The email field must be of type string";
+      } else if (30 < bodyInput.email.length) {
+        return "The email field length must not exceed 30 characters.";
+      } else if (null === bodyInput.email.match(validEmailRegex)) {
+        return "The email field must be a valid email address.";
+      }
+
+      if (undefined === bodyInput.password) {
+        return "The password field is missing.";
+      } else if (typeof bodyInput.password !== "string") {
+        return "The password field must be of type string";
+      } else if (20 < bodyInput.password.length) {
+        return "The password field length must not exceed 20 characters.";
+      } else if (5 > bodyInput.password.length) {
+        return "The password field length must be greater than 5 characters.";
+      } else {
+        if (undefined === bodyInput.passwordConfirmation) {
+          return "The passwordConfirmation field is missing.";
+        } else if (bodyInput.password !== bodyInput.passwordConfirmation) {
+          return "The passwordConfirmation field does not match the password field.";
+        }
+      }
+
+      return false;
+    }
+
+    /**
+     * @param {object} bodyInput
+     * @returns {object|false}
+     */
+    static getCreateUserData(bodyInput) {
+      if (undefined === bodyInput.firstName) {
+        return false;
+      }
+
+      if (undefined === bodyInput.lastName) {
+        return false;
+      }
+
+      if (undefined === bodyInput.email) {
+        return false;
+      }
+
+      if (undefined === bodyInput.password) {
+        return false;
+      }
+      
+      return {
+        firstName: bodyInput.firstName.trim(),
+        lastName: bodyInput.lastName.trim(),
+        email: bodyInput.email,
+        password: bodyInput.password,
+      };
+    }
+
+    /**
+     * @param {string} email
+     * @returns {boolean}
+     */
+    static async emailExists(email) {
+      try {
+        const results = await sequelize.query(
+          `SELECT id
+            FROM ${this.getTableName()}
+            WHERE email = :email
+            ORDER BY id DESC
+            LIMIT 1`, 
+          {
+            replacements: { email, },
+            type: sequelize.QueryTypes.SELECT,
+          },
+        );
+        
+        if (undefined === results) {
+          return false;
+        }
+        
+        return false;
+      } catch(err) {
+        if ("production" !== config.nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
+
+    /**
+     * @param {string} email
+     * @param {number} userId
+     * @returns {boolean}
+     */
+    static async emailExistsNotById(email, userId) {
+      try {
+        const results = await sequelize.query(
+          `SELECT id
+            FROM ${this.getTableName()}
+            WHERE email = :email AND id != :userId
+            ORDER BY id DESC
+            LIMIT 1`, 
+          {
+            replacements: { email, userId, },
+            type: sequelize.QueryTypes.SELECT,
+          },
+        );
+        
+        if (undefined === results) {
+          return false;
+        }
+        
+        return false;
+      } catch(err) {
+        if ("production" !== config.nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
+
+    /**
+     * @param {object} data
+     * @returns {number|false}
+     */
+    static async createUser(data) {
+      try {
+        const { salt, hash, } = encrypt(data.password);
+
+        const result = await sequelize.query(
+          `INSERT INTO ${this.getTableName()}
+              (firstName, lastName, email, password, passwordSalt, createdAt, updatedAt)
+            VALUES(:firstName, :lastName, :email, :password, :passwordSalt, :createdAt, :updatedAt)`,
+          {
+            replacements: {
+              createdAt: moment()
+                .tz(config.appTimezone)
+                .format(mysqlTimeFormat),
+              updatedAt: moment()
+                .tz(config.appTimezone)
+                .format(mysqlTimeFormat),
+              email: data.email,
+              firstName: data.firstName,
+              lastName: data.lastName,
+              password: hash,
+              passwordSalt: salt,
+            },
+            type: sequelize.QueryTypes.INSERT,
+          },
+        );
+        
+        return { userId: result[0] };
+      } catch(err) {
+        if ("production" !== config.nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
+
+    /**
+     * @param {object} data
+     * @returns {object}
+     */
+    static getFormattedUserData(data) {
+      return {
+        id: data.id,
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        createdAt: moment(data.createdAt)
+          .tz(config.appTimezone)
+          .format(mysqlTimeFormat),
+        updatedAt: moment(data.updatedAt)
+          .tz(config.appTimezone)
+          .format(mysqlTimeFormat),
+      };
     }
   }
   
