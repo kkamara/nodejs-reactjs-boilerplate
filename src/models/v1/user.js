@@ -19,26 +19,31 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {Number} id
-     * @return {object|false}
+     * @param {number} userId
+     * @returns {boolean}
      */
-    static async setUpdatedAt(id) {
-      let res = false;
+    static async updateUserTimestamp(userId) {
       try {
-        const result = await sequelize.query(
-          `UPDATE ${this.getTableName()} SET updatedAt=NOW()
-            WHERE ${this.getTableName()}.id = :id`, 
+        await sequelize.query(
+          `UPDATE ${this.getTableName()}
+            SET updatedAt = :updatedAt
+            WHERE id = :userId AND deletedAt IS NULL`,
           {
-                replacements: { id, },
-                type: QueryTypes.UPDATE,
+            replacements: {
+              updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+              userId,
+            },
+            type: sequelize.QueryTypes.UPDATE,
           },
         );
+        
+        return true;
       } catch(err) {
-        return res;
+        if ("production" !== config.nodeEnv) {
+          console.log(err);
+        }
+        return false;
       }
-
-      res = await sequelize.models.user.getUserById(id);
-      return res;
     }
 
     /**
