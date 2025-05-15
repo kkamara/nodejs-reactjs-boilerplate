@@ -101,7 +101,11 @@ app.use(jsonErrorHandler);
 
 app.use(sanitize.middleware);
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', config.appURL+':'+config.appPort);
+  if ("production" === config.nodeEnv) {
+    res.header('Access-Control-Allow-Origin', config.appURL);
+  } else {
+    res.header('Access-Control-Allow-Origin', config.appURL+':3000');
+  }
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization, x-id, Content-Length, X-Requested-With');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
@@ -109,6 +113,11 @@ app.use((req, res, next) => {
 });
 
 app.use('/', routes);
+
+// Serve ReactJS app routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
 
 if ('production' === config.nodeEnv) {
   app.listen(config.appPort);

@@ -1,73 +1,18 @@
-<!-- Sidebar -->
-nav(class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation")
-  ul(class="nav sidebar-nav")
-    li(class="sidebar-brand")
-      a(href="/")= 'Management'
-    li
-      a(href="/")
-        i(style='color:red;' class='fa fa-fw fa-home')
-        | Dashboard
-    if session.auth && session.auth.permissions.includes('view client')
-      li(class="dropdown")
-        a(href="/clients" class="dropdown-toggle" data-toggle="dropdown")
-          i(style='color:green;' class="fa fa-fw fa-briefcase") 
-          | Clients 
-          span.caret
-        ul(class="dropdown-menu" role="menu")
-          li.dropdown-header
-            Client Options
+nav#navbar-example2.navbar.bg-body-tertiary.px-3.mb-3
+  .container
+    a.navbar-brand(href="#")= appName
+    ul.nav.nav-pills
+      li.nav-item
+        a.nav-link(href="#")= "Home"
+      li.nav-item.dropdown
+        a.nav-link.dropdown-toggle(data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false")
+          | User
+        ul.dropdown-menu
           li
-            a(href="/clients")= 'View Clients'
-          if session.auth && session.auth.permissions.includes('create client')
+            a.dropdown-item(href="#")= "Profile"
           li
-            a(href="/clients/create")= 'Create Client'
-    if session.auth && session.auth.permissions.includes('view user')
-      li(class="dropdown")
-        a(href="/users" class="dropdown-toggle" data-toggle="dropdown")
-          i(style='color:blue;' class="fa fa-fw fa-users")
-          | Users 
-          span.caret
-        ul(class="dropdown-menu" role="menu")
-          li.dropdown-header
-            User Options
+            a.dropdown-item(href="#")= "Settings"
           li
-            a(href="/users")
-              View Users
-          if session.auth && session.auth.permissions.includes('create user')
-            li
-              a(href="/users/create")= 'Create User'
-    if session.auth && session.auth.permissions.includes('view log')
-      li.dropdown
-        a(href="/logs" class="dropdown-toggle" data-toggle="dropdown")
-          i(style='color:yellow;' class="fa fa-fw fa-tasks")
-          | Logs 
-          span.caret
-        ul(class="dropdown-menu" role="menu")
-          li.dropdown-header= 'Log Options'
+            hr.dropdown-divider
           li
-            a(href="/logs")= 'View Logs'
-            if session.auth && session.auth.permissions.includes('create log')
-              li
-                a(href="/logs/create")= 'Create Log'
-    li
-      a(href="/settings/edit")
-        i(style='color:purple;' class="fa fa-fw fa-cogs")
-        | Settings
-    li
-      a(href="/settings/logout")
-        i(style='color:orange;' class="fa fa-fw fa-folder")
-        | Logout
-    //- <li class="dropdown">
-    //-   <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-fw fa-plus"></i> Dropdown <span class="caret"></span></a>
-    //-   <ul class="dropdown-menu" role="menu">
-    //-     <li class="dropdown-header">Dropdown heading</li>
-    //-     <li><a href="#">Action</a></li>
-    //-     <li><a href="#">Another action</a></li>
-    //-     <li><a href="#">Something else here</a></li>
-    //-     <li><a href="#">Separated link</a></li>
-    //-     <li><a href="#">One more separated link</a></li>
-    //-   </ul>
-    //- </li>
-  </ul>
-</nav>
-<!-- /#sidebar-wrapper -->
+            a.dropdown-item(href="#")= "Logout"

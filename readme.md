@@ -1,14 +1,10 @@
-![nodejs-crm5.png](https://github.com/kkamara/useful/blob/main/nodejs-crm5.png?raw=true)
-
-![nodejs-crm2.png](https://github.com/kkamara/useful/blob/main/nodejs-crm2.png?raw=true)
-
-![nodejs-crm.png](https://github.com/kkamara/useful/blob/main/nodejs-crm.png?raw=true)
+![nodejs-reactjs-boilerplate.png](https://github.com/kkamara/useful/blob/main/nodejs-reactjs-boilerplate.png?raw=true)
 
 ![nodejs-reactjs-boilerplate2.png](https://github.com/kkamara/useful/blob/main/nodejs-reactjs-boilerplate2.png?raw=true)
 
 # nodejs-reactjs-boilerplate
 
-(2021) A NodeJS boilerplate with ReactJS 16 Redux SPA.
+(2021) A NodeJS boilerplate with ReactJS 19 Redux SPA.
 
 * [Using Postman?](#postman)
 
@@ -99,9 +95,9 @@ NODE_ENV=development npx sequelize-cli db:seed:undo:all
 
 ```bash
 yarn start # Runs Start-script `yarn node src/app.js`
-# Serves app to http://localhost:3000.
-# Serves API to http://localhost:3000/api/v1.
-#   Example API route: http://localhost:3000/api/health.
+# Serves app to http://localhost:8000.
+# Serves API to http://localhost:8000/api/v1.
+#   Example API route: http://localhost:8000/api/health.
 ```
 
 #### Reload server on project files change

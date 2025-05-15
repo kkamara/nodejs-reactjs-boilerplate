@@ -3,46 +3,14 @@ html
     meta(charset='utf-8')
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     meta(http-equiv="X-UA-Compatible" content="ie=edge")
-    title #{title} | #{config.appName}
+    title #{title} - #{appName}
 
     include stylesheets    
   body
-    div#wrapper
-      div.overlay
+    include navbar
+    
+    block content
 
-      include navbar
+    include footer
 
-      //- Page Content
-      div#page-content-wrapper
-          button(type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas")
-              span(class="hamb-top")
-              span(class="hamb-middle")
-              span(class="hamb-bottom")
-          div.container
-              div.row
-                  div(style="color:white;" class="col-lg-12")
-                      h3.page-header.text-center.lead= title
-                      div(style="color:white;font-size:14px;" class="pull-right")
-                        | Logged in as #{session.auth.name} 
-                        | #{session.auth.lastLogin}
-                      div(class=`pull-left ${session.page.title === 'Dashboard' ? 'hide' : null}` )
-                        ol.breadcrumb
-                          li.breadcrum-item
-                            a(href="/")= Home
-                              block breadcrumbs
-                      
-                      br
-
-                      include flash
-                      <br>
-                      block content
-
-                      include footer
-                  </div>
-              </div>
-
-          </div>
-      </div>
-      //- /#page-content-wrapper
-
-      include scripts
+    include scripts

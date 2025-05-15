@@ -1,8 +1,9 @@
 "use strict";
-const { randomBytes, } = require("node:crypto");
-const bcrypt = require("bcrypt");
-
-const saltRounds = 10;
+const {
+  scryptSync,
+  randomBytes,
+  timingSafeEqual,
+} = require('node:crypto');
 
 /**
  * @param {number} length
@@ -13,18 +14,37 @@ exports.generateToken = (length=56) => {
 };
 
 /**
- * @param {string} plaintextPassword
- * @returns {string}
+ * Returns the salt and hash.
+ * @param {string} plainText
+ * @return {object} Like { salt, hash, }.
  */
-exports.bcryptPassword = (plaintextPassword) => {
-  return bcrypt.hashSync(plaintextPassword, saltRounds);
-};
+exports.encrypt = (plainText) => {
+  const salt = randomBytes(16).toString('hex');
+  const hash = scryptSync(plainText, salt, 64)
+    .toString('hex');
+  return { salt, hash, };
+}
 
 /**
- * @param {string} plaintextPassword
+ * Compare resulting hashes.
+ * @param {string} plainText
  * @param {string} hash
- * @returns {boolean}
+ * @param {string} hashSalt
+ * @return {bool}
  */
-exports.bcryptCompare = (plaintextPassword, hash) => {
-  return bcrypt.compareSync(plaintextPassword, hash);
-};
+exports.compare = (plainText, hash, hashSalt) => {
+  let res = false;
+  const hashedBuffer = scryptSync(
+    plainText, hashSalt, 64,
+  );
+  
+  const keyBuffer = Buffer.from(hash, 'hex');
+  const match = timingSafeEqual(hashedBuffer, keyBuffer);
+  
+  if (!match) {
+    return res;
+  }
+
+  res = true;
+  return res;
+}
