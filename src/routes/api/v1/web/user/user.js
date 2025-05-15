@@ -61,8 +61,6 @@ router.post("/register", async (req, res) => {
     user: db.sequelize.models.user
       .getFormattedUserData(newUser),
   });
-
-  return res.json({ success: true, });
 });
 
 module.exports = router;
