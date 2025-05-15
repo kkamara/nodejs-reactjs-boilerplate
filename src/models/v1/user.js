@@ -191,12 +191,11 @@ module.exports = (sequelize, DataTypes) => {
       perPage = 7,
     ) {
       page -= 1;
-      const limit = page * perPage;
+      const offset = page * perPage;
       try {        
         const countResult = await sequelize.query(
           `SELECT count(id) as total
             FROM ${this.getTableName()}
-            ORDER BY id DESC
           `,
           {
             type: sequelize.QueryTypes.SELECT,
@@ -220,10 +219,11 @@ module.exports = (sequelize, DataTypes) => {
           `SELECT *
             FROM ${this.getTableName()}
             ORDER BY id DESC
-            LIMIT :limit, :perPage
+            LIMIT :perPage
+            OFFSET :offset
           `,
           {
-            replacements: { limit, perPage, },
+            replacements: { offset, perPage, },
             type: sequelize.QueryTypes.SELECT,
           }
         );
