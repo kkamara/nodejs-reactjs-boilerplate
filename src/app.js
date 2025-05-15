@@ -114,6 +114,11 @@ app.use((req, res, next) => {
 
 app.use('/', routes);
 
+// Serve ReactJS app routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
+
 if ('production' === config.nodeEnv) {
   app.listen(config.appPort);
 } else {
