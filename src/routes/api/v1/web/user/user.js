@@ -2,6 +2,7 @@ const express = require("express");
 const db = require("../../../../../models/v1");
 const { status, } = require("http-status");
 const { message400, message500, } = require("../../../../../utils/httpResponses");
+const authenticate = require("../../../../../middlewares/v1/authenticate");
 
 const router = express.Router();
 
@@ -141,6 +142,25 @@ router.post("/", async (req, res) => {
         .user
         .getFormattedUserData(user),
     },
+  });
+});
+
+router.get("/authorize", authenticate, async (req, res) => {
+  const userFromAuthToken = await db.sequelize.models.user.getUserByAuthToken(
+    req.session.extractedToken,
+  );
+  if (false === userFromAuthToken) {
+    res.status(status.INTERNAL_SERVER_ERROR);
+    return res.json({
+      error: message500,
+    });
+  }
+  
+  res.status(status.OK);
+  return res.json({
+    success: true,
+    user: db.sequelize.models.user
+      .getFormattedUserData(userFromAuthToken),
   });
 });
 

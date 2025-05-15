@@ -14,7 +14,8 @@ module.exports = async (req, res, next) => {
   }
   const authTokenResult = await db.sequelize
     .models
-    .userToken(
+    .userToken
+    .authenticate(
       req.headerString("authorization"),
     );
   if (false === authTokenResult) {
@@ -33,6 +34,9 @@ module.exports = async (req, res, next) => {
       message: message401,
     });
   }
+  const extractedToken = req.headerString("authorization")
+    .split(" ")[1];
   req.session.userId = authTokenResult.userId;
+  req.session.extractedToken = extractedToken;
   return next();
 };

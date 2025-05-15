@@ -5,7 +5,7 @@ const {
 const moment = require("moment-timezone");
 const { generateToken, } = require("../../utils/tokens");
 const { nodeEnv, appTimezone, } = require("../../config");
-const { mysqlTimeFormat, } = require("../../utils/time");
+const { mysqlTimeFormat, unixCompare, } = require("../../utils/time");
 
 module.exports = (sequelize, DataTypes) => {
   class UserToken extends Model {
@@ -16,6 +16,74 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+    }
+
+    /**
+     * @param {number} bearerToken 
+     * @returns {object|false}
+     */
+    static async authenticate(bearerToken) {
+      if (null === bearerToken.match(/Bearer \w+/g)) {
+        return false;
+      }
+      const extractedToken = bearerToken.split(" ")[1];
+      try {
+        const authTokenResult = await sequelize.query(
+          `SELECT *
+            FROM ${this.getTableName()}
+            WHERE token = :extractedToken AND deletedAt IS NULL
+            ORDER BY id DESC
+            LIMIT 1`, 
+          {
+            replacements: { extractedToken, },
+            type: sequelize.QueryTypes.SELECT,
+          },
+        );
+        
+        if (0 === authTokenResult.length) {
+          return false;
+        }
+        
+        const isValidToken = this.isTokenValid(
+            authTokenResult[0].token,
+            authTokenResult[0].expiresAt,
+          );
+        
+        if (false === isValidToken) {
+          return false;
+        }
+
+        return { userId: authTokenResult[0].id };
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
+
+    /**
+     * Returns true if token has not expired.
+     * @param {number} extractedToken 
+     * @param {string} expiresAt 
+     * @returns {boolean}
+     */
+    static isTokenValid(extractedToken, expiresAt) {
+      const expiresAtUnix = moment(expiresAt).tz(appTimezone)
+        .unix();
+      const nowUnix = moment().tz(appTimezone)
+        .unix();
+      try {
+        if (true === unixCompare(nowUnix, ">=", expiresAtUnix)) {
+          return false;
+        }
+        return true;
+      } catch (err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
     }
 
     /**

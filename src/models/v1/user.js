@@ -534,6 +534,42 @@ module.exports = (sequelize, DataTypes) => {
     static async loginUser(plainTextInput, passwordHash, passwordSalt) {
       return compare(plainTextInput, passwordHash, passwordSalt);
     }
+
+    /**
+     * @param {string} token
+     * @returns {object|false}
+     */
+    static async getUserByAuthToken(token) {
+      try {
+        const result = await sequelize.query(
+          `SELECT ${sequelize.models.userToken.getTableName()}.*, ${sequelize.models.userToken.getTableName()}.id as ${sequelize.models.userToken.getTableName()}Id, ${this.getTableName()}.*
+            FROM ${this.getTableName()}
+            INNER JOIN ${sequelize.models.userToken.getTableName()}
+              ON ${this.getTableName()}.id = ${sequelize.models.userToken.getTableName()}.usersId
+            WHERE ${sequelize.models.userToken.getTableName()}.token = :token AND
+              ${sequelize.models.userToken.getTableName()}.deletedAt IS NULL AND
+              ${this.getTableName()}.deletedAt IS NULL
+            LIMIT 1`,
+          {
+            replacements: {
+              token,
+            },
+            type: sequelize.QueryTypes.SELECT,
+          },
+        );
+
+        if (0 === result.length) {
+          return false;
+        }
+        
+        return result[0];
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
   }
   
   User.init({
