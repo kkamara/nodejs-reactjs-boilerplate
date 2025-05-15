@@ -400,9 +400,9 @@ module.exports = (sequelize, DataTypes) => {
               updatedAt: moment()
                 .tz(config.appTimezone)
                 .format(mysqlTimeFormat),
-              email: data.email,
               firstName: data.firstName,
               lastName: data.lastName,
+              email: data.email,
               password: hash,
               passwordSalt: salt,
             },
@@ -426,9 +426,9 @@ module.exports = (sequelize, DataTypes) => {
     static getFormattedUserData(data) {
       return {
         id: data.id,
-        email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
+        email: data.email,
         createdAt: moment(data.createdAt)
           .tz(config.appTimezone)
           .format(mysqlTimeFormat),
