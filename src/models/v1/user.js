@@ -570,6 +570,73 @@ module.exports = (sequelize, DataTypes) => {
         return false;
       }
     }
+
+    /**
+     * @param {number} userId
+     * @returns {boolean}
+     * @throws Error when environment is not set to test
+     */
+    static async testDeleteUser(userId) {
+      if ("test" !== nodeEnv) {
+        throw new Error("Environment must be set to test when invoking this method.");
+      }
+      try {
+        await sequelize.query(
+          `DELETE FROM ${this.getTableName()}
+            WHERE id = :userId;`,
+          {
+            replacements: { userId, },
+            type: sequelize.QueryTypes.DELETE,
+          },
+        );
+        
+        return true;
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
+
+    /**
+     * @param {object} userId
+     * @returns {boolean}
+     * @throws Error when environment is not set to test
+     */
+    static async testCreateUser(payload) {
+      if ("test" !== nodeEnv) {
+        throw new Error("Environment must be set to test when invoking this method.");
+      }
+      try {
+        const { hash, salt } = encrypt(payload.password);
+
+        const result = await sequelize.query(
+          `INSERT INTO ${this.getTableName()}
+              (email, firstName, lastName, password, passwordSalt, createdAt, updatedAt)
+            VALUES(:email, :firstName, :lastName, :password, :passwordSalt, :createdAt, :updatedAt)`,
+          {
+            replacements: {
+              createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+              updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+              email: payload.email,
+              firstName: payload.firstName,
+              lastName: payload.lastName,
+              password: hash,
+              passwordSalt: salt,
+            },
+            type: sequelize.QueryTypes.INSERT,
+          },
+        );
+        
+        return { userId: result[0] };
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
   }
   
   User.init({
