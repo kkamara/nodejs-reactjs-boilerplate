@@ -609,12 +609,12 @@ module.exports = (sequelize, DataTypes) => {
         throw new Error("Environment must be set to test when invoking this method.");
       }
       try {
-        const passwordHash = bcryptPassword(payload.password);
+        const { hash, salt } = encrypt(payload.password);
 
         const result = await sequelize.query(
           `INSERT INTO ${this.getTableName()}
-              (email, firstName, lastName, password, createdAt, updatedAt)
-            VALUES(:email, :firstName, :lastName, :password, :createdAt, :updatedAt)`,
+              (email, firstName, lastName, password, passwordSalt, createdAt, updatedAt)
+            VALUES(:email, :firstName, :lastName, :password, :passwordSalt, :createdAt, :updatedAt)`,
           {
             replacements: {
               createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
@@ -622,7 +622,8 @@ module.exports = (sequelize, DataTypes) => {
               email: payload.email,
               firstName: payload.firstName,
               lastName: payload.lastName,
-              password: passwordHash,
+              password: hash,
+              passwordSalt: salt,
             },
             type: sequelize.QueryTypes.INSERT,
           },

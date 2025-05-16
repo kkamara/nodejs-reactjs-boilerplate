@@ -214,6 +214,34 @@ module.exports = (sequelize, DataTypes) => {
         return false;
       }
     }
+
+    /**
+     * @param {number} usersId
+     * @returns {boolean}
+     * @throws Error when environment is not set to test
+     */
+    static async testDeleteAllUsersAuthTokens(usersId) {
+      if ("test" !== nodeEnv) {
+        throw new Error("Environment must be set to test when invoking this method.");
+      }
+      try {
+        await sequelize.query(
+          `DELETE FROM ${this.getTableName()}
+            WHERE usersId = :usersId;`,
+          {
+            replacements: { usersId, },
+            type: sequelize.QueryTypes.DELETE,
+          },
+        );
+        
+        return true;
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
   }
 
   UserToken.init({
