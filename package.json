@@ -4,7 +4,7 @@
   "description": "(2021) A NodeJS boilerplate with ReactJS 19 Redux SPA.",
   "main": "src/app.js",
   "scripts": {
-    "test": "mocha tests/",
+    "test": "mocha tests/**",
     "start": "cross-env DEBUG=express:* yarn node src/app.js",
     "dev": "cross-env DEBUG=express:* yarn nodemon src/app.js --trace-warnings",
     "dev:frontend": "concurrently \"cross-env DEBUG=express:* yarn nodemon src/app.js --trace-warnings\" \"cd frontend && yarn start\"",
