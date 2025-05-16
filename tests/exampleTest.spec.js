@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 const app = `http://localhost:${config.appPort}`;
 
 describe('API Tests', () => {
-  it('Tests /api/health', () => {
+  it('Tests /api/health', done => {
     chai.request(app)
       .get('/api/health')
       .end((err, res) => {
@@ -20,6 +20,7 @@ describe('API Tests', () => {
         chai.expect(res).to.have.status(200);
         chai.expect(res.body).to.have.property('message');
         chai.expect(res.body.message).to.equal("Success");
-    });
+        done();
+      });
   });
 });
