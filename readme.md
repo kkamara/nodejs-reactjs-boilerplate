@@ -18,6 +18,8 @@
 
 * [To run API tests](#to-run-api-tests)
 
+* [Misc](#misc
+
 * [Contributing](#contributing)
 
 * [License](#license)
