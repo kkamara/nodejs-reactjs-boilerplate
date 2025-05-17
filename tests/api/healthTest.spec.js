@@ -2,7 +2,7 @@
 const assert = require('node:assert');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const config = require('../src/config');
+const config = require('../../src/config');
 
 chai.use(chaiHttp);
 
