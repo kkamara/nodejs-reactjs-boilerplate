@@ -2,8 +2,8 @@
 const assert = require('node:assert');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const config = require('../../src/config');
-const db = require("../../src/models/v1");
+const config = require('../../../src/config');
+const db = require("../../../src/models/v1");
 
 chai.use(chaiHttp);
 
@@ -23,7 +23,7 @@ const payload = {
   isAdmin: false,
 };
 
-describe('Authenticate User API Tests', () => {
+describe('Logout User API Tests', () => {
   before(async () => {
     const createdAccount = await db.sequelize.models
       .user
@@ -40,11 +40,11 @@ describe('Authenticate User API Tests', () => {
       .getAuthToken(authTokenID);
     bearerToken = "Bearer "+userToken.token;
   });
-  it('Tests Authenticate User Success', done => {
+  it('Tests Logout User Success', done => {
     chai.request(app)
-      .get('/user/authorize')
+      .delete('/user')
       .set("authorization", bearerToken)
-      .end((err, res) => {
+      .end(async (err, res) => {
         if (err) {
           console.log(err);
         }
@@ -52,7 +52,14 @@ describe('Authenticate User API Tests', () => {
         chai.expect(res).to.have.status(200);
         chai.expect(res.body).to.have.property('success');
         chai.expect(res.body.success).to.equal(true);
-        chai.expect(res.body).to.have.property('user');
+
+        const authenticated = await db.sequelize.models
+          .userToken
+          .authenticate(
+            bearerToken,
+          );
+        chai.expect(authenticated).to.equal(false);
+
         done();
       });
   });
