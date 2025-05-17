@@ -2,8 +2,8 @@
 const assert = require('node:assert');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const config = require('../../../src/config');
-const db = require("../../../src/models/v1");
+const config = require('../../../../src/config');
+const db = require("../../../../src/models/v1");
 
 chai.use(chaiHttp);
 

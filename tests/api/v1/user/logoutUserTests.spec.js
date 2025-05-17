@@ -2,14 +2,16 @@
 const assert = require('node:assert');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const config = require('../../../src/config');
-const db = require("../../../src/models/v1");
+const config = require('../../../../src/config');
+const db = require("../../../../src/models/v1");
 
 chai.use(chaiHttp);
 
 const app = `http://localhost:${config.appPort}/api/v1`;
 
 let createdAccountID = null;
+let bearerToken = null;
+let authTokenID = null;
 
 const payload = {
   email: "testaccount@example.com",
@@ -21,21 +23,28 @@ const payload = {
   isAdmin: false,
 };
 
-describe('Login User API Tests', () => {
+describe('Logout User API Tests', () => {
   before(async () => {
     const createdAccount = await db.sequelize.models
       .user
       .testCreateUser(payload, true);
     createdAccountID = createdAccount.userId;
+    
+    const createdUserToken = await db.sequelize.models
+      .userToken
+      .createAuthToken(createdAccountID);
+    authTokenID = createdUserToken.authTokenId;
+    
+    const userToken = await db.sequelize.models
+      .userToken
+      .getAuthToken(authTokenID);
+    bearerToken = "Bearer "+userToken.token;
   });
-  it('Tests Login User Success', done => {
+  it('Tests Logout User Success', done => {
     chai.request(app)
-      .post('/user')
-      .send({
-        email: payload.email,
-        password: payload.password,
-      })
-      .end((err, res) => {
+      .delete('/user')
+      .set("authorization", bearerToken)
+      .end(async (err, res) => {
         if (err) {
           console.log(err);
         }
@@ -43,17 +52,23 @@ describe('Login User API Tests', () => {
         chai.expect(res).to.have.status(200);
         chai.expect(res.body).to.have.property('success');
         chai.expect(res.body.success).to.equal(true);
-        chai.expect(res.body).to.have.property('data');
-        chai.expect(res.body.data).to.have.property('user');
-        chai.expect(res.body.data.user).to.have.property('id');
-        chai.expect(res.body.data.user.id).to.equal(createdAccountID);
+
+        const authenticated = await db.sequelize.models
+          .userToken
+          .authenticate(
+            bearerToken,
+          );
+        chai.expect(authenticated).to.equal(false);
+
         done();
       });
   });
   after(async () => {
     await db.sequelize.models
       .userToken
-      .testDeleteAllUsersAuthTokens(createdAccountID);
+      .testDeleteUserToken(
+        authTokenID,
+      );
     await db.sequelize.models
       .user
       .testDeleteUser(createdAccountID);
