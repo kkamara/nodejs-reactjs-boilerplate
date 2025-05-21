@@ -1,7 +1,11 @@
 const express = require("express");
 const db = require("../../../../../models/v1");
 const { status, } = require("http-status");
-const { message400, message500, } = require("../../../../../utils/httpResponses");
+const {
+  message400,
+  message500,
+  message200,
+} = require("../../../../../utils/httpResponses");
 const authenticate = require("../../../../../middlewares/v1/authenticate");
 
 const router = express.Router();
@@ -58,7 +62,6 @@ router.post("/register", async (req, res) => {
 
   res.status(status.OK);
   return res.json({
-    success: true,
     user: db.sequelize.models.user
       .getFormattedUserData(newUser),
   });
@@ -135,7 +138,6 @@ router.post("/", async (req, res) => {
   
   res.status(status.OK);
   return res.json({
-    success: true,
     data: {
       authToken: authTokenResult.token,
       user: db.sequelize.models
@@ -162,7 +164,6 @@ router.get("/authorize", authenticate, async (req, res) => {
   
   res.status(status.OK);
   return res.json({
-    success: true,
     user: db.sequelize.models.user
       .getFormattedUserData(userFromAuthToken),
   });
@@ -195,7 +196,7 @@ router.delete('/', authenticate, async (req, res) => {
 
   res.status(status.OK);
   return res.json({
-    success: true,
+    message: message200,
   });
 });
 
