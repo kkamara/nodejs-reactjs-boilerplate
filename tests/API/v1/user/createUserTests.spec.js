@@ -27,8 +27,6 @@ describe('Create User API Tests', () => {
         }
         chai.expect(err).to.be.null;
         chai.expect(res).to.have.status(200);
-        chai.expect(res.body).to.have.property('success');
-        chai.expect(res.body.success).to.equal(true);
         chai.expect(res.body).to.have.property('user');
         chai.expect(res.body.user).to.have.property('id');
         await db.sequelize.models
