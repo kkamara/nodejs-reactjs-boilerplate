@@ -21,14 +21,14 @@ const payload = {
   isAdmin: false,
 };
 
-describe('Login User API Tests', () => {
-  before(async () => {
+describe('Login User API Tests', function() {
+  before(async function() {
     const createdAccount = await db.sequelize.models
       .user
       .testCreateUser(payload, true);
     createdAccountID = createdAccount.userId;
   });
-  it('Tests Login User Success', done => {
+  it('Tests Login User Success', function(done) {
     chai.request(app)
       .post('/user')
       .send({
@@ -48,7 +48,7 @@ describe('Login User API Tests', () => {
         done();
       });
   });
-  after(async () => {
+  after(async function() {
     await db.sequelize.models
       .userToken
       .testDeleteAllUsersAuthTokens(createdAccountID);

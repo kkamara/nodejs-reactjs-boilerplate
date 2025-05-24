@@ -8,8 +8,8 @@ chai.use(chaiHttp);
 
 const app = `http://localhost:${config.appPort}`;
 
-describe('API Tests', () => {
-  it('Tests /api/health', done => {
+describe('API Tests', function() {
+  it('Tests /api/health', function(done) {
     chai.request(app)
       .get('/api/health')
       .end((err, res) => {

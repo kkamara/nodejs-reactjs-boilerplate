@@ -23,8 +23,8 @@ const payload = {
   isAdmin: false,
 };
 
-describe('Authenticate User API Tests', () => {
-  before(async () => {
+describe('Authenticate User API Tests', function() {
+  before(async function() {
     const createdAccount = await db.sequelize.models
       .user
       .testCreateUser(payload, true);
@@ -40,7 +40,7 @@ describe('Authenticate User API Tests', () => {
       .getAuthToken(authTokenID);
     bearerToken = "Bearer "+userToken.token;
   });
-  it('Tests Authenticate User Success', done => {
+  it('Tests Authenticate User Success', function(done) {
     chai.request(app)
       .get('/user/authorize')
       .set("authorization", bearerToken)
@@ -54,7 +54,7 @@ describe('Authenticate User API Tests', () => {
         done();
       });
   });
-  after(async () => {
+  after(async function() {
     await db.sequelize.models
       .userToken
       .testDeleteUserToken(

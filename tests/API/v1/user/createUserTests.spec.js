@@ -9,8 +9,8 @@ chai.use(chaiHttp);
 
 const app = `http://localhost:${config.appPort}/api/v1`;
 
-describe('Create User API Tests', () => {
-  it('Tests Register User Success', done => {
+describe('Create User API Tests', function() {
+  it('Tests Register User Success', function(done) {
     const payload = {
       email: "testaccount@example.com",
       firstName: "Test",
