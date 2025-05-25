@@ -73,7 +73,7 @@ export default function RegisterComponent() {
     <div className="col-md-4 offset-md-4">
       <h1 className="register-lead fw-bold">Register</h1>
       <form method="post" onSubmit={onFormSubmit}>
-        {authState.error ?
+        {(authState.error && "Token not set." !== authState.error) ?
           <div className="alert alert-warning alert-dismissible fade show" role="alert">
             {authState.error}
             <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
