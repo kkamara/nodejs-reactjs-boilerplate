@@ -2,11 +2,9 @@ import HttpService from "./HttpService"
 
 export const RegisterUserService = (data) => {
   const http = new HttpService()
-  const tokenId = "user-token"
   return http.postData("/user/register", data)
     .then((response) => {
-      localStorage.setItem(tokenId, response.data.data.token)
-      return response.data.data
+      return response.data
     })
     .catch(err => { throw err })
 }
@@ -18,7 +16,7 @@ export const LoginUserService = (credentials) => {
   return http.postData("/user", credentials)
     .then(response => {
       localStorage.setItem(tokenId, response.data.data.authToken)
-      return response.data.data
+      return response.data
     })
     .catch(err => { throw err })
 }
@@ -29,7 +27,7 @@ export const AuthorizeUserService = () => {
   
   return http.getData("/user/authorize", tokenId)
     .then(response => {
-      return response.data.data
+      return response.data
     })
     .catch(err => { throw err })
 }
@@ -43,7 +41,7 @@ export const LogoutUserService = () => {
         localStorage.removeItem(tokenId)
       }
       window.location = "/user/login"
-      return response
+      return response.data
     })
     .catch(err => { throw err })
 }
