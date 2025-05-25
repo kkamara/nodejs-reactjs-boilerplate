@@ -19,13 +19,17 @@ export const login = creds => {
       })
       
     }, error => {
-      const message = (error.response.data && error.response.data[0]) ||
-        (error.response.data.email && error.response.data.email[0]) ||
-        (error.response.data.password && error.response.data.password[0])
-      dispatch({
-        type : auth.AUTH_LOGIN_ERROR, 
-        payload: message,
-      })
+      if (error.response.data && error.response.data.error) {
+        dispatch({
+          type: auth.AUTH_LOGIN_ERROR, 
+          payload: error.response.data.error,
+        })
+      } else {
+        dispatch({
+          type: auth.AUTH_LOGIN_ERROR,
+          payload: error.message,
+        })
+      }
     })
   }
 }
@@ -37,7 +41,7 @@ export const authorize = () => {
     const tokenId = "user-token"
     if (localStorage.getItem(tokenId) === null) {
       return dispatch({
-        type : auth.AUTH_AUTHORIZE_ERROR, 
+        type: auth.AUTH_AUTHORIZE_ERROR,
         payload: "Token not set.",
       })
     }    
@@ -54,7 +58,7 @@ export const authorize = () => {
           window.location = "/"
         }
         dispatch({
-          type : auth.AUTH_AUTHORIZE_ERROR, 
+          type: auth.AUTH_AUTHORIZE_ERROR,
           payload: error,
         })
     })
@@ -72,13 +76,17 @@ export const logout = () => {
       })
       
     }, error => {
-      const message = (error.response.data && error.response.data[0]) ||
-        (error.response.data.email && error.response.data.email[0]) ||
-        (error.response.data.password && error.response.data.password[0])
-      dispatch({
-        type : auth.AUTH_LOGOUT_ERROR, 
-        payload: message,
-      })
+      if (error.response.data && error.response.data.error) {
+        dispatch({
+          type: auth.AUTH_LOGOUT_SUCCESS, 
+          payload: error.response.data.error,
+        })
+      } else {
+        dispatch({
+          type: auth.AUTH_LOGOUT_SUCCESS,
+          payload: error.message,
+        })
+      }
     })
   }
 }
@@ -94,15 +102,17 @@ export const register = data => {
         payload: res,
       })
     }, error => {
-      const message = (error.response.data && error.response.data[0]) ||
-        (error.response.data.name && error.response.data.name[0]) ||
-        (error.response.data.email && error.response.data.email[0]) ||
-        (error.response.data.password && error.response.data.password[0]) ||
-        (error.response.data.password_confirmation && error.response.data.password_confirmation[0])
-      dispatch({ 
-        type : auth.AUTH_REGISTER_ERROR, 
-        payload: message,
-      })
+      if (error.response.data && error.response.data.error) {
+        dispatch({
+          type: auth.AUTH_REGISTER_ERROR, 
+          payload: error.response.data.error,
+        })
+      } else {
+        dispatch({
+          type: auth.AUTH_REGISTER_ERROR,
+          payload: error.message,
+        })
+      }
     })
   }
 }
