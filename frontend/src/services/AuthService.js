@@ -8,7 +8,7 @@ export const RegisterUserService = (data) => {
       localStorage.setItem(tokenId, response.data.data.token)
       return response.data.data
     })
-    .catch(err => err)
+    .catch(err => { throw err })
 }
 
 export const LoginUserService = (credentials) => {
@@ -20,7 +20,7 @@ export const LoginUserService = (credentials) => {
       localStorage.setItem(tokenId, response.data.data.token)
       return response.data.data
     })
-    .catch(err => err)
+    .catch(err => { throw err })
 }
 
 export const AuthorizeUserService = () => {
@@ -31,7 +31,7 @@ export const AuthorizeUserService = () => {
     .then(response => {
       return response.data.data
     })
-    .catch(err => err)
+    .catch(err => { throw err })
 }
 
 export const LogoutUserService = () => {
@@ -45,5 +45,5 @@ export const LogoutUserService = () => {
       window.location = "/user/login"
       return response
     })
-    .catch(err => err)
+    .catch(err => { throw err })
 }
