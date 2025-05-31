@@ -7,6 +7,28 @@
 	},
 	"item": [
 		{
+			"name": "Mobile API",
+			"item": [
+				{
+					"name": "Hello",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{mobileAPI}}/hello",
+							"host": [
+								"{{mobileAPI}}"
+							],
+							"path": [
+								"hello"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "API",
 			"item": [
 				{
