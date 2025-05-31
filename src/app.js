@@ -94,7 +94,7 @@ const jsonErrorHandler = (err, req, res, next) => {
   }
   return res.status(err.status || status.INTERNAL_SERVER_ERROR)
     .send({
-      message: messageDefaultSystemError,
+      error: messageDefaultSystemError,
     });
 };
 app.use(jsonErrorHandler);
