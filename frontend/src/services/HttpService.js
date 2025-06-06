@@ -36,9 +36,12 @@ export default class HttpService
       token = localStorage.getItem(tokenId)
       requestOptions = this.postRequestOptions({ token, item, })
     }
-
+    let url = this.url+path
+    if (null !== path.match(/http/g)) {
+      url = path
+    }
     return axios.post(
-      this.url+path, 
+      url, 
       requestOptions.data, 
       { headers: requestOptions.headers },
     )
