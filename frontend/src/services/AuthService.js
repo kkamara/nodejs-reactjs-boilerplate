@@ -37,7 +37,7 @@ export const LogoutUserService = () => {
   const tokenId = "user-token"
   return http.getData("/users/logout", tokenId)
     .then((response) => {
-      if (localStorage.getItem(tokenId) !== null) {
+      if (null !== localStorage.getItem(tokenId)) {
         localStorage.removeItem(tokenId)
       }
       window.location = "/user/login"
