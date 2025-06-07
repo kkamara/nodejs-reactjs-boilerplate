@@ -29,7 +29,6 @@ const config = {
   appTimezone: process.env.APP_TIMEZONE,
   sequelizeTimezone: process.env.SEQUELIZE_TIMEZONE,
   appURL: process.env.APP_URL,
-  appLocale: process.env.APP_LOCALE,
   appPort: process.env.PORT || process.env.port || 8000,
   databaseURL: process.env.DATABASE_URL,
   dbName: process.env.DB_NAME,
