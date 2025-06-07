@@ -30,13 +30,6 @@ const config = {
   sequelizeTimezone: process.env.SEQUELIZE_TIMEZONE,
   appURL: process.env.APP_URL,
   appPort: process.env.PORT || process.env.port || 8000,
-  databaseURL: process.env.DATABASE_URL,
-  dbName: process.env.DB_NAME,
-  dbPass: process.env.DB_PASS,
-  dbPort: process.env.DB_PORT,
-  dbUser: process.env.DB_USER,
-  dbDialect: process.env.DB_DIALECT,
-  dbStorage: process.env.DB_STORAGE,
 };
 
 module.exports = config;
