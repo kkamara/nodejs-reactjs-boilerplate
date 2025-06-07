@@ -18,13 +18,6 @@ export default function HomeComponent() {
     dispatch(getUsers())
   }, [])
 
-  useEffect(() => {
-    if (state.auth.error) {
-      localStorage.removeItem("user-token")
-      window.location.href = "/user/login"
-    }
-  }, [state.auth])
-
   const handlePageChange = ({ selected, }) => {
     const newPage = selected + 1
     if (newPage > state.users.data.meta.pages) {
