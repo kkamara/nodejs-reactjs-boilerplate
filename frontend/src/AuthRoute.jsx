@@ -8,7 +8,7 @@ const AuthRoute = ({ redirectPath, }) => {
   }))
 
   useEffect(() => {
-    if (state.auth.error) {
+    if (state.auth.error || null === localStorage.getItem("user-token")) {
       localStorage.removeItem("user-token")
       if (redirectPath) {
         window.location.href = redirectPath
