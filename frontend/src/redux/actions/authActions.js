@@ -67,10 +67,15 @@ export const authorize = () => {
               type: auth.AUTH_AUTHORIZE_ERROR, 
               payload: "Server unavailable.",
             })
+          } else if (error.response.data && error.response.data.error) {
+            dispatch({
+              type: auth.AUTH_AUTHORIZE_ERROR, 
+              payload: error.response.data.error,
+            })
           } else {
             dispatch({
               type: auth.AUTH_AUTHORIZE_ERROR,
-              payload: error,
+              payload: error.message,
             })
           }
         }

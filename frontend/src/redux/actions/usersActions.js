@@ -22,6 +22,11 @@ export const getUsers = page => {
             type: auth.AUTH_LOGIN_ERROR, 
             payload: "Server unavailable.",
           })
+        } else if (error.response.data && error.response.data.error) {
+          dispatch({
+            type: users.GET_USERS_ERROR, 
+            payload: error.response.data.error,
+          })
         } else {
           dispatch({
             type : users.GET_USERS_ERROR, 

@@ -5,6 +5,7 @@ import { Helmet, } from "react-helmet"
 import { login, authorize, } from "../../../redux/actions/authActions"
 
 import "./LoginComponent.scss"
+import Error from "../../layouts/Error"
 
 export default function LoginComponent() {
   const navigate = useNavigate()
@@ -60,11 +61,7 @@ export default function LoginComponent() {
     <div className="col-md-4 offset-md-4">
       <h1 className="login-lead fw-bold">Sign In</h1>
       <form method="post" onSubmit={onFormSubmit}>
-        {(state.auth.error && "Token not set." !== state.auth.error) ?
-          <div className="alert alert-warning alert-dismissible fade show" role="alert">
-            {state.auth.error}
-            <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div> : null}
+        <Error error={state.auth.error} />
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input 

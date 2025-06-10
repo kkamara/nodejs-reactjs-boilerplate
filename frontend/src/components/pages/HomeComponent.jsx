@@ -6,6 +6,7 @@ import { Helmet, } from "react-helmet"
 import { getUsers, } from "../../redux/actions/usersActions"
 
 import "./HomeComponent.scss"
+import Error from "../layouts/Error"
 
 export default function HomeComponent() {
   const dispatch = useDispatch()
@@ -114,6 +115,7 @@ export default function HomeComponent() {
       <Helmet>
         <title>Home - {process.env.REACT_APP_NAME}</title>
       </Helmet>
+      <Error error={state.auth.error || state.users.error}/>
       <div className="text-center">
         <button className="btn btn-primary home-button">
           Test Button
