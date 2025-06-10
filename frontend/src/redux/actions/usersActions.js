@@ -17,10 +17,17 @@ export const getUsers = page => {
           payload: res.data,
         })
       }).catch(error => {
-        dispatch({
-          type : users.GET_USERS_ERROR, 
-          payload: error.message,
-        })
+        if (error.code && "ERR_NETWORK" === error.code) {
+          dispatch({
+            type: auth.AUTH_LOGIN_ERROR, 
+            payload: "Server unavailable.",
+          })
+        } else {
+          dispatch({
+            type : users.GET_USERS_ERROR, 
+            payload: error.message,
+          })
+        }
       })
   }
 }

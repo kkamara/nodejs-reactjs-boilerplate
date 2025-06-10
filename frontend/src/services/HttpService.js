@@ -7,6 +7,7 @@ export default class HttpService
 {
   _domain = null
   _url = null
+  _timeout = 5000
 
   constructor() {
     this.domain = process.env.REACT_APP_API_ROOT
@@ -29,6 +30,10 @@ export default class HttpService
     return this._url
   }
 
+  get timeout() {
+    return this._timeout;
+  }
+
   postData = (path, item, tokenId="") => {
     let requestOptions = this.postRequestOptions({ item, })
     let token
@@ -43,7 +48,7 @@ export default class HttpService
     return axios.post(
       url, 
       requestOptions.data, 
-      { headers: requestOptions.headers },
+      { headers: requestOptions.headers, timeout: this.timeout, },
     )
   }
 
@@ -60,7 +65,7 @@ export default class HttpService
     }
     return axios.get(
       url, 
-      { headers: requestOptions.headers },
+      { headers: requestOptions.headers, timeout: this.timeout, },
     )
   }
 

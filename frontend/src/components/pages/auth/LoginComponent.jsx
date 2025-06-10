@@ -18,10 +18,12 @@ export default function LoginComponent() {
   }))
 
   useEffect(() => {
+    dispatch(authorize())
+  }, [])
+
+  useEffect(() => {
     if (state.auth.data) {
       window.location.href = "/"
-    } else if (state.auth.loading) {
-      dispatch(authorize())
     }
   }, [state.auth])
 

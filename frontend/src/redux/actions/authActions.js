@@ -19,7 +19,12 @@ export const login = creds => {
       })
       
     }, error => {
-      if (error.response.data && error.response.data.error) {
+      if (error.code && "ERR_NETWORK" === error.code) {
+        dispatch({
+          type: auth.AUTH_LOGIN_ERROR, 
+          payload: "Server unavailable.",
+        })
+      } else if (error.response.data && error.response.data.error) {
         dispatch({
           type: auth.AUTH_LOGIN_ERROR, 
           payload: error.response.data.error,
@@ -56,11 +61,19 @@ export const authorize = () => {
         if (error.response.status === 401) {
           localStorage.removeItem(tokenId)
           window.location = "/"
+        } else {
+          if (error.code && "ERR_NETWORK" === error.code) {
+            dispatch({
+              type: auth.AUTH_AUTHORIZE_ERROR, 
+              payload: "Server unavailable.",
+            })
+          } else {
+            dispatch({
+              type: auth.AUTH_AUTHORIZE_ERROR,
+              payload: error,
+            })
+          }
         }
-        dispatch({
-          type: auth.AUTH_AUTHORIZE_ERROR,
-          payload: error,
-        })
     })
   }
 }
@@ -76,14 +89,19 @@ export const logout = () => {
       })
       
     }, error => {
-      if (error.response.data && error.response.data.error) {
+      if (error.code && "ERR_NETWORK" === error.code) {
         dispatch({
-          type: auth.AUTH_LOGOUT_SUCCESS, 
+          type: auth.AUTH_LOGOUT_ERROR, 
+          payload: "Server unavailable.",
+        })
+      } else if (error.response.data && error.response.data.error) {
+        dispatch({
+          type: auth.AUTH_LOGOUT_ERROR, 
           payload: error.response.data.error,
         })
       } else {
         dispatch({
-          type: auth.AUTH_LOGOUT_SUCCESS,
+          type: auth.AUTH_LOGOUT_ERROR,
           payload: error.message,
         })
       }
