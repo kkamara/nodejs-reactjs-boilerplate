@@ -1,6 +1,6 @@
 
-import { 
-  LoginUserService, 
+import {
+  LoginUserService,
   AuthorizeUserService,
   LogoutUserService,
   RegisterUserService,
@@ -9,7 +9,7 @@ import { auth, } from "../types"
 
 export const login = creds => {
   return dispatch => {
-    
+
     dispatch({ type: auth.AUTH_LOGIN_PENDING, })
 
     LoginUserService(creds).then(res => {
@@ -17,7 +17,7 @@ export const login = creds => {
         type: auth.AUTH_LOGIN_SUCCESS,
         payload: res,
       })
-      
+
     }, error => {
       let message
       if ("ERR_NETWORK" === error.code) {
@@ -31,8 +31,8 @@ export const login = creds => {
       } else {
         message = "Something went wrong. Please come back later."
       }
-      dispatch({ 
-        type: auth.AUTH_LOGIN_ERROR, 
+      dispatch({
+        type: auth.AUTH_LOGIN_ERROR,
         payload: message,
       })
     })
@@ -41,7 +41,7 @@ export const login = creds => {
 
 export const authorize = () => {
   return dispatch => {
-    
+
     dispatch({ type: auth.AUTH_AUTHORIZE_PENDING, })
     const tokenId = "user-token"
     if (localStorage.getItem(tokenId) === null) {
@@ -49,14 +49,14 @@ export const authorize = () => {
         type: auth.AUTH_AUTHORIZE_ERROR,
         payload: "Token not set.",
       })
-    }    
+    }
 
     AuthorizeUserService().then(res => {
       dispatch({
         type: auth.AUTH_AUTHORIZE_SUCCESS,
         payload: res,
       })
-      
+
     }, error => {
       if (error.response.status === 401) {
         localStorage.removeItem(tokenId)
@@ -74,8 +74,8 @@ export const authorize = () => {
       } else {
         message = "Something went wrong. Please come back later."
       }
-      dispatch({ 
-        type: auth.AUTH_AUTHORIZE_ERROR, 
+      dispatch({
+        type: auth.AUTH_AUTHORIZE_ERROR,
         payload: message,
       })
     })
@@ -91,7 +91,7 @@ export const logout = () => {
         type: auth.AUTH_LOGOUT_SUCCESS,
         payload: null,
       })
-      
+
     }, error => {
       let message
       if ("ERR_NETWORK" === error.code) {
@@ -105,8 +105,8 @@ export const logout = () => {
       } else {
         message = "Something went wrong. Please come back later."
       }
-      dispatch({ 
-        type: auth.AUTH_LOGOUT_ERROR, 
+      dispatch({
+        type: auth.AUTH_LOGOUT_ERROR,
         payload: message,
       })
     })
@@ -115,7 +115,7 @@ export const logout = () => {
 
 export const register = data => {
   return dispatch => {
-    
+
     dispatch({ type: auth.AUTH_REGISTER_PENDING, })
 
     RegisterUserService(data).then(res => {
@@ -136,8 +136,8 @@ export const register = data => {
       } else {
         message = "Something went wrong. Please come back later."
       }
-      dispatch({ 
-        type: auth.AUTH_REGISTER_ERROR, 
+      dispatch({
+        type: auth.AUTH_REGISTER_ERROR,
         payload: message,
       })
     })
