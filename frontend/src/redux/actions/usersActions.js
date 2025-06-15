@@ -17,22 +17,22 @@ export const getUsers = page => {
           payload: res.data,
         })
       }).catch(error => {
-        if (error.code && "ERR_NETWORK" === error.code) {
-          dispatch({
-            type: auth.AUTH_LOGIN_ERROR, 
-            payload: "Server unavailable.",
-          })
-        } else if (error.response.data && error.response.data.error) {
-          dispatch({
-            type: users.GET_USERS_ERROR, 
-            payload: error.response.data.error,
-          })
+        let message
+        if ("ERR_NETWORK" === error.code) {
+          message = "Server unavailable."
+        } else if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          message = error.response.data.error
         } else {
-          dispatch({
-            type : users.GET_USERS_ERROR, 
-            payload: error.message,
-          })
+          message = "Something went wrong. Please come back later."
         }
+        dispatch({ 
+          type: users.GET_USERS_ERROR, 
+          payload: message,
+        })
       })
   }
 }

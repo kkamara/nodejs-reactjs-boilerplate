@@ -19,22 +19,22 @@ export const login = creds => {
       })
       
     }, error => {
-      if (error.code && "ERR_NETWORK" === error.code) {
-        dispatch({
-          type: auth.AUTH_LOGIN_ERROR, 
-          payload: "Server unavailable.",
-        })
-      } else if (error.response.data && error.response.data.error) {
-        dispatch({
-          type: auth.AUTH_LOGIN_ERROR, 
-          payload: error.response.data.error,
-        })
+      let message
+      if ("ERR_NETWORK" === error.code) {
+        message = "Server unavailable."
+      } else if (
+        error.response &&
+        error.response.data &&
+        error.response.data.error
+      ) {
+        message = error.response.data.error
       } else {
-        dispatch({
-          type: auth.AUTH_LOGIN_ERROR,
-          payload: error.message,
-        })
+        message = "Something went wrong. Please come back later."
       }
+      dispatch({ 
+        type: auth.AUTH_LOGIN_ERROR, 
+        payload: message,
+      })
     })
   }
 }
@@ -58,27 +58,26 @@ export const authorize = () => {
       })
       
     }, error => {
-        if (error.response.status === 401) {
-          localStorage.removeItem(tokenId)
-          window.location = "/"
-        } else {
-          if (error.code && "ERR_NETWORK" === error.code) {
-            dispatch({
-              type: auth.AUTH_AUTHORIZE_ERROR, 
-              payload: "Server unavailable.",
-            })
-          } else if (error.response.data && error.response.data.error) {
-            dispatch({
-              type: auth.AUTH_AUTHORIZE_ERROR, 
-              payload: error.response.data.error,
-            })
-          } else {
-            dispatch({
-              type: auth.AUTH_AUTHORIZE_ERROR,
-              payload: error.message,
-            })
-          }
-        }
+      if (error.response.status === 401) {
+        localStorage.removeItem(tokenId)
+        window.location = "/"
+      }
+      let message
+      if ("ERR_NETWORK" === error.code) {
+        message = "Server unavailable."
+      } else if (
+        error.response &&
+        error.response.data &&
+        error.response.data.error
+      ) {
+        message = error.response.data.error
+      } else {
+        message = "Something went wrong. Please come back later."
+      }
+      dispatch({ 
+        type: auth.AUTH_AUTHORIZE_ERROR, 
+        payload: message,
+      })
     })
   }
 }
@@ -94,22 +93,22 @@ export const logout = () => {
       })
       
     }, error => {
-      if (error.code && "ERR_NETWORK" === error.code) {
-        dispatch({
-          type: auth.AUTH_LOGOUT_ERROR, 
-          payload: "Server unavailable.",
-        })
-      } else if (error.response.data && error.response.data.error) {
-        dispatch({
-          type: auth.AUTH_LOGOUT_ERROR, 
-          payload: error.response.data.error,
-        })
+      let message
+      if ("ERR_NETWORK" === error.code) {
+        message = "Server unavailable."
+      } else if (
+        error.response &&
+        error.response.data &&
+        error.response.data.error
+      ) {
+        message = error.response.data.error
       } else {
-        dispatch({
-          type: auth.AUTH_LOGOUT_ERROR,
-          payload: error.message,
-        })
+        message = "Something went wrong. Please come back later."
       }
+      dispatch({ 
+        type: auth.AUTH_LOGOUT_ERROR, 
+        payload: message,
+      })
     })
   }
 }
@@ -125,17 +124,22 @@ export const register = data => {
         payload: res,
       })
     }, error => {
-      if (error.response.data && error.response.data.error) {
-        dispatch({
-          type: auth.AUTH_REGISTER_ERROR, 
-          payload: error.response.data.error,
-        })
+      let message
+      if ("ERR_NETWORK" === error.code) {
+        message = "Server unavailable."
+      } else if (
+        error.response &&
+        error.response.data &&
+        error.response.data.error
+      ) {
+        message = error.response.data.error
       } else {
-        dispatch({
-          type: auth.AUTH_REGISTER_ERROR,
-          payload: error.message,
-        })
+        message = "Something went wrong. Please come back later."
       }
+      dispatch({ 
+        type: auth.AUTH_REGISTER_ERROR, 
+        payload: message,
+      })
     })
   }
 }
