@@ -27,7 +27,6 @@ const config = {
   nodeEnv: process.env.NODE_ENV,
   appDebug: process.env.APP_DEBUG == 'true',
   appTimezone: process.env.APP_TIMEZONE,
-  sequelizeTimezone: process.env.SEQUELIZE_TIMEZONE,
   appURL: process.env.APP_URL,
   appPort: process.env.PORT || process.env.port || 8000,
   allowedOrigins: process.env.ALLOWED_ORIGINS,
