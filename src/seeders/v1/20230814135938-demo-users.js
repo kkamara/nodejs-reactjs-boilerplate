@@ -56,7 +56,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction();
     try {
-      queryInterface.bulkDelete('users', null, {});
+      await queryInterface.bulkDelete('users', null, { transaction, });
       await transaction.commit();
     } catch (err) {
       await transaction.rollback();
