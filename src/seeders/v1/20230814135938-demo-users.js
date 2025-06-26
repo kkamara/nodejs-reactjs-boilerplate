@@ -19,8 +19,12 @@ module.exports = {
         lastName: faker.person.lastName(),
         password: pwd.hash,
         passwordSalt: pwd.salt,
-        createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-        updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+        createdAt: moment()
+          .utc()
+          .format(mysqlTimeFormat),
+        updatedAt: moment()
+          .utc()
+          .format(mysqlTimeFormat),
       })
     }
     
@@ -31,8 +35,12 @@ module.exports = {
       lastName: "Doe",
       password: pwd.hash,
       passwordSalt: pwd.salt,
-      createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-      updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+      createdAt: moment()
+        .utc()
+        .format(mysqlTimeFormat),
+      updatedAt: moment()
+        .utc()
+        .format(mysqlTimeFormat),
     })
 
     return queryInterface.bulkInsert('users', [

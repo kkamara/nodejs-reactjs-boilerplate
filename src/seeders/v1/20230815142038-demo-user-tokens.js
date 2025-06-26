@@ -15,22 +15,34 @@ module.exports = {
           usersId: 1,
           token: generateToken(),
           expiresAt: moment().add(1, "days").tz(appTimezone).format(mysqlTimeFormat),
-          createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-          updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+          createdAt: moment()
+            .utc()
+            .format(mysqlTimeFormat),
+          updatedAt: moment()
+            .utc()
+            .format(mysqlTimeFormat),
         },
         {
           usersId: 2,
           token: generateToken(),
           expiresAt: moment().add(1, "days").tz(appTimezone).format(mysqlTimeFormat),
-          createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-          updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+          createdAt: moment()
+            .utc()
+            .format(mysqlTimeFormat),
+          updatedAt: moment()
+            .utc()
+            .format(mysqlTimeFormat),
         },
         {
           usersId: 3,
           token: generateToken(),
           expiresAt: moment().add(1, "days").tz(appTimezone).format(mysqlTimeFormat),
-          createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-          updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+          createdAt: moment()
+            .utc()
+            .format(mysqlTimeFormat),
+          updatedAt: moment()
+            .utc()
+            .format(mysqlTimeFormat),
         },
       ]);
     } catch (err) {

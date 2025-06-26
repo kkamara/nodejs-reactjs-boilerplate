@@ -34,7 +34,9 @@ module.exports = (sequelize, DataTypes) => {
             WHERE id = :userId AND deletedAt IS NULL`,
           {
             replacements: {
-              updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+              updatedAt: moment()
+                .utc()
+                .format(mysqlTimeFormat),
               userId,
             },
             type: sequelize.QueryTypes.UPDATE,
@@ -411,10 +413,10 @@ module.exports = (sequelize, DataTypes) => {
           {
             replacements: {
               createdAt: moment()
-                .tz(appTimezone)
+                .utc()
                 .format(mysqlTimeFormat),
               updatedAt: moment()
-                .tz(appTimezone)
+                .utc()
                 .format(mysqlTimeFormat),
               firstName: data.firstName,
               lastName: data.lastName,
@@ -622,8 +624,8 @@ module.exports = (sequelize, DataTypes) => {
             VALUES(:email, :firstName, :lastName, :password, :passwordSalt, :createdAt, :updatedAt)`,
           {
             replacements: {
-              createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-              updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+              createdAt: moment().utc().format(mysqlTimeFormat),
+              updatedAt: moment().utc().format(mysqlTimeFormat),
               email: payload.email,
               firstName: payload.firstName,
               lastName: payload.lastName,
