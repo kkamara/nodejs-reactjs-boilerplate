@@ -69,9 +69,9 @@ module.exports = (sequelize, DataTypes) => {
      * @returns {boolean}
      */
     static isTokenValid(extractedToken, expiresAt) {
-      const expiresAtUnix = moment(expiresAt).tz(appTimezone)
+      const expiresAtUnix = moment(expiresAt)
         .unix();
-      const nowUnix = moment().tz(appTimezone)
+      const nowUnix = moment().utc()
         .unix();
       try {
         if (true === unixCompare(nowUnix, ">=", expiresAtUnix)) {
@@ -162,11 +162,11 @@ module.exports = (sequelize, DataTypes) => {
           {
             replacements: {
               token: newToken,
-              expiresAt: moment().tz(appTimezone)
+              expiresAt: moment().utc()
                 .add(1, "days")
                 .format(mysqlTimeFormat),
-              createdAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-              updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+              createdAt: moment().utc().format(mysqlTimeFormat),
+              updatedAt: moment().utc().format(mysqlTimeFormat),
               usersId, 
             },
             type: sequelize.QueryTypes.INSERT,
