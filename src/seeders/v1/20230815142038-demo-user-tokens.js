@@ -1,7 +1,6 @@
 'use strict';
 const moment = require("moment-timezone");
 const config = require('../../config/index');
-const { appTimezone, } = require("../../config/index");
 const { mysqlTimeFormat, } = require("../../utils/time");
 const { generateToken, } = require("../../utils/tokens");
 
@@ -14,7 +13,7 @@ module.exports = {
         {
           usersId: 1,
           token: generateToken(),
-          expiresAt: moment().add(1, "days").tz(appTimezone).format(mysqlTimeFormat),
+          expiresAt: moment().utc().add(1, "days").format(mysqlTimeFormat),
           createdAt: moment()
             .utc()
             .format(mysqlTimeFormat),
@@ -25,7 +24,7 @@ module.exports = {
         {
           usersId: 2,
           token: generateToken(),
-          expiresAt: moment().add(1, "days").tz(appTimezone).format(mysqlTimeFormat),
+          expiresAt: moment().utc().add(1, "days").format(mysqlTimeFormat),
           createdAt: moment()
             .utc()
             .format(mysqlTimeFormat),
@@ -36,7 +35,7 @@ module.exports = {
         {
           usersId: 3,
           token: generateToken(),
-          expiresAt: moment().add(1, "days").tz(appTimezone).format(mysqlTimeFormat),
+          expiresAt: moment().utc().add(1, "days").format(mysqlTimeFormat),
           createdAt: moment()
             .utc()
             .format(mysqlTimeFormat),
