@@ -179,7 +179,7 @@ router.delete('/', authenticate, async (req, res) => {
     return res.json({ error: message500, });
   }
   
-  const logoutUser = db.sequelize.models.userToken.logoutUser(
+  const logoutUser = await db.sequelize.models.userToken.logoutUser(
     user.id,
     req.session.extractedToken,
   );

@@ -189,7 +189,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static async logoutUser(userId, token) {
       try {
-        await sequelize.query(
+        const result = await sequelize.query(
           `UPDATE ${this.getTableName()}
             SET expiresAt = :expiresAt, updatedAt = :updatedAt
             WHERE token = :token AND
@@ -197,15 +197,18 @@ module.exports = (sequelize, DataTypes) => {
               deletedAt IS NULL`,
           {
             replacements: {
-              expiresAt: moment().tz(appTimezone).format(mysqlTimeFormat),
-              updatedAt: moment().tz(appTimezone).format(mysqlTimeFormat),
+              expiresAt: moment().utc().format(mysqlTimeFormat),
+              updatedAt: moment().utc().format(mysqlTimeFormat),
               token,
               userId,
             },
             type: sequelize.QueryTypes.UPDATE,
           },
         );
-        
+        const rowsUpdated = result[1];
+        if (0 === rowsUpdated) {
+          return false;
+        }
         return true;
       } catch(err) {
         if ("production" !== nodeEnv) {

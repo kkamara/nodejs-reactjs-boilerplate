@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static async updateUserTimestamp(userId) {
       try {
-        await sequelize.query(
+        const result = await sequelize.query(
           `UPDATE ${this.getTableName()}
             SET updatedAt = :updatedAt
             WHERE id = :userId AND deletedAt IS NULL`,
@@ -42,7 +42,10 @@ module.exports = (sequelize, DataTypes) => {
             type: sequelize.QueryTypes.UPDATE,
           },
         );
-        
+        const rowsUpdated = result[1];
+        if (0 === rowsUpdated) {
+          return false;
+        }
         return true;
       } catch(err) {
         if ("production" !== nodeEnv) {
