@@ -45,6 +45,7 @@ module.exports = {
             .format(mysqlTimeFormat),
         },
       ]);
+      await transaction.commit();
     } catch (err) {
       await transaction.rollback();
       throw err;
@@ -55,6 +56,7 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction();
     try {
       await queryInterface.bulkDelete('userTokens', null, { transaction, });
+      await transaction.commit();
     } catch (err) {
       await transaction.rollback();
       throw err;
