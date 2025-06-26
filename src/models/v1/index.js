@@ -41,7 +41,7 @@ sequelize = new Sequelize(
      },
      logging,
      pool: {
-        max: 1,
+        max: 5,
         min: 0,
         acquire: 30000,
         idle: 10000,
