@@ -20,7 +20,7 @@ export default () => {
       <Routes>
         <Route element={<AuthRoute/>}>
           <Route path={url("/")} element={<Home />}/>
-        </Route>|
+        </Route>
         <Route path={url("/user/login")} element={<Login />}/>
         <Route path={url("/user/logout")} element={<Logout />}/>
         <Route path={url("/user/register")} element={<Register />}/>
