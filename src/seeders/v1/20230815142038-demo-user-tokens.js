@@ -44,7 +44,7 @@ module.exports = {
             .utc()
             .format(mysqlTimeFormat),
         },
-      ]);
+      ], { transaction, });
       await transaction.commit();
     } catch (err) {
       await transaction.rollback();
