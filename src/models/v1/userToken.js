@@ -45,9 +45,9 @@ module.exports = (sequelize, DataTypes) => {
         }
         
         const isValidToken = this.isTokenValid(
-            authTokenResult[0].token,
-            authTokenResult[0].expiresAt,
-          );
+          authTokenResult[0].token,
+          authTokenResult[0].expiresAt,
+        );
         
         if (false === isValidToken) {
           return false;
