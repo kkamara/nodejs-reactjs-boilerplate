@@ -4,7 +4,7 @@ const {
 } = require('sequelize');
 const moment = require("moment-timezone");
 const { generateToken, } = require("../../utils/tokens");
-const { nodeEnv, appTimezone, } = require("../../config");
+const { nodeEnv, } = require("../../config");
 const { mysqlTimeFormat, unixCompare, } = require("../../utils/time");
 
 module.exports = (sequelize, DataTypes) => {
