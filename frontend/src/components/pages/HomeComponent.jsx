@@ -4,9 +4,9 @@ import ReactPaginate from "react-paginate"
 import moment from "moment"
 import { Helmet, } from "react-helmet"
 import { getUsers, } from "../../redux/actions/usersActions"
+import Error from "../layouts/Error"
 
 import "./HomeComponent.scss"
-import Error from "../layouts/Error"
 
 export default function HomeComponent() {
   const dispatch = useDispatch()

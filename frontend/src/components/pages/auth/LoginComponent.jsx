@@ -3,9 +3,9 @@ import { useNavigate, } from "react-router-dom"
 import { useDispatch, useSelector, } from "react-redux"
 import { Helmet, } from "react-helmet"
 import { login, authorize, } from "../../../redux/actions/authActions"
+import Error from "../../layouts/Error"
 
 import "./LoginComponent.scss"
-import Error from "../../layouts/Error"
 
 export default function LoginComponent() {
   const navigate = useNavigate()
