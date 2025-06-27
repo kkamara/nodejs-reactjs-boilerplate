@@ -1,6 +1,5 @@
 'use strict';
 const moment = require("moment-timezone");
-const config = require('../../config/index');
 const { mysqlTimeFormat, } = require("../../utils/time");
 const { generateToken, } = require("../../utils/tokens");
 
@@ -11,29 +10,7 @@ module.exports = {
     try {
       await queryInterface.bulkInsert('userTokens', [
         {
-          usersId: 1,
-          token: generateToken(),
-          expiresAt: moment().utc().add(1, "days").format(mysqlTimeFormat),
-          createdAt: moment()
-            .utc()
-            .format(mysqlTimeFormat),
-          updatedAt: moment()
-            .utc()
-            .format(mysqlTimeFormat),
-        },
-        {
-          usersId: 2,
-          token: generateToken(),
-          expiresAt: moment().utc().add(1, "days").format(mysqlTimeFormat),
-          createdAt: moment()
-            .utc()
-            .format(mysqlTimeFormat),
-          updatedAt: moment()
-            .utc()
-            .format(mysqlTimeFormat),
-        },
-        {
-          usersId: 3,
+          usersId: 31,
           token: generateToken(),
           expiresAt: moment().utc().add(1, "days").format(mysqlTimeFormat),
           createdAt: moment()
