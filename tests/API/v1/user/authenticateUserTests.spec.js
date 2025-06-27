@@ -27,7 +27,7 @@ describe('Authenticate User API Tests', function() {
   before(async function() {
     const createdAccount = await db.sequelize.models
       .user
-      .testCreateUser(payload, true);
+      .testCreateUser(payload);
     createdAccountID = createdAccount.userId;
     
     const createdUserToken = await db.sequelize.models

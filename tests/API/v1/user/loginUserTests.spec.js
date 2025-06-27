@@ -25,7 +25,7 @@ describe('Login User API Tests', function() {
   before(async function() {
     const createdAccount = await db.sequelize.models
       .user
-      .testCreateUser(payload, true);
+      .testCreateUser(payload);
     createdAccountID = createdAccount.userId;
   });
   it('Tests Login User Success', function(done) {
