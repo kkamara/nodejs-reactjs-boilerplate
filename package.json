@@ -18,7 +18,8 @@
     "seed": "cross-env NODE_ENV=development npx sequelize-cli db:seed",
     "seed:all": "cross-env NODE_ENV=development npx sequelize-cli db:seed:all",
     "seed:all:test": "cross-env NODE_ENV=test npx sequelize-cli db:seed:all --debug --config=testing_config.json",
-    "seed:undo:all": "cross-env NODE_ENV=development npx sequelize-cli db:seed:undo:all"
+    "seed:undo:all": "cross-env NODE_ENV=development npx sequelize-cli db:seed:undo:all",
+    "seed:undo": "cross-env NODE_ENV=development npx sequelize-cli db:seed:undo"
   },
   "repository": {
     "type": "git",
