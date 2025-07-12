@@ -1,17 +1,27 @@
 import React, { useEffect, } from "react"
-import { Outlet, } from "react-router"
-import { useSelector, } from "react-redux"
-import { Navigate, } from "react-router"
+import { Outlet, Navigate, } from "react-router"
+import { useSelector, useDispatch, } from "react-redux"
+import { authorize, } from "./redux/actions/authActions"
 
 const AuthRoute = ({ redirectPath, }) => {
+  const dispatch = useDispatch()
   const state = useSelector(state => ({
     auth: state.auth,
   }))
 
-  const userStorage = localStorage.getItem("user-token")
+  useEffect(() => {
+    dispatch(authorize())
+  }, [])
+
+  if (state.auth.loading) {
+    return null
+  }
+
+  const tokenId = "user-token"
+  const userStorage = localStorage.getItem(tokenId)
   if (state.auth.error || null === userStorage) {
     if (null !== userStorage) {
-      localStorage.removeItem("user-token")
+      localStorage.removeItem(tokenId)
     }
     if (redirectPath) {
       return <Navigate to={redirectPath}/>
