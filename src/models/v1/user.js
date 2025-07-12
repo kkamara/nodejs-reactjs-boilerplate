@@ -158,7 +158,7 @@ module.exports = (sequelize, DataTypes) => {
 
     /**
      * 
-     * @param {Number} id User's id.
+     * @param {number} id User's id.
      * @return {string|false} String token. 
      */
     static async getNewToken(id) {
@@ -192,8 +192,8 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {Number} page
-     * @param {Number} perPage
+     * @param {number} page
+     * @param {number} perPage
      * @returns {object|false}
      */
     static async getUsersPaginated(
