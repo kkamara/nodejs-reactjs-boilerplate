@@ -202,7 +202,7 @@ module.exports = (sequelize, DataTypes) => {
     ) {
       page -= 1;
       const offset = page * perPage;
-      try {        
+      try {
         const countResult = await sequelize.query(
           `SELECT count(id) as total
             FROM ${this.getTableName()}
