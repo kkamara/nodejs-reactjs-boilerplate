@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         const result = await sequelize.query(
           `UPDATE ${this.getTableName()}
             SET updatedAt = :updatedAt
-            WHERE id = :userId AND deletedAt IS NULL`,
+            WHERE id = :userId`,
           {
             replacements: {
               updatedAt: moment()
