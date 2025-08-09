@@ -10,6 +10,7 @@ const morgan = require('morgan');
 const moment = require("moment-timezone");
 const { status, } = require('http-status');
 const FileStore = require('session-file-store');
+const { rateLimit, } = require("express-rate-limit");
 
 const config = require('./config');
 const routes = require('./routes');
@@ -22,6 +23,16 @@ const app = express();
 if ("production" === config.nodeEnv) {
   app.enable("trust proxy");
 }
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // Every 15 minutes
+	limit: 100,
+	standardHeaders: 'draft-8',
+	legacyHeaders: false,
+	ipv6Subnet: 56,
+});
+
+app.use(limiter);
 
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, '..', 'logs', 'boilerplate.log'), 
