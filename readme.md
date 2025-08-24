@@ -18,7 +18,7 @@
 
 * [To run API tests](#to-run-api-tests)
 
-* [Misc.](#misc.)
+* [Misc.](#misc)
 
 * [Contributing](#contributing)
 
