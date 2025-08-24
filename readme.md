@@ -18,7 +18,7 @@
 
 * [To run API tests](#to-run-api-tests)
 
-* [Misc](#misc)
+* [Misc.](#misc.)
 
 * [Contributing](#contributing)
 
@@ -130,7 +130,7 @@ docker-compose up --build -d
 yarn test
 ```
 
-## Misc
+## Misc.
 
 [See ReactJS Native Mobile App Boilerplate](https://github.com/kkamara/ReactJSNativeMobileAppBoilerplate).
 
