@@ -23,7 +23,7 @@ export default function LoginComponent() {
   }, [])
 
   useEffect(() => {
-    if (state.auth.data) {
+    if (null !== state.auth.data) {
       window.location.href = "/"
     }
   }, [state.auth])
