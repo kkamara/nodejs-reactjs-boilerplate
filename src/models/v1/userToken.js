@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
           return false;
         }
 
-        return { userId: authTokenResult[0].id };
+        return { userId: authTokenResult[0].usersId };
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);
