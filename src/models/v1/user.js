@@ -62,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
     static async getUserById(id) {
       let res = false;
       try {
-        const [result, metadata] = await sequelize.query(
+        const result = await sequelize.query(
           `SELECT id, firstName, lastName, email,
               password, passwordSalt, updatedAt
             FROM ${this.getTableName()}
@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         );
         
-        if (undefined === result) {
+        if (0 === result.length) {
           return false;
         }
 
@@ -92,7 +92,7 @@ module.exports = (sequelize, DataTypes) => {
     static async getUserByToken(token) {
       let res = false;
       try {
-        const [result, metadata] = await sequelize.query(
+        const result = await sequelize.query(
           `SELECT id, firstName, lastName, email,
               password, passwordSalt, updatedAt
             ${this.getTableName()}.updatedAt, username
@@ -108,7 +108,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         );
         
-        if (undefined === result) {
+        if (0 === result.length) {
           return false;
         }
 
@@ -129,7 +129,7 @@ module.exports = (sequelize, DataTypes) => {
     static async getUser(id) {
       let res = false;
       try {
-        const [result, metadata] = await sequelize.query(
+        const result = await sequelize.query(
           `SELECT id, firstName, lastName, email,
               password, passwordSalt, updatedAt
             FROM ${this.getTableName()}
@@ -141,7 +141,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         );
 
-        if (undefined === result) {
+        if (0 === result.length) {
           res = false;
           return res;
         }
@@ -477,7 +477,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         );
 
-        if (undefined === results || 0 === results.length) {
+        if (0 === results.length) {
           return false;
         }
         
