@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch via YARN",
+      "name": "Debug Backend",
       "request": "launch",
       "runtimeArgs": [
         "dev"
@@ -15,6 +15,13 @@
         "<node_internals>/**"
       ],
       "type": "node"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Debug Frontend",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/frontend"
     }
   ]
 }
