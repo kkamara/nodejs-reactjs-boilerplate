@@ -100,6 +100,10 @@ export default function SettingsComponent() {
       payload,
     ))
   }
+  
+  const handleRemoveFileBtnClick = () => {
+    // send request to remove avatar
+  }
 
   const imageError = e => {
     if (1 !== e.target.files.length) {
@@ -161,6 +165,13 @@ export default function SettingsComponent() {
               onClick={handleUploadFileBtnClick}
             >
               Upload
+            </button>
+            <br />
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={handleRemoveFileBtnClick}
+            >
+              Remove Photo
             </button>
           </div>
 
