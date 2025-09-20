@@ -61,7 +61,25 @@ export default function SettingsComponent() {
   }
 
   const handleAvatarFileChange = e => {
-    console.log("avatarFile", e.target.files)
+    const err = imageError(e)
+    if (false !== err) {
+      return setError(err)
+    }
+    const payload = new FormData()
+    payload.append("avatar", avatarFile)
+    // Send upload avatar request
+    // dispatch(uploadAvatar(
+    //   payload,
+    // ))
+  }
+
+  const imageError = e => {
+    if (1 !== e.target.files.length) {
+      return "Please select 1 image file."
+    } else if (null === e.target.files[0].type.match(/(jpg|jpeg|png|webp)$/i)) {
+      return "Invalid file extension. We take JPG, JPEG, PNG, and WEBP."
+    }
+    return false
   }
 
   const handleFormSubmit = e => {
