@@ -1,4 +1,8 @@
-import React, { useEffect, useState, } from "react"
+import React, {
+  useEffect,
+  useState,
+  useRef,
+} from "react"
 import { Helmet, } from "react-helmet"
 import { useSelector, useDispatch } from "react-redux"
 
@@ -22,7 +26,7 @@ export default function SettingsComponent() {
   const [email, setEmail] = useState(defaultEmailState)
   const [password, setPassword] = useState(defaultPasswordState)
   const [passwordConfirmation, setPasswordConfirmation] = useState(defaultPasswordConfirmationState)
-  const [avatar, setAvatar] = useState("")
+  const avatarFile = useRef(null)
 
   const [error, setError] = useState("")
 
@@ -52,10 +56,18 @@ export default function SettingsComponent() {
     setPasswordConfirmation(e.target.value)
   }
 
+  const handleUploadFileBtnClick = () => {
+    avatarFile.current.click()
+  }
+
+  const handleAvatarFileChange = e => {
+    console.log("avatarFile", e.target.files)
+  }
+
   const handleFormSubmit = e => {
     e.preventDefault()
   }
-
+  
   if (state.auth.loading) {
     <div className="container settings-container text-center">
       <Helmet>
@@ -82,8 +94,20 @@ export default function SettingsComponent() {
               alt="Avatar Image"
               className="img-fluid avatar-image"
             />
+            <input
+              type="file"
+              id="avatarFile"
+              ref={avatarFile}
+              style={{display: "none"}}
+              onChange={handleAvatarFileChange}
+            />
             <br />
-            <button className="btn btn-default">Upload</button>
+            <button
+              className="btn btn-default"
+              onClick={handleUploadFileBtnClick}
+            >
+              Upload
+            </button>
           </div>
 
           <form onSubmit={handleFormSubmit}>
