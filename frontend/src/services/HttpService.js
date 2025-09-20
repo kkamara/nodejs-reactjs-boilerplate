@@ -52,6 +52,60 @@ export default class HttpService
     )
   }
 
+  postFormData = (path, item, tokenId="") => {
+    let requestOptions = this.postRequestOptions({ item, })
+    let token
+    if (tokenId.length) {
+      token = localStorage.getItem(tokenId)
+      requestOptions = this.postRequestOptions({ token, item, })
+    }
+    let url = this.url+path
+    if (null !== path.match(/http/g)) {
+      url = path
+    }
+    return axios.postForm(
+      url, 
+      requestOptions.data, 
+      { headers: requestOptions.headers, timeout: this.timeout, },
+    )
+  }
+
+  putData = (path, item, tokenId="") => {
+    let requestOptions = this.putRequestOptions({ item, })
+    let token
+    if (tokenId.length) {
+      token = localStorage.getItem(tokenId)
+      requestOptions = this.putRequestOptions({ token, item, })
+    }
+    let url = this.url+path
+    if (null !== path.match(/http/g)) {
+      url = path
+    }
+    return axios.put(
+      url, 
+      requestOptions.data, 
+      { headers: requestOptions.headers, timeout: this.timeout, },
+    )
+  }
+
+  putFormData = (path, item, tokenId="") => {
+    let requestOptions = this.putRequestOptions({ item, })
+    let token
+    if (tokenId.length) {
+      token = localStorage.getItem(tokenId)
+      requestOptions = this.putRequestOptions({ token, item, })
+    }
+    let url = this.url+path
+    if (null !== path.match(/http/g)) {
+      url = path
+    }
+    return axios.putForm(
+      url, 
+      requestOptions.data, 
+      { headers: requestOptions.headers, timeout: this.timeout, },
+    )
+  }
+
   getData = (path, tokenId="") => {
     let requestOptions = this.getRequestOptions()
     let token
@@ -64,6 +118,23 @@ export default class HttpService
       url = path
     }
     return axios.get(
+      url, 
+      { headers: requestOptions.headers, timeout: this.timeout, },
+    )
+  }
+
+  delData = (path, tokenId="") => {
+    let requestOptions = this.delRequestOptions()
+    let token
+    if (tokenId.length) {
+      token = localStorage.getItem(tokenId)
+      requestOptions = this.delRequestOptions(token)
+    }
+    let url = this.url+path
+    if (null !== path.match(/http/g)) {
+      url = path
+    }
+    return axios.delete(
       url, 
       { headers: requestOptions.headers, timeout: this.timeout, },
     )
@@ -85,6 +156,29 @@ export default class HttpService
       method: "POST",
       headers: { "Content-type" : "application/json", },
       data : item || undefined,
+    }
+    if (token) {
+      requestOptions.headers.Authorization = "Bearer " +token
+    }
+    return requestOptions
+  }
+
+  putRequestOptions = ({ token, item, }) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-type" : "application/json", },
+      data : item || undefined,
+    }
+    if (token) {
+      requestOptions.headers.Authorization = "Bearer " +token
+    }
+    return requestOptions
+  }
+
+  delRequestOptions = (token) => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-type" : "application/json", }
     }
     if (token) {
       requestOptions.headers.Authorization = "Bearer " +token
