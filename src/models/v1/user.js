@@ -90,6 +90,36 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
+     * @param {string} id
+     * @return {object|false}
+     */
+    static async getRawUserById(id) {
+      let res = false;
+      try {
+        const result = await sequelize.query(
+          `SELECT id, firstName, lastName, email,
+              password, passwordSalt, avatarName, updatedAt
+            FROM ${this.getTableName()}
+            WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt IS NULL
+            LIMIT 1`, 
+          {
+              replacements: [ id, ],
+              type: QueryTypes.SELECT,
+          },
+        );
+        
+        if (0 === result.length) {
+          return false;
+        }
+
+        res = result[0];
+        return res;
+      } catch(err) {
+        return res;
+      }
+    }
+
+    /**
      * @param {string} token
      * @return {object|false}
      */
@@ -661,6 +691,164 @@ module.exports = (sequelize, DataTypes) => {
         );
         
         return { userId: result[0] };
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
+
+    /**
+     * @param {number} userId
+     * @param {Object} payload
+     * @returns {boolean}
+     */
+    static async updateUser(userId, payload) {
+      try {
+        const result = await sequelize.query(
+          `UPDATE ${this.getTableName()}
+            SET firstName = COALESCE(:firstName, firstName),
+              lastName = COALESCE(:lastName, lastName),
+              email = COALESCE(:email, email),
+              password = COALESCE(:password, password),
+              passwordSalt = COALESCE(:passwordSalt, passwordSalt),
+              avatarName = COALESCE(:avatarName, avatarName),
+              updatedAt = COALESCE(:updatedAt, updatedAt)
+            WHERE id = :userId`,
+          {
+            replacements: {
+              firstName: payload.firstName,
+              lastName: payload.lastName,
+              email: payload.email,
+              password: payload.password,
+              passwordSalt: payload.passwordSalt,
+              avatarName: payload.avatarName,
+              updatedAt: moment()
+                .utc()
+                .format(mysqlTimeFormat),
+              userId,
+            },
+            type: sequelize.QueryTypes.UPDATE,
+          },
+        );
+        const rowsUpdated = result[1];
+        if (0 === rowsUpdated) {
+          return false;
+        }
+        return true;
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
+
+    /**
+     * @param {number} userId
+     * @param {Object} input
+     * @returns {false|string}
+     */
+    static async getUpdateUserError(userId, input) {
+      if ("string" !== typeof input.firstName) {
+        return "The first name field must be of type string.";
+      } else if (30 < input.firstName.length) {
+        return "The first name field length must be less than 31 characters.";
+      } else if (2 > input.firstName.length) {
+        return "The first name field length must be greater than 1 character.";
+      }
+      
+      if ("string" !== typeof input.lastName) {
+        return "The last name field must be of type string.";
+      } else if (30 < input.lastName.length) {
+        return "The last name field length must be less than 31 characters.";
+      } else if (2 > input.lastName.length) {
+        return "The last name field length must be greater than 1 character.";
+      }
+      
+      if ("string" !== typeof input.email) {
+        return "The email field must be of type string.";
+      } else if (100 < input.email.length) {
+        return "The email field length must be less than 31 characters.";
+      } else if (null === input.email.match(validEmailRegex)) {
+        return "The email field must be a valid email.";
+      } else {
+        const foundUserByEmail = await this.getUserByEmail(
+          input.email,
+        );
+        if (
+          false !== foundUserByEmail &&
+          foundUserByEmail.id !== userId
+        ) {
+          return "The email field is already taken.";
+        }
+      }
+
+      if ("string" !== typeof input.password) {
+        return "The password field must be of type string.";
+      } else if (0 < input.password.length) {
+        if (6 > input.password.length) {
+          return "The password field length must be at least 6 characters.";
+        } else if (30 < input.password.length) {
+          return "The password field length must be less than 31 characters.";
+        } else if (!input.passwordConfirmation) {
+          return "The password confirmation field is missing.";
+        } else if (input.password !== input.passwordConfirmation) {
+          return "The password confirmation field does not match the password field.";
+        }
+      }
+
+      return false;
+    }
+
+    /**
+     * @param {Object} payload
+     * @returns {Object}
+     */
+    static getUpdateUserData(payload) {
+      const result = {};
+      if (payload.firstName) {
+        result.firstName = payload.firstName;
+      }
+      if (payload.lastName) {
+        result.lastName = payload.lastName;
+      }
+      if (payload.email) {
+        result.email = payload.email;
+      }
+      if (payload.password) {
+        result.password = payload.password;
+      }
+      return result;
+    }
+
+    /**
+     * @param {number} userId
+     * @returns {boolean}
+     */
+    static async resetAvatar(userId) {
+      try {
+        const result = await sequelize.query(
+          `UPDATE ${this.getTableName()}
+            SET avatarName = null,
+              updatedAt = :updatedAt
+            WHERE id = :userId`,
+          {
+            replacements: {
+              updatedAt: moment()
+                .utc()
+                .format(mysqlTimeFormat),
+              userId,
+            },
+            type: sequelize.QueryTypes.UPDATE,
+          },
+        );
+        const rowsUpdated = result[1];
+        if (0 === rowsUpdated) {
+          return false;
+        }
+        return true;
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);

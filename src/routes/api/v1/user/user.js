@@ -139,10 +139,8 @@ router.post("/", async (req, res) => {
   res.status(status.OK);
   return res.json({
     data: {
+      user,
       authToken: authTokenResult.token,
-      user: db.sequelize.models
-        .user
-        .getFormattedUserData(user),
     },
   });
 });
@@ -164,8 +162,7 @@ router.get("/authorize", authenticate, async (req, res) => {
   
   res.status(status.OK);
   return res.json({
-    user: db.sequelize.models.user
-      .getFormattedUserData(userFromAuthToken),
+    user: userFromAuthToken,
   });
 });
 

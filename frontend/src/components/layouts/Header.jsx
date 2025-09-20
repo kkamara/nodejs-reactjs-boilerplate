@@ -21,6 +21,14 @@ export default function Header(props) {
           <li>
             <Link
               className="dropdown-item" 
+              to="/user/settings"
+            >
+              Settings
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="dropdown-item" 
               to="/user/logout"
             >
               Sign Out

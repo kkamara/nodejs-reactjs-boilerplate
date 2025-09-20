@@ -1,15 +1,10 @@
 import React, { useEffect, useState, } from "react"
-import { useNavigate, } from "react-router-dom"
 import { useDispatch, useSelector, } from "react-redux"
 import { Helmet, } from "react-helmet"
 import { login, authorize, } from "../../../redux/actions/authActions"
 import Error from "../../layouts/Error"
 
-import "./LoginComponent.scss"
-
 export default function LoginComponent() {
-  const navigate = useNavigate()
-
   const [email, setEmail] = useState("jane@doe.com")
   const [password, setPassword] = useState("secret")
 
