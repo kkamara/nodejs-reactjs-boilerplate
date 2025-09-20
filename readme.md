@@ -4,7 +4,7 @@
 
 # nodejs-reactjs-boilerplate
 
-(22-Jun-2021) A NodeJS boilerplate with ReactJS 19 Redux SPA.
+(22-Jun-2021) An MVC NodeJS boilerplate with ReactJS 19 Redux SPA.
 
 * [Using Postman?](#postman)
 
