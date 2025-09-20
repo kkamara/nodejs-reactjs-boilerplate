@@ -6,9 +6,12 @@ import Error from "../../layouts/Error"
 
 import "./LoginComponent.scss"
 
+const defaultEmailState = "jane@doe.com"
+const defaultPasswordState = "secret"
+
 export default function LoginComponent() {
-  const [email, setEmail] = useState("jane@doe.com")
-  const [password, setPassword] = useState("secret")
+  const [email, setEmail] = useState(defaultEmailState)
+  const [password, setPassword] = useState(defaultPasswordState)
 
   const dispatch = useDispatch()
   const state = useSelector(state => ({

@@ -6,14 +6,20 @@ import { register, authorize, } from "../../../redux/actions/authActions"
 
 import "./RegisterComponent.scss"
 
+const defaultFirstNameState = ""
+const defaultLastNameState = ""
+const defaultEmailState = ""
+const defaultPasswordState = ""
+const defaultPasswordConfirmationState = ""
+
 export default function RegisterComponent() {
   const navigate = useNavigate()
 
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [passwordConfirmation, setPasswordConfirmation] = useState("")
+  const [firstName, setFirstName] = useState(defaultFirstNameState)
+  const [lastName, setLastName] = useState(defaultLastNameState)
+  const [email, setEmail] = useState(defaultEmailState)
+  const [password, setPassword] = useState(defaultPasswordState)
+  const [passwordConfirmation, setPasswordConfirmation] = useState(defaultPasswordConfirmationState)
 
   const dispatch = useDispatch()
   const authState = useSelector(state => (state.auth))
