@@ -79,7 +79,7 @@ export default function RegisterComponent() {
             <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div> : null}
         <div className="form-group">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">Name*:</label>
           <input 
             name="name" 
             className="form-control"
@@ -88,7 +88,7 @@ export default function RegisterComponent() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">Email*:</label>
           <input 
             name="email" 
             className="form-control"
@@ -97,7 +97,7 @@ export default function RegisterComponent() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Password*:</label>
           <input 
             type="password"
             name="password" 
@@ -107,7 +107,7 @@ export default function RegisterComponent() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password_confirmation">Password Confirmation</label>
+          <label htmlFor="password_confirmation">Password Confirmation*:</label>
           <input 
             type="password"
             name="password_confirmation" 
