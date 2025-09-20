@@ -11,6 +11,7 @@ import { uploadAvatar, } from "../../../redux/actions/avatarActions"
 import { updateSettings, } from "../../../redux/actions/updateUserSettingsActions"
 
 import "./SettingsComponent.scss"
+import { removeAvatarFile } from "../../../redux/actions/removeAvatarActions"
 
 const defaultFirstNameState = ""
 const defaultLastNameState = ""
@@ -23,6 +24,7 @@ export default function SettingsComponent() {
     auth: state.auth,
     avatar: state.avatar,
     updateUserSettings: state.updateUserSettings,
+    removeAvatar: state.removeAvatar,
   }))
   const dispatch = useDispatch()
   const [firstName, setFirstName] = useState(defaultFirstNameState)
@@ -61,6 +63,17 @@ export default function SettingsComponent() {
       }
     }
   }, [state.updateUserSettings])
+
+  useEffect(() => {
+    if (false === state.removeAvatar.loading) {
+      if (null !== state.removeAvatar.error) {
+        setError(state.removeAvatar.error)
+      }
+      if (null !== state.removeAvatar.data) {
+        window.location.reload()
+      }
+    }
+  }, [state.removeAvatar])
 
   const handleFirstNameChange = e => {
     setFirstName(e.target.value)
@@ -102,7 +115,7 @@ export default function SettingsComponent() {
   }
   
   const handleRemoveFileBtnClick = () => {
-    // send request to remove avatar
+    dispatch(removeAvatarFile())
   }
 
   const imageError = e => {
