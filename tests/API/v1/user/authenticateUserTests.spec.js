@@ -28,16 +28,25 @@ describe('Authenticate User API Tests', function() {
     const createdAccount = await db.sequelize.models
       .user
       .testCreateUser(payload);
+    if (false === createdAccount) {
+      throw new Error("Error encountered when creating account.");
+    }
     createdAccountID = createdAccount.userId;
     
     const createdUserToken = await db.sequelize.models
       .userToken
       .createAuthToken(createdAccountID);
+    if (false === createdUserToken) {
+      throw new Error("Error encountered when creating auth token.");
+    }
     authTokenID = createdUserToken.authTokenId;
     
     const userToken = await db.sequelize.models
       .userToken
       .getAuthToken(authTokenID);
+    if (false === userToken) {
+      throw new Error("Error encountered when getting auth token.");
+    }
     bearerToken = "Bearer "+userToken.token;
   });
   it('Tests Authenticate User Success', function(done) {

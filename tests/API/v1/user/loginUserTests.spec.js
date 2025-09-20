@@ -26,6 +26,9 @@ describe('Login User API Tests', function() {
     const createdAccount = await db.sequelize.models
       .user
       .testCreateUser(payload);
+    if (false === createdAccount) {
+      throw new Error("Error encountered when creating account.");
+    }
     createdAccountID = createdAccount.userId;
   });
   it('Tests Login User Success', function(done) {
