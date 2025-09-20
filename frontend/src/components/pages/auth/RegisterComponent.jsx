@@ -4,8 +4,6 @@ import { useDispatch, useSelector, } from "react-redux"
 import { Helmet, } from "react-helmet"
 import { register, authorize, } from "../../../redux/actions/authActions"
 
-import "./RegisterComponent.scss"
-
 export default function RegisterComponent() {
   const navigate = useNavigate()
 

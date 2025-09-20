@@ -138,7 +138,7 @@ export default function SettingsComponent() {
       </Helmet>
       <div className="row">
         <div className="col-md-4 offset-md-4">
-          <h1>User Settings</h1>
+          <h1 className="fw-bold">User Settings</h1>
 
           <Error error={error}/>
 
