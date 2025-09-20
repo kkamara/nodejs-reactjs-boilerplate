@@ -9,7 +9,7 @@ export default function SettingsComponent() {
   const dispatch = useDispatch()
 
   if (state.auth.loading) {
-    <div className="container settings-container">
+    <div className="container settings-container text-center">
       <Helmet>
         <title>User Settings - {process.env.REACT_APP_NAME}</title>
       </Helmet>
