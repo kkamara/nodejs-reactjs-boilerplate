@@ -6,8 +6,9 @@ import React, {
 import { Helmet, } from "react-helmet"
 import { useSelector, useDispatch, } from "react-redux"
 
-import { uploadAvatar, } from "../../../redux/actions/avatarActions"
 import Error from "../../layouts/Error"
+import { uploadAvatar, } from "../../../redux/actions/avatarActions"
+import { updateSettings, } from "../../../redux/actions/updateUserSettingsActions"
 
 import "./SettingsComponent.scss"
 
@@ -21,6 +22,7 @@ export default function SettingsComponent() {
   const state = useSelector(state => ({
     auth: state.auth,
     avatar: state.avatar,
+    updateUserSettings: state.updateUserSettings,
   }))
   const dispatch = useDispatch()
   const [firstName, setFirstName] = useState(defaultFirstNameState)
@@ -49,6 +51,17 @@ export default function SettingsComponent() {
     }
   }, [state.avatar])
 
+  useEffect(() => {
+    if (false === state.updateUserSettings.loading) {
+      if (null !== state.updateUserSettings.error) {
+        setError(state.updateUserSettings.error)
+      }
+      if (null !== state.updateUserSettings.data) {
+        window.location.reload()
+      }
+    }
+  }, [state.updateUserSettings])
+
   const handleFirstNameChange = e => {
     setFirstName(e.target.value)
   }
@@ -74,6 +87,7 @@ export default function SettingsComponent() {
   }
 
   const handleAvatarFileChange = e => {
+    setError("")
     const err = imageError(e)
     if (false !== err) {
       return setError(err)
@@ -98,6 +112,14 @@ export default function SettingsComponent() {
 
   const handleFormSubmit = e => {
     e.preventDefault()
+    setError("")
+    dispatch(updateSettings({
+      firstName,
+      lastName,
+      email,
+      password,
+      passwordConfirmation,
+    }))
   }
   
   if (state.auth.loading) {

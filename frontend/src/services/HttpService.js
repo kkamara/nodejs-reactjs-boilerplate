@@ -106,6 +106,42 @@ export default class HttpService
     )
   }
 
+  patchData = (path, item, tokenId="") => {
+    let requestOptions = this.patchRequestOptions({ item, })
+    let token
+    if (tokenId.length) {
+      token = localStorage.getItem(tokenId)
+      requestOptions = this.patchRequestOptions({ token, item, })
+    }
+    let url = this.url+path
+    if (null !== path.match(/http/g)) {
+      url = path
+    }
+    return axios.patch(
+      url, 
+      requestOptions.data, 
+      { headers: requestOptions.headers, timeout: this.timeout, },
+    )
+  }
+
+  patchFormData = (path, item, tokenId="") => {
+    let requestOptions = this.patchRequestOptions({ item, })
+    let token
+    if (tokenId.length) {
+      token = localStorage.getItem(tokenId)
+      requestOptions = this.patchRequestOptions({ token, item, })
+    }
+    let url = this.url+path
+    if (null !== path.match(/http/g)) {
+      url = path
+    }
+    return axios.patchForm(
+      url, 
+      requestOptions.data, 
+      { headers: requestOptions.headers, timeout: this.timeout, },
+    )
+  }
+
   getData = (path, tokenId="") => {
     let requestOptions = this.getRequestOptions()
     let token
@@ -164,6 +200,18 @@ export default class HttpService
   }
 
   putRequestOptions = ({ token, item, }) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-type" : "application/json", },
+      data : item || undefined,
+    }
+    if (token) {
+      requestOptions.headers.Authorization = "Bearer " +token
+    }
+    return requestOptions
+  }
+
+  patchRequestOptions = ({ token, item, }) => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-type" : "application/json", },
