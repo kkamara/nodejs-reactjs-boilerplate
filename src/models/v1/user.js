@@ -90,6 +90,36 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
+     * @param {string} id
+     * @return {object|false}
+     */
+    static async getRawUserById(id) {
+      let res = false;
+      try {
+        const result = await sequelize.query(
+          `SELECT id, firstName, lastName, email,
+              password, passwordSalt, avatarName, updatedAt
+            FROM ${this.getTableName()}
+            WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt IS NULL
+            LIMIT 1`, 
+          {
+              replacements: [ id, ],
+              type: QueryTypes.SELECT,
+          },
+        );
+        
+        if (0 === result.length) {
+          return false;
+        }
+
+        res = result[0];
+        return res;
+      } catch(err) {
+        return res;
+      }
+    }
+
+    /**
      * @param {string} token
      * @return {object|false}
      */
@@ -661,6 +691,52 @@ module.exports = (sequelize, DataTypes) => {
         );
         
         return { userId: result[0] };
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
+
+    /**
+     * @param {number} userId
+     * @param {Object} payload
+     * @returns {boolean}
+     */
+    static async updateUser(userId, payload) {
+      try {
+        const result = await sequelize.query(
+          `UPDATE ${this.getTableName()}
+            SET firstName = COALESCE(:firstName, firstName),
+              lastName = COALESCE(:lastName, lastName),
+              email = COALESCE(:email, email),
+              password = COALESCE(:password, password),
+              passwordSalt = COALESCE(:passwordSalt, passwordSalt),
+              avatarName = COALESCE(:avatarName, avatarName),
+              updatedAt = COALESCE(:updatedAt, updatedAt)
+            WHERE id = :userId`,
+          {
+            replacements: {
+              firstName: payload.firstName,
+              lastName: payload.lastName,
+              email: payload.email,
+              password: payload.password,
+              passwordSalt: payload.passwordSalt,
+              avatarName: payload.avatarName,
+              updatedAt: moment()
+                .utc()
+                .format(mysqlTimeFormat),
+              userId,
+            },
+            type: sequelize.QueryTypes.UPDATE,
+          },
+        );
+        const rowsUpdated = result[1];
+        if (0 === rowsUpdated) {
+          return false;
+        }
+        return true;
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);

@@ -20,6 +20,7 @@ const defaultPasswordConfirmationState = ""
 export default function SettingsComponent() {
   const state = useSelector(state => ({
     auth: state.auth,
+    avatar: state.avatar,
   }))
   const dispatch = useDispatch()
   const [firstName, setFirstName] = useState(defaultFirstNameState)
@@ -36,6 +37,17 @@ export default function SettingsComponent() {
     setLastName(state.auth.data.user.lastName)
     setEmail(state.auth.data.user.email)
   }, [])
+
+  useEffect(() => {
+    if (false === state.avatar.loading) {
+      if (null !== state.avatar.error) {
+        setError(state.avatar.error)
+      }
+      if (null !== state.avatar.data) {
+        window.location.reload()
+      }
+    }
+  }, [state.avatar])
 
   const handleFirstNameChange = e => {
     setFirstName(e.target.value)

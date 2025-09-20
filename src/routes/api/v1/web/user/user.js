@@ -9,6 +9,8 @@ const {
 } = require("../../../../../utils/httpResponses");
 const authenticate = require("../../../../../middlewares/v1/authenticate");
 const { defaultConfig, } = require("../../../../../utils/uploads");
+const { getUploadPhotoError, moveFile, removeFile, profilePhotoAsset, defaultAvatarName, } = require("../../../../../utils/file");
+const { nodeEnv, } = require("../../../../../config");
 
 const router = express.Router();
 
@@ -144,10 +146,8 @@ router.post("/", async (req, res) => {
   res.status(status.OK);
   return res.json({
     data: {
+      user,
       authToken: authTokenResult.token,
-      user: db.sequelize.models
-        .user
-        .getFormattedUserData(user),
     },
   });
 });
@@ -169,8 +169,7 @@ router.get("/authorize", authenticate, async (req, res) => {
   
   res.status(status.OK);
   return res.json({
-    user: db.sequelize.models.user
-      .getFormattedUserData(userFromAuthToken),
+    user: userFromAuthToken,
   });
 });
 
@@ -220,7 +219,66 @@ router.post(
         return res.json({ error: message500 });
       }
 
-      console.log(req.file);
+      if ("production" !== nodeEnv) {
+        console.log(req.file);
+      }
+
+      const photoError = getUploadPhotoError(
+        req.file,
+      );
+      if (false !== photoError) {
+        res.status(status.BAD_REQUEST);
+        return res.json({ error: photoError });
+      }
+      
+      const fileExtension = req.file.mimetype
+        .slice(1 + req.file.mimetype.indexOf("/"));
+      const newFileName = req.file.filename + "." + fileExtension;
+
+      try {
+        moveFile(
+          "uploads/"+req.file.filename,
+          "public/images/profile/"+newFileName,
+        );
+      } catch (err) {
+        res.status(status.INTERNAL_SERVER_ERROR);
+        return res.json({ error: message500 });
+      }
+
+      const user = await db.sequelize.models
+        .user
+        .getRawUserById(
+          req.session.userId,
+        );
+      if (false === user) {
+        res.status(status.INTERNAL_SERVER_ERROR);
+        return res.json({ error: message500 });
+      }
+      
+      if (
+        user.avatarName &&
+        user.avatarName !== defaultAvatarName
+      ) {
+        removeFile(profilePhotoAsset(user.avatarName));
+      }
+
+      const updateDB = await db.sequelize.models
+        .user
+        .updateUser(
+          req.session.userId,
+          {
+            avatarName: newFileName,
+            firstName: null,
+            lastName: null,
+            email: null,
+            password: null,
+            passwordSalt: null,
+          },
+        );
+      if (false === updateDB) {
+        res.status(status.INTERNAL_SERVER_ERROR);
+        return res.json({ error: message500 });
+      }
 
       return res.json({ message: message200 });
     });
