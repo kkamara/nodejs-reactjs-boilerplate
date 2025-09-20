@@ -7,7 +7,7 @@ module.exports = {
     try {
       await queryInterface.addColumn(
         "users",
-        "avatarPath",
+        "avatarName",
         {
           type: Sequelize.STRING,
           allowNull: true,
@@ -27,7 +27,7 @@ module.exports = {
     try {
       await queryInterface.removeColumn(
         "users",
-        "avatarPath",
+        "avatarName",
         { transaction },
       );
       await transaction.commit();
