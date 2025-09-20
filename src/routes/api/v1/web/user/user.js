@@ -205,4 +205,26 @@ router.delete('/', authenticate, async (req, res) => {
   });
 });
 
+router.post(
+  "/avatar",
+  authenticate,
+  (req, res) => {
+    upload(req, res, async function (err) {
+      if (err instanceof multer.MulterError) {
+        // A Multer error occurred when uploading.
+        res.status(status.INTERNAL_SERVER_ERROR);
+        return res.json({ error: err.message });
+      } else if (err) {
+        // An unknown error occurred when uploading.
+        res.status(status.INTERNAL_SERVER_ERROR);
+        return res.json({ error: message500 });
+      }
+
+      console.log(req.files);
+
+      return res.json({ message: message200 });
+    });
+  },
+)
+
 module.exports = router;
