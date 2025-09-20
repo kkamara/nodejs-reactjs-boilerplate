@@ -146,7 +146,7 @@ module.exports = (sequelize, DataTypes) => {
           return res;
         }
 
-        res = result;
+        res = result[0];
         return res;
       } catch(err) {
         if ("production" !== nodeEnv) {
