@@ -4,8 +4,9 @@ import React, {
   useRef,
 } from "react"
 import { Helmet, } from "react-helmet"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch, } from "react-redux"
 
+import { uploadAvatar, } from "../../../redux/actions/avatarActions"
 import Error from "../../layouts/Error"
 
 import "./SettingsComponent.scss"
@@ -66,11 +67,12 @@ export default function SettingsComponent() {
       return setError(err)
     }
     const payload = new FormData()
-    payload.append("avatar", avatarFile)
+    payload.append("avatar", e.target.files[0])
     // Send upload avatar request
-    // dispatch(uploadAvatar(
-    //   payload,
-    // ))
+    // console.log("payload", [...payload])
+    dispatch(uploadAvatar(
+      payload,
+    ))
   }
 
   const imageError = e => {

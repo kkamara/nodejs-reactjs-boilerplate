@@ -220,7 +220,7 @@ router.post(
         return res.json({ error: message500 });
       }
 
-      console.log(req.files);
+      console.log(req.file);
 
       return res.json({ message: message200 });
     });
