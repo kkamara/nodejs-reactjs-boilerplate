@@ -1,14 +1,19 @@
 const express = require("express");
 const db = require("../../../../../models/v1");
 const { status, } = require("http-status");
+const multer = require("multer");
 const {
   message400,
   message500,
   message200,
 } = require("../../../../../utils/httpResponses");
 const authenticate = require("../../../../../middlewares/v1/authenticate");
+const { defaultConfig, } = require("../../../../../utils/uploads");
 
 const router = express.Router();
+
+const upload = multer(defaultConfig)
+  .single("avatar");
 
 router.post("/register", async (req, res) => {
   const inputError = db.sequelize.models

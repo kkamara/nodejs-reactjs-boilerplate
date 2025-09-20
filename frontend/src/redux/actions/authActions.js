@@ -14,7 +14,7 @@ export const login = creds => {
     LoginUserService(creds).then(res => {
       dispatch({
         type: auth.AUTH_LOGIN_SUCCESS,
-        payload: res,
+        payload: res.data,
       })
 
     }, error => {

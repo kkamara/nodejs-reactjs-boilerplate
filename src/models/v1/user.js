@@ -2,7 +2,11 @@
 const { Model, } = require('sequelize');
 const { QueryTypes, } = require('sequelize');
 const moment = require("moment-timezone");
-const { nodeEnv, appTimezone, } = require('../../config');
+const {
+  nodeEnv,
+  appTimezone,
+  appURL,
+} = require('../../config');
 const {
   generateToken,
   encrypt,
@@ -64,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const result = await sequelize.query(
           `SELECT id, firstName, lastName, email,
-              password, passwordSalt, updatedAt
+              password, passwordSalt, avatarName, updatedAt
             FROM ${this.getTableName()}
             WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
@@ -78,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
           return false;
         }
 
-        res = result;
+        res = this.getFormattedUserData(result[0]);
         return res;
       } catch(err) {
         return res;
@@ -112,7 +116,7 @@ module.exports = (sequelize, DataTypes) => {
           return false;
         }
 
-        res = result;
+        res = this.getFormattedUserData(result[0]);
         return res;
       } catch(err) {
         if ("production" !== nodeEnv) {
@@ -131,7 +135,7 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const result = await sequelize.query(
           `SELECT id, firstName, lastName, email,
-              password, passwordSalt, updatedAt
+              password, passwordSalt, avatarName, updatedAt
             FROM ${this.getTableName()}
             WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
@@ -146,7 +150,7 @@ module.exports = (sequelize, DataTypes) => {
           return res;
         }
 
-        res = result[0];
+        res = this.getFormattedUserData(result[0]);
         return res;
       } catch(err) {
         if ("production" !== nodeEnv) {
@@ -240,7 +244,7 @@ module.exports = (sequelize, DataTypes) => {
         
         page += 1;
         return {
-          data: coreResults,
+          data: this.getFormattedUsersData(coreResults),
           meta: {
             currentPage: page,
             items: countResult[0].total,
@@ -441,6 +445,20 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
+     * @param {array} payload
+     * @returns {array}
+     */
+    static getFormattedUsersData(payload) {
+      const result = [];
+      for (const item of payload) {
+        result.push(
+          this.getFormattedUserData(item)
+        );
+      }
+      return result;
+    }
+
+    /**
      * @param {Object} data
      * @returns {object}
      */
@@ -450,6 +468,9 @@ module.exports = (sequelize, DataTypes) => {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
+        avatarPath: data.avatarName ?
+          appURL+"/images/profile/"+data.avatarName :
+          appURL+"/images/profile/default-avatar.webp",
         createdAt: moment(data.createdAt)
           .tz(appTimezone)
           .format(mysqlTimeFormat),
@@ -572,7 +593,7 @@ module.exports = (sequelize, DataTypes) => {
           return false;
         }
         
-        return result[0];
+        return this.getFormattedUserData(result[0]);
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);
@@ -670,6 +691,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     passwordSalt: {
       type: DataTypes.STRING,
+    },
+    avatarName: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     createdAt: {
       type: DataTypes.DATE,

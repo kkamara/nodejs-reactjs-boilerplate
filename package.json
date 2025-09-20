@@ -43,6 +43,7 @@
     "http-status": "^2.1.0",
     "moment-timezone": "^0.5.48",
     "morgan": "^1.10.0",
+    "multer": "^2.0.2",
     "mysql2": "^2",
     "pug": "^3.0.2",
     "sanitize": "^2.1.0",

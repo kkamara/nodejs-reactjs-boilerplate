@@ -11,6 +11,10 @@ export default function Header(props) {
     if(null !== authResponse.data) {
       return <li className="nav-item dropdown">
         <a className="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img
+            className="header-user-avatar"
+            src={authResponse.data.user.avatarPath}
+          />
           User
         </a>
         <ul className="dropdown-menu">
@@ -47,7 +51,7 @@ export default function Header(props) {
       </>
     }
   }
-  return <nav className="navbar navbar-expand-lg mb-4 bg-primary" data-bs-theme="dark">
+  return <nav className="navbar navbar-expand-lg mb-4 bg-primary header-container" data-bs-theme="dark">
     <div className="container">
       <Link className="navbar-brand" to="/">
         {process.env.REACT_APP_NAME}
