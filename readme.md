@@ -127,7 +127,7 @@ docker-compose up --build -d
 ## To run api tests
 
 ```bash
-yarn test
+NODE_ENV=test yarn test
 ```
 
 ## Misc.
