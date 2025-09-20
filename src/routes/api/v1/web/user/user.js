@@ -11,6 +11,7 @@ const authenticate = require("../../../../../middlewares/v1/authenticate");
 const { defaultConfig, } = require("../../../../../utils/uploads");
 const { getUploadPhotoError, moveFile, removeFile, profilePhotoAsset, defaultAvatarName, } = require("../../../../../utils/file");
 const { nodeEnv, } = require("../../../../../config");
+const { encrypt } = require("../../../../../utils/tokens");
 
 const router = express.Router();
 
@@ -283,6 +284,63 @@ router.post(
       return res.json({ message: message200 });
     });
   },
-)
+);
+
+router.patch(
+  "/",
+  authenticate,
+  async (req, res) => {
+    const inputError = await db.sequelize.models
+      .user
+      .getUpdateUserError(
+        req.session.userId,
+        req.body,
+      );
+    if (false !== inputError) {
+      res.status(status.BAD_REQUEST);
+      return res.json({ error: inputError });
+    }
+
+    const cleanData = await db.sequelize.models
+      .user
+      .getUpdateUserData({
+        firstName: req.bodyString("firstName"),
+        lastName: req.bodyString("lastName"),
+        email: req.bodyString("email"),
+        password: req.bodyString("password"),
+      });
+    
+    let newPassword, newPasswordSalt;
+    if (cleanData.password) {
+      const { salt, hash, } = encrypt(cleanData.password);
+      newPassword = hash;
+      newPasswordSalt = salt;
+    }
+
+    const updateUser = await db.sequelize.models
+      .user
+      .updateUser(
+        req.session.userId,
+        {
+          firstName: cleanData.firstName,
+          lastName: cleanData.lastName,
+          email: cleanData.email,
+          password: newPassword ?
+            newPassword :
+            null,
+          passwordSalt: newPasswordSalt ?
+            newPasswordSalt :
+            null,
+          avatarName: null,
+        }
+      );
+    if (false === updateUser) {
+      res.status(status.INTERNAL_SERVER_ERROR);
+      return res.json({ error: message500 });
+    }
+
+    return res.json({ message: message200 });
+  },
+);
 
 module.exports = router;

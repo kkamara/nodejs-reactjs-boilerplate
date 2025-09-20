@@ -145,7 +145,7 @@ export default function SettingsComponent() {
           <form onSubmit={handleFormSubmit}>
             <div className="form-group">
               <label htmlFor="firstName">
-                First Name:
+                First Name*:
               </label>
               <input
                 type="text"
@@ -157,7 +157,7 @@ export default function SettingsComponent() {
             </div>
             <div className="form-group">
               <label htmlFor="lastName">
-                Last Name:
+                Last Name*:
               </label>
               <input
                 type="text"
@@ -169,7 +169,7 @@ export default function SettingsComponent() {
             </div>
             <div className="form-group">
               <label htmlFor="email">
-                Email:
+                Email*:
               </label>
               <input
                 type="text"
