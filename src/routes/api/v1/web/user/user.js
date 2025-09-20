@@ -6,6 +6,7 @@ const {
   message400,
   message500,
   message200,
+  message404,
 } = require("../../../../../utils/httpResponses");
 const authenticate = require("../../../../../middlewares/v1/authenticate");
 const { defaultConfig, } = require("../../../../../utils/uploads");
@@ -337,6 +338,41 @@ router.patch(
     if (false === updateUser) {
       res.status(status.INTERNAL_SERVER_ERROR);
       return res.json({ error: message500 });
+    }
+
+    return res.json({ message: message200 });
+  },
+);
+
+router.delete(
+  "/avatar",
+  authenticate,
+  async (req, res) => {
+    const user = await db.sequelize.models
+      .user
+      .getRawUserById(
+        req.session.userId,
+      );
+    if (false === user) {
+      res.status(status.NOT_FOUND);
+      return res.json({ error: message404 });
+    }
+
+    if (
+      user.avatarName !== null &&
+      user.avatarName !== defaultAvatarName
+    ) {
+      removeFile(profilePhotoAsset(user.avatarName));
+
+      const resetAvatar = await db.sequelize.models
+        .user
+        .resetAvatar(
+          req.session.userId,
+        );
+      if (false === resetAvatar) {
+        res.status(status.INTERNAL_SERVER_ERROR);
+        return res.json({ error: message500 });
+      }
     }
 
     return res.json({ message: message200 });

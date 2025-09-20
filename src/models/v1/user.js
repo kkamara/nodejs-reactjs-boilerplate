@@ -822,6 +822,40 @@ module.exports = (sequelize, DataTypes) => {
       }
       return result;
     }
+
+    /**
+     * @param {number} userId
+     * @returns {boolean}
+     */
+    static async resetAvatar(userId) {
+      try {
+        const result = await sequelize.query(
+          `UPDATE ${this.getTableName()}
+            SET avatarName = null,
+              updatedAt = :updatedAt
+            WHERE id = :userId`,
+          {
+            replacements: {
+              updatedAt: moment()
+                .utc()
+                .format(mysqlTimeFormat),
+              userId,
+            },
+            type: sequelize.QueryTypes.UPDATE,
+          },
+        );
+        const rowsUpdated = result[1];
+        if (0 === rowsUpdated) {
+          return false;
+        }
+        return true;
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
   }
   
   User.init({
