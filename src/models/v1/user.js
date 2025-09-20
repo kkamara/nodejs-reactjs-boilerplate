@@ -2,7 +2,11 @@
 const { Model, } = require('sequelize');
 const { QueryTypes, } = require('sequelize');
 const moment = require("moment-timezone");
-const { nodeEnv, appTimezone, } = require('../../config');
+const {
+  nodeEnv,
+  appTimezone,
+  appURL,
+} = require('../../config');
 const {
   generateToken,
   encrypt,
@@ -64,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const result = await sequelize.query(
           `SELECT id, firstName, lastName, email,
-              password, passwordSalt, updatedAt
+              password, passwordSalt, avatarName, updatedAt
             FROM ${this.getTableName()}
             WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
@@ -131,7 +135,7 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const result = await sequelize.query(
           `SELECT id, firstName, lastName, email,
-              password, passwordSalt, updatedAt
+              password, passwordSalt, avatarName, updatedAt
             FROM ${this.getTableName()}
             WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
@@ -450,6 +454,9 @@ module.exports = (sequelize, DataTypes) => {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
+        path: avatarName ?
+          appURL+"/images/profile/"+data.avatarName :
+          appURL+"/images/profile/default-avatar.webp",
         createdAt: moment(data.createdAt)
           .tz(appTimezone)
           .format(mysqlTimeFormat),
