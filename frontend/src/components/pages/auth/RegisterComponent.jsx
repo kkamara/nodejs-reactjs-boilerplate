@@ -79,10 +79,21 @@ export default function RegisterComponent() {
             <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div> : null}
         <div className="form-group">
-          <label htmlFor="name">Name*:</label>
+          <label htmlFor="name">First Name*:</label>
           <input 
-            name="name" 
+            name="firstName" 
             className="form-control"
+            id="firstName"
+            value={name}
+            onChange={onNameChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="lastName">Last Name*:</label>
+          <input 
+            name="lastName" 
+            className="form-control"
+            id="lastName"
             value={name}
             onChange={onNameChange}
           />
