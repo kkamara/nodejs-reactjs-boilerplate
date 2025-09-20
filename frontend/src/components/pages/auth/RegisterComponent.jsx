@@ -9,7 +9,8 @@ import "./RegisterComponent.scss"
 export default function RegisterComponent() {
   const navigate = useNavigate()
 
-  const [name, setName] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
@@ -29,20 +30,26 @@ export default function RegisterComponent() {
     e.preventDefault()
 
     dispatch(register({
-      password_confirmation: passwordConfirmation,
-      name,
+      firstName,
+      lastName,
       email,
-      password
+      password,
+      passwordConfirmation,
     }))
 
-    setName("")
+    setFirstName("")
+    setLastName("")
     setEmail("")
     setPassword("")
     setPasswordConfirmation("")
   }
 
-  const onNameChange = (e) => {
-    setName(e.target.value)
+  const onFirstNameChange = (e) => {
+    setFirstName(e.target.value)
+  }
+
+  const onLastNameChange = (e) => {
+    setLastName(e.target.value)
   }
 
   const onEmailChange = (e) => {
@@ -84,8 +91,8 @@ export default function RegisterComponent() {
             name="firstName" 
             className="form-control"
             id="firstName"
-            value={name}
-            onChange={onNameChange}
+            value={firstName}
+            onChange={onFirstNameChange}
           />
         </div>
         <div className="form-group">
@@ -94,8 +101,8 @@ export default function RegisterComponent() {
             name="lastName" 
             className="form-control"
             id="lastName"
-            value={name}
-            onChange={onNameChange}
+            value={lastName}
+            onChange={onLastNameChange}
           />
         </div>
         <div className="form-group">
