@@ -454,7 +454,7 @@ module.exports = (sequelize, DataTypes) => {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
-        path: avatarName ?
+        avatarPath: data.avatarName ?
           appURL+"/images/profile/"+data.avatarName :
           appURL+"/images/profile/default-avatar.webp",
         createdAt: moment(data.createdAt)
