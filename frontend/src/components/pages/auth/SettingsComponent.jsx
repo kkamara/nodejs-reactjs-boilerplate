@@ -13,6 +13,7 @@ export default function SettingsComponent() {
       <Helmet>
         <title>User Settings - {process.env.REACT_APP_NAME}</title>
       </Helmet>
+      <p>Loading...</p>
     </div>
   }
 
