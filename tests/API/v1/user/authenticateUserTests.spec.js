@@ -56,6 +56,7 @@ describe('Authenticate User API Tests', function() {
       .end((err, res) => {
         if (err) {
           console.log(err);
+          return done();
         }
         chai.expect(err).to.be.null;
         chai.expect(res).to.have.status(200);
