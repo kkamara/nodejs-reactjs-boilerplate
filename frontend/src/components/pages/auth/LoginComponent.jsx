@@ -60,7 +60,7 @@ export default function LoginComponent() {
       <form method="post" onSubmit={onFormSubmit}>
         <Error error={state.auth.error} />
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">Email:</label>
           <input 
             name="email" 
             className="form-control"
@@ -69,7 +69,7 @@ export default function LoginComponent() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Password:</label>
           <input 
             type="password"
             name="password" 
