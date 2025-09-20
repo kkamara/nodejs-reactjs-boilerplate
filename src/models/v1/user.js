@@ -82,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
           return false;
         }
 
-        res = result;
+        res = this.getFormattedUserData(result[0]);
         return res;
       } catch(err) {
         return res;
@@ -116,7 +116,7 @@ module.exports = (sequelize, DataTypes) => {
           return false;
         }
 
-        res = result;
+        res = this.getFormattedUserData(result[0]);
         return res;
       } catch(err) {
         if ("production" !== nodeEnv) {
@@ -150,7 +150,7 @@ module.exports = (sequelize, DataTypes) => {
           return res;
         }
 
-        res = result[0];
+        res = this.getFormattedUserData(result[0]);
         return res;
       } catch(err) {
         if ("production" !== nodeEnv) {
@@ -244,7 +244,7 @@ module.exports = (sequelize, DataTypes) => {
         
         page += 1;
         return {
-          data: coreResults,
+          data: this.getFormattedUsersData(coreResults),
           meta: {
             currentPage: page,
             items: countResult[0].total,
@@ -445,6 +445,20 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
+     * @param {array} payload
+     * @returns {array}
+     */
+    static getFormattedUsersData(payload) {
+      const result = [];
+      for (const item of payload) {
+        result.push(
+          this.getFormattedUserData(item)
+        );
+      }
+      return result;
+    }
+
+    /**
      * @param {Object} data
      * @returns {object}
      */
@@ -579,7 +593,7 @@ module.exports = (sequelize, DataTypes) => {
           return false;
         }
         
-        return result[0];
+        return this.getFormattedUserData(result[0]);
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);
