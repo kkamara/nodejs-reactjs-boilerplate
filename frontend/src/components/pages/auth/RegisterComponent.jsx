@@ -103,6 +103,7 @@ export default function RegisterComponent() {
           <input 
             name="email" 
             className="form-control"
+            id="email"
             value={email}
             onChange={onEmailChange}
           />
@@ -113,15 +114,17 @@ export default function RegisterComponent() {
             type="password"
             name="password" 
             className="form-control"
+            id="password"
             value={password}
             onChange={onPasswordChange}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password_confirmation">Password Confirmation*:</label>
+          <label htmlFor="passwordConfirmation">Password Confirmation*:</label>
           <input 
             type="password"
-            name="password_confirmation" 
+            name="passwordConfirmation" 
+            id="passwordConfirmation"
             className="form-control"
             value={passwordConfirmation}
             onChange={onPasswordConfirmationChange}
