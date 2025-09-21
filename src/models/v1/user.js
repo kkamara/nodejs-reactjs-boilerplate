@@ -295,23 +295,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static getRegisterError(bodyInput) {
       if (undefined === bodyInput.firstName) {
-        return "The firstName field is missing.";
+        return "The first name field is missing.";
       } else if (typeof bodyInput.firstName !== "string") {
-        return "The firstName field must be of type string";
+        return "The first name field must be of type string";
       } else if (20 < bodyInput.firstName.trim().length) {
-        return "The firstName field length must not exceed 20 characters.";
+        return "The first name field length must not exceed 20 characters.";
       } else if (3 > bodyInput.firstName.trim().length) {
-        return "The firstName field length must be greater than 2 characters.";
+        return "The first name field length must be greater than 2 characters.";
       }
 
       if (undefined === bodyInput.lastName) {
-        return "The lastName field is missing.";
+        return "The last name field is missing.";
       } else if (typeof bodyInput.lastName !== "string") {
-        return "The lastName field must be of type string";
+        return "The last name field must be of type string";
       } else if (20 < bodyInput.lastName.trim().length) {
-        return "The lastName field length must not exceed 20 characters.";
+        return "The last name field length must not exceed 20 characters.";
       } else if (3 > bodyInput.lastName.trim().length) {
-        return "The lastName field length must be greater than 2 characters.";
+        return "The last name field length must be greater than 2 characters.";
       }
 
       if (undefined === bodyInput.email) {
@@ -334,9 +334,9 @@ module.exports = (sequelize, DataTypes) => {
         return "The password field length must be greater than 5 characters.";
       } else {
         if (undefined === bodyInput.passwordConfirmation) {
-          return "The passwordConfirmation field is missing.";
+          return "The password confirmation field is missing.";
         } else if (bodyInput.password !== bodyInput.passwordConfirmation) {
-          return "The passwordConfirmation field does not match the password field.";
+          return "The password confirmation field does not match the password field.";
         }
       }
 
