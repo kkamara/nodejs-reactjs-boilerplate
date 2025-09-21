@@ -36,6 +36,9 @@ export default function RegisterComponent() {
     if (authState.error && "Token not set." !== authState.error) {
       setError(authState.error)
     }
+    if (null !== authState.data) {
+      navigate("/user/login")
+    }
   }, [authState])
 
   const onFormSubmit = (e) => {
