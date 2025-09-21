@@ -753,17 +753,17 @@ module.exports = (sequelize, DataTypes) => {
     static async getUpdateUserError(userId, input) {
       if ("string" !== typeof input.firstName) {
         return "The first name field must be of type string.";
-      } else if (30 < input.firstName.length) {
+      } else if (30 < input.firstName.trim().length) {
         return "The first name field length must be less than 31 characters.";
-      } else if (2 > input.firstName.length) {
+      } else if (2 > input.firstName.trim().length) {
         return "The first name field length must be greater than 1 character.";
       }
       
       if ("string" !== typeof input.lastName) {
         return "The last name field must be of type string.";
-      } else if (30 < input.lastName.length) {
+      } else if (30 < input.lastName.trim().length) {
         return "The last name field length must be less than 31 characters.";
-      } else if (2 > input.lastName.length) {
+      } else if (2 > input.lastName.trim().length) {
         return "The last name field length must be greater than 1 character.";
       }
       
@@ -809,10 +809,10 @@ module.exports = (sequelize, DataTypes) => {
     static getUpdateUserData(payload) {
       const result = {};
       if (payload.firstName) {
-        result.firstName = payload.firstName;
+        result.firstName = payload.firstName.trim();
       }
       if (payload.lastName) {
-        result.lastName = payload.lastName;
+        result.lastName = payload.lastName.trim();
       }
       if (payload.email) {
         result.email = payload.email;
