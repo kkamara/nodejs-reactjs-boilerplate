@@ -3,14 +3,26 @@ import { useNavigate, } from "react-router-dom"
 import { useDispatch, useSelector, } from "react-redux"
 import { Helmet, } from "react-helmet"
 import { register, authorize, } from "../../../redux/actions/authActions"
+import Error from "../../layouts/Error"
+
+import "./RegisterComponent.scss"
+
+const defaultFirstNameState = ""
+const defaultLastNameState = ""
+const defaultEmailState = ""
+const defaultPasswordState = ""
+const defaultPasswordConfirmationState = ""
 
 export default function RegisterComponent() {
   const navigate = useNavigate()
 
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [passwordConfirmation, setPasswordConfirmation] = useState("")
+  const [firstName, setFirstName] = useState(defaultFirstNameState)
+  const [lastName, setLastName] = useState(defaultLastNameState)
+  const [email, setEmail] = useState(defaultEmailState)
+  const [password, setPassword] = useState(defaultPasswordState)
+  const [passwordConfirmation, setPasswordConfirmation] = useState(defaultPasswordConfirmationState)
+
+  const [error, setError] = useState("")
 
   const dispatch = useDispatch()
   const authState = useSelector(state => (state.auth))
@@ -21,26 +33,38 @@ export default function RegisterComponent() {
     } else if (authState.loading) {
       dispatch(authorize())
     }
+    if (authState.error && "Token not set." !== authState.error) {
+      setError(authState.error)
+    }
+    if (null !== authState.data) {
+      navigate("/user/login")
+    }
   }, [authState])
 
   const onFormSubmit = (e) => {
     e.preventDefault()
 
     dispatch(register({
-      password_confirmation: passwordConfirmation,
-      name,
+      firstName,
+      lastName,
       email,
-      password
+      password,
+      passwordConfirmation,
     }))
 
-    setName("")
+    setFirstName("")
+    setLastName("")
     setEmail("")
     setPassword("")
     setPasswordConfirmation("")
   }
 
-  const onNameChange = (e) => {
-    setName(e.target.value)
+  const onFirstNameChange = (e) => {
+    setFirstName(e.target.value)
+  }
+
+  const onLastNameChange = (e) => {
+    setLastName(e.target.value)
   }
 
   const onEmailChange = (e) => {
@@ -70,63 +94,75 @@ export default function RegisterComponent() {
     </Helmet>
     <div className="col-md-4 offset-md-4">
       <h1 className="register-lead fw-bold">Register</h1>
-      <form method="post" onSubmit={onFormSubmit}>
-        {(authState.error && "Token not set." !== authState.error) ?
-          <div className="alert alert-warning alert-dismissible fade show" role="alert">
-            {authState.error}
-            <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div> : null}
-        <div className="form-group">
-          <label htmlFor="name">Name</label>
-          <input 
-            name="name" 
-            className="form-control"
-            value={name}
-            onChange={onNameChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input 
-            name="email" 
-            className="form-control"
-            value={email}
-            onChange={onEmailChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input 
-            type="password"
-            name="password" 
-            className="form-control"
-            value={password}
-            onChange={onPasswordChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password_confirmation">Password Confirmation</label>
-          <input 
-            type="password"
-            name="password_confirmation" 
-            className="form-control"
-            value={passwordConfirmation}
-            onChange={onPasswordConfirmationChange}
-          />
-        </div>
-        <div className="register-buttons-container mt-4 text-end">
-          <a 
-            href="/user/login" 
-            className="btn btn-primary"
-          >
-            Sign In
-          </a>
-          <input 
-            type="submit" 
-            className="btn btn-success register-submit-button ms-4" 
-          />
-        </div>
-      </form>
+      <div>
+        <Error error={error} />
+        <form method="post" onSubmit={onFormSubmit}>
+          <div className="form-group">
+            <label htmlFor="firstName">First Name*:</label>
+            <input 
+              name="firstName" 
+              className="form-control"
+              id="firstName"
+              value={firstName}
+              onChange={onFirstNameChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="lastName">Last Name*:</label>
+            <input 
+              name="lastName" 
+              className="form-control"
+              id="lastName"
+              value={lastName}
+              onChange={onLastNameChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email*:</label>
+            <input 
+              name="email" 
+              className="form-control"
+              id="email"
+              value={email}
+              onChange={onEmailChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password*:</label>
+            <input 
+              type="password"
+              name="password" 
+              className="form-control"
+              id="password"
+              value={password}
+              onChange={onPasswordChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="passwordConfirmation">Password Confirmation*:</label>
+            <input 
+              type="password"
+              name="passwordConfirmation" 
+              id="passwordConfirmation"
+              className="form-control"
+              value={passwordConfirmation}
+              onChange={onPasswordConfirmationChange}
+            />
+          </div>
+          <div className="register-buttons-container mt-4 text-end">
+            <a 
+              href="/user/login" 
+              className="btn btn-primary"
+            >
+              Sign In
+            </a>
+            <input 
+              type="submit" 
+              className="btn btn-success register-submit-button ms-4" 
+            />
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 }

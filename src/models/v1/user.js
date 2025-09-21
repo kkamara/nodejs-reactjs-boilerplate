@@ -295,29 +295,35 @@ module.exports = (sequelize, DataTypes) => {
      */
     static getRegisterError(bodyInput) {
       if (undefined === bodyInput.firstName) {
-        return "The firstName field is missing.";
+        return "The first name field is required.";
       } else if (typeof bodyInput.firstName !== "string") {
-        return "The firstName field must be of type string";
+        return "The first name field must be of type string";
+      } else if (0 === bodyInput.firstName.trim().length) {
+        return "The first name field is required.";
       } else if (20 < bodyInput.firstName.trim().length) {
-        return "The firstName field length must not exceed 20 characters.";
+        return "The first name field length must not exceed 20 characters.";
       } else if (3 > bodyInput.firstName.trim().length) {
-        return "The firstName field length must be greater than 2 characters.";
+        return "The first name field length must be greater than 2 characters.";
       }
 
       if (undefined === bodyInput.lastName) {
-        return "The lastName field is missing.";
+        return "The last name field is required.";
       } else if (typeof bodyInput.lastName !== "string") {
-        return "The lastName field must be of type string";
+        return "The last name field must be of type string";
+      } else if (0 === bodyInput.lastName.trim().length) {
+        return "The last name field is required.";
       } else if (20 < bodyInput.lastName.trim().length) {
-        return "The lastName field length must not exceed 20 characters.";
+        return "The last name field length must not exceed 20 characters.";
       } else if (3 > bodyInput.lastName.trim().length) {
-        return "The lastName field length must be greater than 2 characters.";
+        return "The last name field length must be greater than 2 characters.";
       }
 
       if (undefined === bodyInput.email) {
-        return "The email field is missing.";
+        return "The email field is required.";
       } else if (typeof bodyInput.email !== "string") {
         return "The email field must be of type string";
+      } else if (0 === bodyInput.email.trim().length) {
+        return "The email field is required.";
       } else if (30 < bodyInput.email.length) {
         return "The email field length must not exceed 30 characters.";
       } else if (null === bodyInput.email.match(validEmailRegex)) {
@@ -325,18 +331,22 @@ module.exports = (sequelize, DataTypes) => {
       }
 
       if (undefined === bodyInput.password) {
-        return "The password field is missing.";
+        return "The password field is required.";
       } else if (typeof bodyInput.password !== "string") {
         return "The password field must be of type string";
+      } else if (0 === bodyInput.password.trim().length) {
+        return "The password field is required.";
       } else if (20 < bodyInput.password.length) {
         return "The password field length must not exceed 20 characters.";
       } else if (5 > bodyInput.password.length) {
         return "The password field length must be greater than 5 characters.";
       } else {
         if (undefined === bodyInput.passwordConfirmation) {
-          return "The passwordConfirmation field is missing.";
+          return "The password confirmation field is required.";
+        } else if (0 === bodyInput.passwordConfirmation.trim().length) {
+          return "The password confirmation field is required.";
         } else if (bodyInput.password !== bodyInput.passwordConfirmation) {
-          return "The passwordConfirmation field does not match the password field.";
+          return "The password confirmation field does not match the password field.";
         }
       }
 
@@ -547,9 +557,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static getLoginError(bodyInput) {
       if (undefined === bodyInput.email) {
-        return "The email field is missing.";
+        return "The email field is required.";
       } else if (typeof bodyInput.email !== "string") {
         return "The email field must be of type string";
+      } else if (0 === bodyInput.email.trim().length) {
+        return "The email field is required.";
       } else if (30 < bodyInput.email.length) {
         return "The email field length must not exceed 30 characters.";
       } else if (null === bodyInput.email.match(validEmailRegex)) {
@@ -557,9 +569,11 @@ module.exports = (sequelize, DataTypes) => {
       }
 
       if (undefined === bodyInput.password) {
-        return "The password field is missing.";
+        return "The password field is required.";
       } else if (typeof bodyInput.password !== "string") {
         return "The password field must be of type string";
+      } else if (0 === bodyInput.password.trim().length) {
+        return "The password field is required.";
       } else if (20 < bodyInput.password.length) {
         return "The password field length must not exceed 20 characters.";
       } else if (5 > bodyInput.password.length) {
@@ -751,24 +765,36 @@ module.exports = (sequelize, DataTypes) => {
      * @returns {false|string}
      */
     static async getUpdateUserError(userId, input) {
-      if ("string" !== typeof input.firstName) {
+      if (undefined === input.firstName) {
+        return "The first name field is required.";
+      } else if ("string" !== typeof input.firstName) {
         return "The first name field must be of type string.";
-      } else if (30 < input.firstName.length) {
+      } else if (0 === input.firstName.trim().length) {
+        return "The first name field is required.";
+      } else if (30 < input.firstName.trim().length) {
         return "The first name field length must be less than 31 characters.";
-      } else if (2 > input.firstName.length) {
+      } else if (2 > input.firstName.trim().length) {
         return "The first name field length must be greater than 1 character.";
       }
       
-      if ("string" !== typeof input.lastName) {
+      if (undefined === input.lastName) {
+        return "The last name field is required.";
+      } else if ("string" !== typeof input.lastName) {
         return "The last name field must be of type string.";
-      } else if (30 < input.lastName.length) {
+      } else if (0 === input.lastName.trim().length) {
+        return "The last name field is required.";
+      } else if (30 < input.lastName.trim().length) {
         return "The last name field length must be less than 31 characters.";
-      } else if (2 > input.lastName.length) {
+      } else if (2 > input.lastName.trim().length) {
         return "The last name field length must be greater than 1 character.";
       }
       
-      if ("string" !== typeof input.email) {
+      if (undefined === input.email) {
+        return "The email field is required.";
+      } else if ("string" !== typeof input.email) {
         return "The email field must be of type string.";
+      } else if (0 === input.email.trim().length) {
+        return "The email field is required.";
       } else if (100 < input.email.length) {
         return "The email field length must be less than 31 characters.";
       } else if (null === input.email.match(validEmailRegex)) {
@@ -785,15 +811,17 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
 
-      if ("string" !== typeof input.password) {
+      if (undefined === input.password) {
+        return "The password field is required.";
+      } else if ("string" !== typeof input.password) {
         return "The password field must be of type string.";
       } else if (0 < input.password.length) {
         if (6 > input.password.length) {
           return "The password field length must be at least 6 characters.";
         } else if (30 < input.password.length) {
           return "The password field length must be less than 31 characters.";
-        } else if (!input.passwordConfirmation) {
-          return "The password confirmation field is missing.";
+        } else if (undefined === input.passwordConfirmation) {
+          return "The password confirmation field is required.";
         } else if (input.password !== input.passwordConfirmation) {
           return "The password confirmation field does not match the password field.";
         }
@@ -809,10 +837,10 @@ module.exports = (sequelize, DataTypes) => {
     static getUpdateUserData(payload) {
       const result = {};
       if (payload.firstName) {
-        result.firstName = payload.firstName;
+        result.firstName = payload.firstName.trim();
       }
       if (payload.lastName) {
-        result.lastName = payload.lastName;
+        result.lastName = payload.lastName.trim();
       }
       if (payload.email) {
         result.email = payload.email;

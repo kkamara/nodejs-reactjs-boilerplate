@@ -4,9 +4,14 @@ import { Helmet, } from "react-helmet"
 import { login, authorize, } from "../../../redux/actions/authActions"
 import Error from "../../layouts/Error"
 
+import "./LoginComponent.scss"
+
+const defaultEmailState = "jane@doe.com"
+const defaultPasswordState = "secret"
+
 export default function LoginComponent() {
-  const [email, setEmail] = useState("jane@doe.com")
-  const [password, setPassword] = useState("secret")
+  const [email, setEmail] = useState(defaultEmailState)
+  const [password, setPassword] = useState(defaultPasswordState)
 
   const dispatch = useDispatch()
   const state = useSelector(state => ({
@@ -58,7 +63,7 @@ export default function LoginComponent() {
       <form method="post" onSubmit={onFormSubmit}>
         <Error error={state.auth.error} />
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">Email:</label>
           <input 
             name="email" 
             className="form-control"
@@ -67,7 +72,7 @@ export default function LoginComponent() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Password:</label>
           <input 
             type="password"
             name="password" 
