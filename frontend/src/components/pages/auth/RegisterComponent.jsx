@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-} from "react"
+import React, { useEffect, useState, } from "react"
 import { useNavigate, } from "react-router-dom"
 import { useDispatch, useSelector, } from "react-redux"
 import { Helmet, } from "react-helmet"
@@ -25,8 +21,6 @@ export default function RegisterComponent() {
   const [email, setEmail] = useState(defaultEmailState)
   const [password, setPassword] = useState(defaultPasswordState)
   const [passwordConfirmation, setPasswordConfirmation] = useState(defaultPasswordConfirmationState)
-  const avatarFile = useRef(null)
-  const [avatar, setAvatar] = useState("")
 
   const [error, setError] = useState("")
 
@@ -81,32 +75,6 @@ export default function RegisterComponent() {
   const onPasswordConfirmationChange = (e) => {
     setPasswordConfirmation(e.target.value)
   }
-  
-  const handleAvatarFileChange = e => {
-    setError("")
-    const err = imageError(e)
-    if (false !== err) {
-      return setError(err)
-    }
-    setAvatar(e.target.files[0])
-  }
-
-  const imageError = e => {
-    if (1 !== e.target.files.length) {
-      return "Please select 1 image file."
-    } else if (null === e.target.files[0].type.match(/(jpg|jpeg|png|webp)$/i)) {
-      return "Invalid file extension. We take JPG, JPEG, PNG, and WEBP."
-    }
-    return false
-  }
-
-  const handleUploadFileBtnClick = () => {
-    avatarFile.current.click()
-  }
-
-  const handleRemoveFileBtnClick = () => {
-    setAvatar("")
-  }
 
   if (authState.loading) {
     return <div className="container register-container text-center">
@@ -125,35 +93,6 @@ export default function RegisterComponent() {
       <h1 className="register-lead fw-bold">Register</h1>
       <div>
         <Error error={error} />
-
-        <div className="edit-avatar-container">
-          <img
-            src={process.env.REACT_APP_API_ROOT+"/images/profile/default-avatar.webp"}
-            alt="Avatar Image"
-            className="img-fluid avatar-image"
-          />
-          <input
-            type="file"
-            id="avatarFile"
-            ref={avatarFile}
-            style={{display: "none"}}
-            onChange={handleAvatarFileChange}
-          />
-          <br />
-          <button
-            className="btn btn-default"
-            onClick={handleUploadFileBtnClick}
-          >
-            Upload
-          </button>
-          <br />
-          <button
-            className="btn btn-danger btn-sm"
-            onClick={handleRemoveFileBtnClick}
-          >
-            Remove Photo
-          </button>
-        </div>
         <form method="post" onSubmit={onFormSubmit}>
           <div className="form-group">
             <label htmlFor="firstName">First Name*:</label>
