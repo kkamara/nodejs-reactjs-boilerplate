@@ -1,11 +1,11 @@
-nav#navbar-example2.navbar.bg-body-tertiary.px-3.mb-3
+nav#navbar-example2.navbar.navbar-expand-lg.bg-primary.mb-4(data-bs-theme="dark")
   .container
     a.navbar-brand(href="#")= appName
     ul.nav.nav-pills
       li.nav-item
-        a.nav-link(href="#")= "Home"
+        a.nav-link.active(href="#")= "Home"
       li.nav-item.dropdown
-        a.nav-link.dropdown-toggle(data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false")
+        a.nav-link.active.dropdown-toggle(data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false")
           | User
         ul.dropdown-menu
           li
