@@ -2,7 +2,7 @@
 
 FROM node:23
 
-ENV NODE_ENV=local
+ENV NODE_ENV=development
 
 WORKDIR /app
 
