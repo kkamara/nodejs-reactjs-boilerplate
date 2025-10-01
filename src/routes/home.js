@@ -6,10 +6,12 @@ const home = express.Router();
 
 home.get('/', async (req, res) => {
   return res.render('home', {
-      title: "Home",
+    title: "Home",
+    flashSuccess: "Some success.",
+    flashError: "Some error.",
+    config: {
       appName: config.appName,
-      flashSuccess: "Some success.",
-      flashError: "Some error.",
+    },
   });
 })
 
