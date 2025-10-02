@@ -15,6 +15,7 @@ services:
     depends_on: 
       - redis 
       - mysql
+      - mailhog
     networks: 
       - app
   mysql:
@@ -47,6 +48,13 @@ services:
       - app
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    ports:
+      - '${FORWARD_MAILHOG_PORT:-1025}:1025'
+      - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
+    networks:
+      - app
   selenium:
     container_name: nrb-selenium
     image: 'selenium/standalone-chrome'

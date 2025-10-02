@@ -30,6 +30,11 @@ const config = {
   appURL: process.env.APP_URL,
   appPort: process.env.PORT || process.env.port || 8000,
   allowedOrigins: process.env.ALLOWED_ORIGINS,
+  forwardingMailhogPort: process.env.FORWARD_MAILHOG_PORT,
+  mailUser: process.env.MAIL_USER,
+  mailPass: process.env.MAIL_PASS,
+  mailFrom: process.env.MAIL_FROM,
+  mailTo: process.env.MAIL_TO,
 };
 
 module.exports = config;

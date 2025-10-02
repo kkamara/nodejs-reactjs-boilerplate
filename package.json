@@ -45,6 +45,7 @@
     "morgan": "^1.10.0",
     "multer": "^2.0.2",
     "mysql2": "^2",
+    "nodemailer": "^7.0.6",
     "pug": "^3.0.2",
     "sanitize": "^2.1.0",
     "sequelize": "^6.13.0",

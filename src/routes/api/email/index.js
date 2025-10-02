@@ -1,11 +1,9 @@
 'use strict';
 const express = require('express');
-const health = require('./health');
 const email = require('./email');
 
 const router = express.Router();
 
-router.use('/health', health);
-router.use('/email', email);
+router.use('/', email);
 
 module.exports = router;

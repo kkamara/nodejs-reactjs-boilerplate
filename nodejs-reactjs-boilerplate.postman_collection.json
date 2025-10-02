@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a7aed571-ae59-42ac-b1f2-743dbe92aabe",
+		"_postman_id": "793bdd6d-cb3c-4100-bbe7-265c26fa0964",
 		"name": "nodejs-reactjs-boilerplate",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "17125932"
@@ -151,6 +151,33 @@
 				},
 				{
 					"name": "Health",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/health",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test Send Email",
 					"request": {
 						"auth": {
 							"type": "bearer",

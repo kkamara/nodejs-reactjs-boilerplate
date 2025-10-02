@@ -16,7 +16,9 @@
 
 * [Using Docker?](#using-docker)
 
-* [To run API tests](#to-run-api-tests)
+* [Mail Server With Docker](#mail-server-with-docker)
+
+* [API Tests](#api-tests)
 
 * [Misc.](#misc)
 
@@ -45,7 +47,10 @@ For database usage in pipelines, I recommend creating a `testing_config.json` an
 
 ```bash
 # Create our environment file.
+# Not using Docker?
 cp .env.example .env
+# Using Docker?
+cp .env.docker .env
 # Update values in .env file like port, timezone, and app name.
 # Install our app dependencies.
 npm install --global yarn
@@ -121,10 +126,19 @@ yarn dev:frontend
 * [Docker Compose](https://docs.docker.com/compose/install/).
 
 ```bash
+cp .env.docker .env
 docker-compose up --build -d
 ```
 
-## To run api tests
+## Mail Server With Docker
+
+![docker-mailhog.png](https://raw.githubusercontent.com/kkamara/useful/main/docker-mailhog.png)
+
+Mail environment credentials are at [.env.docker](https://raw.githubusercontent.com/kkamara/nodejs-reactjs-boilerplate/main/.env.docker).
+
+The [Mailhog](https://github.com/mailhog/MailHog) docker image runs at `http://localhost:8025`in this app.
+
+## API Tests
 
 ```bash
 NODE_ENV=test yarn test
