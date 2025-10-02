@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM node:23
+FROM node:24
 
 ENV NODE_ENV=development
 
