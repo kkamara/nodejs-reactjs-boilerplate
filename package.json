@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha tests/**/{,**/}*.js",
     "start": "cross-env DEBUG=express:* yarn node src/app.js",
-    "dev": "cross-env DEBUG=express:* yarn nodemon src/app.js --trace-warnings",
+    "dev": "cross-env DEBUG=express:* yarn nodemon src/app.js --trace-warnings --legacy-watch",
     "dev:frontend": "concurrently \"cross-env DEBUG=express:* yarn nodemon src/app.js --trace-warnings\" \"cd frontend && yarn start\"",
     "model:generate": "cross-env NODE_ENV=development npx sequelize-cli model:generate",
     "migration:generate": "cross-env NODE_ENV=development npx sequelize-cli migration:generate",
