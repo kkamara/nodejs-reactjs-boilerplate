@@ -47,13 +47,14 @@ For database usage in pipelines, I recommend creating a `testing_config.json` an
 
 ```bash
 # Create our environment file.
+# Update values in .env file like port and timezone.
 # Not using Docker?
 cp .env.example .env
 # Using Docker?
 cp .env.docker .env
-# Update values in .env file like port, timezone, and app name.
-# Install our app dependencies.
+# Install Yarn globally.
 npm install --global yarn
+# Install our app dependencies.
 yarn install
 # Before running the next command:
 # Update your database details in config.json
