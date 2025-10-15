@@ -192,12 +192,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/health",
+							"raw": "{{host}}/email",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"health"
+								"email"
 							]
 						}
 					},
