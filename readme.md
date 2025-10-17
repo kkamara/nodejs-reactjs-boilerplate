@@ -147,6 +147,8 @@ NODE_ENV=test yarn test
 
 ## Misc.
 
+[See NodeJS ReactJS Boilerplate](https://github.com/kkamara/nodejs-reactjs-boilerplate).
+
 [See ReactJS Native Mobile App Boilerplate](https://github.com/kkamara/ReactJSNativeMobileAppBoilerplate).
 
 [See MRVL Desktop](https://github.com/kkamara/mrvl-desktop).
