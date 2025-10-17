@@ -55,7 +55,7 @@ cp .env.docker .env
 # Install Yarn globally.
 npm install --global yarn
 # Install our app dependencies.
-yarn install
+yarn
 # Before running the next command:
 # Update your database details in config.json
 yarn migrate
@@ -66,7 +66,7 @@ yarn seed:all
 
 ```bash
 cd frontend
-yarn install
+yarn
 yarn build
 ```
 
