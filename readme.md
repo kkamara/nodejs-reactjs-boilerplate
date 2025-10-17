@@ -147,17 +147,17 @@ NODE_ENV=test yarn test
 
 ## Misc.
 
-[See NodeJS ReactJS Boilerplate](https://github.com/kkamara/nodejs-reactjs-boilerplate).
+* [See NodeJS ReactJS Boilerplate](https://github.com/kkamara/nodejs-reactjs-boilerplate)
 
-[See ReactJS Native Mobile App Boilerplate](https://github.com/kkamara/ReactJSNativeMobileAppBoilerplate).
+* [See ReactJS Native Mobile App Boilerplate](https://github.com/kkamara/ReactJSNativeMobileAppBoilerplate)
 
-[See MRVL Desktop](https://github.com/kkamara/mrvl-desktop).
+* [See MRVL Desktop](https://github.com/kkamara/mrvl-desktop)
 
-[See MRVL Web](https://github.com/kkamara/mrvl-web).
+* [See MRVL Web](https://github.com/kkamara/mrvl-web)
 
-[See NodeJS Docker Skeleton](https://github.com/kkamara/nodejs-docker-skeleton).
+* [See NodeJS Docker Skeleton](https://github.com/kkamara/nodejs-docker-skeleton)
 
-[See NodeJS Scraper](https://github.com/kkamara/nodejs-scraper).
+* [See NodeJS Scraper](https://github.com/kkamara/nodejs-scraper).
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
