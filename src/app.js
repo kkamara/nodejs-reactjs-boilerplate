@@ -106,6 +106,7 @@ const jsonErrorHandler = (err, req, res, next) => {
   return res.status(err.status || status.INTERNAL_SERVER_ERROR)
     .send({
       error: messageDefaultSystemError,
+      stack: "production" === config.nodeEnv ? null : err.stack,
     });
 };
 app.use(jsonErrorHandler);
