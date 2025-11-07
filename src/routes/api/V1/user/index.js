@@ -1,6 +1,6 @@
 "use strict";
 const express = require("express");
-const user = require("./user");
+const user = require("./userRoutes");
 
 const router = express.Router();
 

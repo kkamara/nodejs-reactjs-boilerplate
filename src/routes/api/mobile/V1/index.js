@@ -1,9 +1,9 @@
 "use strict";
 const express = require("express");
-const { hello } = require("../../../../controllers/API/mobile/V1/mobileControllers");
+const mobileRoutes = require("./mobileRoutes");
 
 const router = express.Router();
 
-router.route("/hello").get(hello);
+router.use("/", mobileRoutes);
 
 module.exports = router;
