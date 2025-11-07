@@ -1,3 +1,4 @@
+"use strict";
 const express = require("express");
 const db = require("../../../../models/v1");
 const { status, } = require("http-status");
@@ -7,16 +8,17 @@ const {
   message200,
 } = require("../../../../utils/httpResponses");
 const authenticate = require("../../../../middlewares/v1/authenticate");
+const asyncHandler = require("express-async-handler");
 
 const router = express.Router();
 
-router.post("/register", async (req, res) => {
+router.post("/register", asyncHandler(async (req, res) => {
   const inputError = db.sequelize.models
     .user
     .getRegisterError(req.body);
   if (false !== inputError) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: inputError, });
+    throw new Error(inputError);
   }
   
   const cleanData = db.sequelize.models
@@ -29,7 +31,7 @@ router.post("/register", async (req, res) => {
     });
   if (false === cleanData) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: message400, });
+    throw new Error(message400);
   }
   
   const emailExists = await db.sequelize.models
@@ -39,7 +41,9 @@ router.post("/register", async (req, res) => {
     );
   if (true === emailExists) {
     res.status(status.INTERNAL_SERVER_ERROR);
-    return res.json({ error: "The email field has already been taken.", });
+    throw new Error(
+      "The email field has already been taken."
+    );
   }
   
   const userInsert = await db.sequelize.models
@@ -49,7 +53,7 @@ router.post("/register", async (req, res) => {
     );
   if (false === userInsert) {
     res.status(status.INTERNAL_SERVER_ERROR);
-    return res.json({ error: message500, });
+    throw new Error(message500);
   }
 
   const newUser = await db.sequelize.models.user.getUser(
@@ -57,7 +61,7 @@ router.post("/register", async (req, res) => {
   );
   if (false === newUser) {
     res.status(status.INTERNAL_SERVER_ERROR);
-    return res.json({ error: message500, });
+    throw new Error(message500);
   }
 
   res.status(status.OK);
@@ -65,15 +69,15 @@ router.post("/register", async (req, res) => {
     user: db.sequelize.models.user
       .getFormattedUserData(newUser),
   });
-});
+}));
 
-router.post("/", async (req, res) => {
+router.post("/", asyncHandler(async (req, res) => {
   const inputError = db.sequelize.models
     .user
     .getLoginError(req.body);
   if (false !== inputError) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: inputError, });
+    throw new Error(inputError);
   }
 
   const cleanData = db.sequelize.models
@@ -84,14 +88,16 @@ router.post("/", async (req, res) => {
     );
   if (false === cleanData) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: message400, });
+    throw new Error(message400);
   }
 
   const emailExists = db.sequelize.models.user
     .emailExists(cleanData.email);
   if (false === emailExists) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: "The email given does not exist in our records.", });
+    throw new Error(
+      "The email given does not exist in our records."
+    );
   }
   
   const user = await db.sequelize.models.user
@@ -100,7 +106,9 @@ router.post("/", async (req, res) => {
     );
   if (false === user) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: "The email is not in our records.", });
+    throw new Error(
+      "The email is not in our records."
+    );
   }
   
   const successLogin = await db.sequelize.models.user
@@ -111,7 +119,9 @@ router.post("/", async (req, res) => {
     );
   if (false === successLogin) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: "The email and password combination did not match.", });
+    throw new Error(
+      "The email and password combination did not match."
+    );
   }
 
   const authTokenInsert = await db.sequelize.models
@@ -119,7 +129,7 @@ router.post("/", async (req, res) => {
     .createAuthToken(user.id);
   if (false === authTokenInsert) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: message500, });
+    throw new Error(message500);
   }
 
   const authTokenResult = await db.sequelize.models
@@ -129,7 +139,7 @@ router.post("/", async (req, res) => {
     );
   if (false === authTokenResult) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: message500, });
+    throw new Error(message500);
   }
 
   await db.sequelize.models.user.updateUserTimestamp(
@@ -143,17 +153,15 @@ router.post("/", async (req, res) => {
       authToken: authTokenResult.token,
     },
   });
-});
+}));
 
-router.get("/authorize", authenticate, async (req, res) => {
+router.get("/authorize", authenticate, asyncHandler(async (req, res) => {
   const userFromAuthToken = await db.sequelize.models.user.getUserByAuthToken(
     req.session.extractedToken,
   );
   if (false === userFromAuthToken) {
     res.status(status.INTERNAL_SERVER_ERROR);
-    return res.json({
-      error: message500,
-    });
+    throw new Error(message500);
   }
   
   await db.sequelize.models.user.updateUserTimestamp(
@@ -164,16 +172,16 @@ router.get("/authorize", authenticate, async (req, res) => {
   return res.json({
     user: userFromAuthToken,
   });
-});
+}));
 
-router.delete('/', authenticate, async (req, res) => {
+router.delete('/', authenticate, asyncHandler(async (req, res) => {
   const user = await db.sequelize.models.user
     .getUserByAuthToken(
       req.session.extractedToken,
     );
   if (false === user) {
     res.status(status.INTERNAL_SERVER_ERROR);
-    return res.json({ error: message500, });
+    throw new Error(message500);
   }
   
   const logoutUser = await db.sequelize.models.userToken.logoutUser(
@@ -182,9 +190,7 @@ router.delete('/', authenticate, async (req, res) => {
   );
   if (false === logoutUser) {
     res.status(status.INTERNAL_SERVER_ERROR);
-    return res.json({
-      error: message500,
-    });
+    throw new Error(message500);
   }
   
   await db.sequelize.models.user.updateUserTimestamp(
@@ -195,6 +201,6 @@ router.delete('/', authenticate, async (req, res) => {
   return res.json({
     message: message200,
   });
-});
+}));
 
 module.exports = router;

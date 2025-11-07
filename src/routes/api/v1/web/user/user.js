@@ -1,3 +1,4 @@
+"use strict";
 const express = require("express");
 const db = require("../../../../../models/v1");
 const { status, } = require("http-status");
@@ -13,19 +14,20 @@ const { defaultConfig, } = require("../../../../../utils/uploads");
 const { getUploadPhotoError, moveFile, removeFile, profilePhotoAsset, defaultAvatarName, } = require("../../../../../utils/file");
 const { nodeEnv, } = require("../../../../../config");
 const { encrypt } = require("../../../../../utils/tokens");
+const asyncHandler = require("express-async-handler");
 
 const router = express.Router();
 
 const upload = multer(defaultConfig)
   .single("avatar");
 
-router.post("/register", async (req, res) => {
+router.post("/register", asyncHandler(async (req, res) => {
   const inputError = db.sequelize.models
     .user
     .getRegisterError(req.body);
   if (false !== inputError) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: inputError, });
+    throw new Error(inputError);
   }
   
   const cleanData = db.sequelize.models
@@ -38,7 +40,7 @@ router.post("/register", async (req, res) => {
     });
   if (false === cleanData) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: message400, });
+    throw new Error(message400);
   }
   
   const emailExists = await db.sequelize.models
@@ -48,7 +50,9 @@ router.post("/register", async (req, res) => {
     );
   if (true === emailExists) {
     res.status(status.INTERNAL_SERVER_ERROR);
-    return res.json({ error: "The email field has already been taken.", });
+    throw new Error(
+      "The email field has already been taken."
+    );
   }
   
   const userInsert = await db.sequelize.models
@@ -58,7 +62,7 @@ router.post("/register", async (req, res) => {
     );
   if (false === userInsert) {
     res.status(status.INTERNAL_SERVER_ERROR);
-    return res.json({ error: message500, });
+    throw new Error(message500);
   }
 
   const newUser = await db.sequelize.models.user.getUser(
@@ -66,7 +70,7 @@ router.post("/register", async (req, res) => {
   );
   if (false === newUser) {
     res.status(status.INTERNAL_SERVER_ERROR);
-    return res.json({ error: message500, });
+    throw new Error(message500);
   }
 
   res.status(status.OK);
@@ -74,15 +78,15 @@ router.post("/register", async (req, res) => {
     user: db.sequelize.models.user
       .getFormattedUserData(newUser),
   });
-});
+}));
 
-router.post("/", async (req, res) => {
+router.post("/", asyncHandler(async (req, res) => {
   const inputError = db.sequelize.models
     .user
     .getLoginError(req.body);
   if (false !== inputError) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: inputError, });
+    throw new Error(inputError);
   }
 
   const cleanData = db.sequelize.models
@@ -93,14 +97,16 @@ router.post("/", async (req, res) => {
     );
   if (false === cleanData) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: message400, });
+    throw new Error(message400);
   }
 
   const emailExists = db.sequelize.models.user
     .emailExists(cleanData.email);
   if (false === emailExists) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: "The email given does not exist in our records.", });
+    throw new Error(
+      "The email given does not exist in our records.",
+    );
   }
   
   const user = await db.sequelize.models.user
@@ -109,7 +115,9 @@ router.post("/", async (req, res) => {
     );
   if (false === user) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: "The email is not in our records.", });
+    throw new Error(
+      "The email is not in our records.",
+    );
   }
   
   const successLogin = await db.sequelize.models.user
@@ -120,7 +128,9 @@ router.post("/", async (req, res) => {
     );
   if (false === successLogin) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: "The email and password combination did not match.", });
+    throw new Error(
+      "The email and password combination did not match."
+    );
   }
 
   const authTokenInsert = await db.sequelize.models
@@ -128,7 +138,7 @@ router.post("/", async (req, res) => {
     .createAuthToken(user.id);
   if (false === authTokenInsert) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: message500, });
+    throw new Error(message500);
   }
 
   const authTokenResult = await db.sequelize.models
@@ -138,7 +148,7 @@ router.post("/", async (req, res) => {
     );
   if (false === authTokenResult) {
     res.status(status.BAD_REQUEST);
-    return res.json({ error: message500, });
+    throw new Error(message500);
   }
 
   await db.sequelize.models.user.updateUserTimestamp(
@@ -152,17 +162,15 @@ router.post("/", async (req, res) => {
       authToken: authTokenResult.token,
     },
   });
-});
+}));
 
-router.get("/authorize", authenticate, async (req, res) => {
+router.get("/authorize", authenticate, asyncHandler(async (req, res) => {
   const userFromAuthToken = await db.sequelize.models.user.getUserByAuthToken(
     req.session.extractedToken,
   );
   if (false === userFromAuthToken) {
     res.status(status.INTERNAL_SERVER_ERROR);
-    return res.json({
-      error: message500,
-    });
+    throw new Error(message500);
   }
   
   await db.sequelize.models.user.updateUserTimestamp(
@@ -173,16 +181,16 @@ router.get("/authorize", authenticate, async (req, res) => {
   return res.json({
     user: userFromAuthToken,
   });
-});
+}));
 
-router.delete('/', authenticate, async (req, res) => {
+router.delete('/', authenticate, asyncHandler(async (req, res) => {
   const user = await db.sequelize.models.user
     .getUserByAuthToken(
       req.session.extractedToken,
     );
   if (false === user) {
     res.status(status.INTERNAL_SERVER_ERROR);
-    return res.json({ error: message500, });
+    throw new Error(message500);
   }
   
   const logoutUser = db.sequelize.models.userToken.logoutUser(
@@ -191,9 +199,7 @@ router.delete('/', authenticate, async (req, res) => {
   );
   if (false === logoutUser) {
     res.status(status.INTERNAL_SERVER_ERROR);
-    return res.json({
-      error: message500,
-    });
+    throw new Error(message500);
   }
   
   await db.sequelize.models.user.updateUserTimestamp(
@@ -204,21 +210,21 @@ router.delete('/', authenticate, async (req, res) => {
   return res.json({
     message: message200,
   });
-});
+}));
 
 router.post(
   "/avatar",
   authenticate,
-  (req, res) => {
+  asyncHandler(async (req, res) => {
     upload(req, res, async function (err) {
       if (err instanceof multer.MulterError) {
         // A Multer error occurred when uploading.
         res.status(status.INTERNAL_SERVER_ERROR);
-        return res.json({ error: err.message });
+        throw new Error(err.message);
       } else if (err) {
         // An unknown error occurred when uploading.
         res.status(status.INTERNAL_SERVER_ERROR);
-        return res.json({ error: message500 });
+        throw new Error(message500;
       }
 
       if ("production" !== nodeEnv) {
@@ -230,7 +236,7 @@ router.post(
       );
       if (false !== photoError) {
         res.status(status.BAD_REQUEST);
-        return res.json({ error: photoError });
+        throw new Error(photoError);
       }
       
       const fileExtension = req.file.mimetype
@@ -244,7 +250,7 @@ router.post(
         );
       } catch (err) {
         res.status(status.INTERNAL_SERVER_ERROR);
-        return res.json({ error: message500 });
+        throw new Error(message500);
       }
 
       const user = await db.sequelize.models
@@ -254,7 +260,7 @@ router.post(
         );
       if (false === user) {
         res.status(status.INTERNAL_SERVER_ERROR);
-        return res.json({ error: message500 });
+        throw new Error(message500);
       }
       
       if (
@@ -279,18 +285,18 @@ router.post(
         );
       if (false === updateDB) {
         res.status(status.INTERNAL_SERVER_ERROR);
-        return res.json({ error: message500 });
+        throw new Error(message500);
       }
 
       return res.json({ message: message200 });
     });
   },
-);
+));
 
 router.patch(
   "/",
   authenticate,
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     const inputError = await db.sequelize.models
       .user
       .getUpdateUserError(
@@ -299,7 +305,7 @@ router.patch(
       );
     if (false !== inputError) {
       res.status(status.BAD_REQUEST);
-      return res.json({ error: inputError });
+      throw new Error(inputError);
     }
 
     const cleanData = await db.sequelize.models
@@ -337,17 +343,17 @@ router.patch(
       );
     if (false === updateUser) {
       res.status(status.INTERNAL_SERVER_ERROR);
-      return res.json({ error: message500 });
+      throw new Error(message500);
     }
 
     return res.json({ message: message200 });
   },
-);
+));
 
 router.delete(
   "/avatar",
   authenticate,
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     const user = await db.sequelize.models
       .user
       .getRawUserById(
@@ -355,7 +361,7 @@ router.delete(
       );
     if (false === user) {
       res.status(status.NOT_FOUND);
-      return res.json({ error: message404 });
+      throw new Error(message404);
     }
 
     if (
@@ -371,12 +377,12 @@ router.delete(
         );
       if (false === resetAvatar) {
         res.status(status.INTERNAL_SERVER_ERROR);
-        return res.json({ error: message500 });
+        throw new Error(message500);
       }
     }
 
     return res.json({ message: message200 });
   },
-);
+));
 
 module.exports = router;
