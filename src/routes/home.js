@@ -1,19 +1,9 @@
 'use strict';
 const express = require('express');
-const config = require("../config");
-const asyncHandler = require("express-async-handler");
+const { home } = require('../controllers/homeControllers');
 
-const home = express.Router();
+const router = express.Router();
 
-home.get('/', asyncHandler(async (req, res) => {
-  return res.render('home', {
-    title: "Home",
-    flashSuccess: "Some success.",
-    flashError: "Some error.",
-    config: {
-      appName: config.appName,
-    },
-  });
-}));
+router.route("/home").get(home);
 
-module.exports = home;
+module.exports = router;

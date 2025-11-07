@@ -10,6 +10,6 @@ const router = express.Router();
 router.use('/api', api);
 router.use('/api/v1', v1);
 router.use('/mobile-api/v1', mobileV1);
-router.use('/home', home);
+router.use('/', home);
 
 module.exports = router;
