@@ -1,9 +1,9 @@
 "use strict";
 const express = require("express");
-const user = require("./userRoutes");
+const userRoutes = require("./userRoutes");
 
 const router = express.Router();
 
-router.use("/", user);
+router.use("/", userRoutes);
 
 module.exports = router;
