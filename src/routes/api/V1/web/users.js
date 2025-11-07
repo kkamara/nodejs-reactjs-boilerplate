@@ -1,6 +1,6 @@
 'use strict';
 const express = require('express');
-const db = require("../../../../models/v11");
+const db = require("../../../../models/V1");
 const { status, } = require('http-status');
 const { integerNumberRegex, } = require("../../../../utils/regexes");
 const { message500, } = require("../../../../utils/httpResponses");

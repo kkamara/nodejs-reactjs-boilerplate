@@ -1,13 +1,13 @@
 "use strict";
 const express = require("express");
-const db = require("../../../../models/v11");
+const db = require("../../../../models/V1");
 const { status, } = require("http-status");
 const {
   message400,
   message500,
   message200,
 } = require("../../../../utils/httpResponses");
-const { authenticate, } = require("../../../../middlewares/v11/authMiddleware");
+const { authenticate, } = require("../../../../middlewares/V1/authMiddleware");
 const asyncHandler = require("express-async-handler");
 
 const router = express.Router();

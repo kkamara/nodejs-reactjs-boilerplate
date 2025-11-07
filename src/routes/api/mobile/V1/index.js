@@ -1,6 +1,6 @@
 "use strict";
 const express = require("express");
-const { hello } = require("../../../../controllers/API/mobile/v11/mobileControllers");
+const { hello } = require("../../../../controllers/API/mobile/V1/mobileControllers");
 
 const router = express.Router();
 

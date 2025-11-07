@@ -2,7 +2,7 @@
 const { status, } = require("http-status");
 const moment = require("moment-timezone");
 const { message401, } = require("../../utils/httpResponses");
-const db = require("../../models/v11/index");
+const db = require("../../models/V1/index");
 
 module.exports.authenticate = async (req, res, next) => {
   if (!req.headers.authorization) {
