@@ -1,3 +1,4 @@
+"use strict";
 const { rmSync, renameSync, } = require("node:fs");
 
 exports.removeFile = async path => {
