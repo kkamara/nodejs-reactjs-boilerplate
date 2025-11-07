@@ -9,7 +9,7 @@ const {
   message200,
   message404,
 } = require("../../../../../utils/httpResponses");
-const authenticate = require("../../../../../middlewares/v1/authenticate");
+const { authenticate, } = require("../../../../../middlewares/v1/authMiddleware");
 const { defaultConfig, } = require("../../../../../utils/uploads");
 const { getUploadPhotoError, moveFile, removeFile, profilePhotoAsset, defaultAvatarName, } = require("../../../../../utils/file");
 const { nodeEnv, } = require("../../../../../config");

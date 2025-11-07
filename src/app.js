@@ -2,19 +2,15 @@
 const path = require('node:path');
 const cookieParser = require('cookie-parser');
 const sanitize = require('sanitize');
-const minifyHTML = require("express-minify-html");
 const express = require('express');
-const session = require('express-session');
-const fs = require('node:fs');
-const morgan = require('morgan');
-const moment = require("moment-timezone");
-const { status, } = require('http-status');
-const FileStore = require('session-file-store');
-const { rateLimit, } = require("express-rate-limit");
-
 const config = require('./config');
 const routes = require('./routes');
-const { messageDefaultSystemError, } = require('./utils/httpResponses');
+const { notFound, jsonError, } = require('./middlewares/v1/errorMiddleware');
+const { session } = require('./middlewares/v1/sessionMiddleware');
+const { minifyHTML } = require('./middlewares/v1/minifyHTMLMiddleware');
+const { requestLog } = require('./middlewares/v1/loggingMiddleware');
+const { limiter } = require('./middlewares/v1/throttleMiddleware');
+const { cors } = require('./middlewares/v1/corsMiddleware');
 
 const app = express();
 
@@ -24,31 +20,8 @@ if ("production" === config.nodeEnv) {
   app.enable("trust proxy");
 }
 
-const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // Every 15 minutes
-	limit: "production" === config.nodeEnv ? 100 : 10000,
-	standardHeaders: 'draft-8',
-	legacyHeaders: false,
-	ipv6Subnet: 56,
-});
-
 app.use(limiter);
-
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, '..', 'logs', 'boilerplate.log'), 
-  { flags: 'a' },
-);
-morgan.token('date', (req, res, tz) => {
-  return moment().tz(tz).format('YYYY-MM-DD HH:mm:ss');
-});
-morgan.format(
-  'boilerplate-request-log-format',
-  `:remote-addr - :remote-user [:date[${config.appTimezone}]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"`,
-);
-app.use(morgan(
-  'boilerplate-request-log-format',  
-  { stream: accessLogStream, },
-));
+app.use(requestLog);
 
 app.set('view engine', 'pug');
 app.set('views', path.join(
@@ -61,68 +34,16 @@ app.use('/static', express.static("frontend/build/static"));
 app.get('/*', express.static('frontend/build'));
 
 if ('production' === config.nodeEnv) {
-  app.use(
-    minifyHTML({
-      override: true,
-      exception_url: false,
-      htmlMinifier: {
-        removeComments: true,
-        collapseWhitespace: true,
-        collapseBooleanAttributes: true,
-        removeAttributeQuotes: true,
-        removeEmptyAttributes: true,
-        minifyJS: true,
-      },
-    })
-  );
+  app.use(minifyHTML);
 }
 
-app.use(session({
-  store: "production" === config.nodeEnv ? 
-    new (FileStore(session))({
-      path: path.join(
-        __dirname,
-        "..",
-        "sessions",
-      ),
-    }) :
-    undefined,
-  secret: config.appKey,
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    secure: "production" === config.nodeEnv,
-  },
-}));
+app.use(session);
 app.use(cookieParser(config.appKey));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// The following jsonErrorHandler goes after express.json() middleware. Otherwise, it doesn't run.
-const jsonErrorHandler = (err, req, res, next) => {
-  if ("production" !== config.nodeEnv) {
-    console.log(err);
-  }
-  return res.status(err.status || status.INTERNAL_SERVER_ERROR)
-    .send({
-      error: messageDefaultSystemError,
-      stack: "production" === config.nodeEnv ? null : err.stack,
-    });
-};
-app.use(jsonErrorHandler);
-
 app.use(sanitize.middleware);
-app.use((req, res, next) => {
-  const allowedOrigins = config.allowedOrigins.split(",");
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization, x-id, Content-Length, X-Requested-With');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-  next();
-});
+app.use(cors);
 
 app.use('/', routes);
 
@@ -130,6 +51,9 @@ app.use('/', routes);
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
 });
+
+app.use(notFound);
+app.use(jsonError);
 
 if ('production' === config.nodeEnv) {
   app.listen(config.appPort);

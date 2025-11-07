@@ -7,7 +7,7 @@ const {
   message500,
   message200,
 } = require("../../../../utils/httpResponses");
-const authenticate = require("../../../../middlewares/v1/authenticate");
+const { authenticate, } = require("../../../../middlewares/v1/authMiddleware");
 const asyncHandler = require("express-async-handler");
 
 const router = express.Router();

@@ -15,7 +15,7 @@ router.get("/", asyncHandler(async (req, res) => {
     throw new Error(
       "The page query parameter, if provided, must be type integer.",
     );
-  }
+  }  
 
   const users = await db.sequelize.models.user.getUsersPaginated(
     page || 1,
