@@ -5,12 +5,12 @@ const sanitize = require('sanitize');
 const express = require('express');
 const config = require('./config');
 const routes = require('./routes');
-const { notFound, jsonError, } = require('./middlewares/v1/errorMiddleware');
-const { session } = require('./middlewares/v1/sessionMiddleware');
-const { minifyHTML } = require('./middlewares/v1/minifyHTMLMiddleware');
-const { requestLog } = require('./middlewares/v1/loggingMiddleware');
-const { limiter } = require('./middlewares/v1/throttleMiddleware');
-const { cors } = require('./middlewares/v1/corsMiddleware');
+const { notFound, jsonError, } = require('./middlewares/v11/errorMiddleware');
+const { session } = require('./middlewares/v11/sessionMiddleware');
+const { minifyHTML } = require('./middlewares/v11/minifyHTMLMiddleware');
+const { requestLog } = require('./middlewares/v11/loggingMiddleware');
+const { limiter } = require('./middlewares/v11/throttleMiddleware');
+const { cors } = require('./middlewares/v11/corsMiddleware');
 
 const app = express();
 

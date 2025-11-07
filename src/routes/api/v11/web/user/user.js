@@ -1,6 +1,6 @@
 "use strict";
 const express = require("express");
-const db = require("../../../../../models/v1");
+const db = require("../../../../../models/v11");
 const { status, } = require("http-status");
 const multer = require("multer");
 const {
@@ -9,7 +9,7 @@ const {
   message200,
   message404,
 } = require("../../../../../utils/httpResponses");
-const { authenticate, } = require("../../../../../middlewares/v1/authMiddleware");
+const { authenticate, } = require("../../../../../middlewares/v11/authMiddleware");
 const { defaultConfig, } = require("../../../../../utils/uploads");
 const { getUploadPhotoError, moveFile, removeFile, profilePhotoAsset, defaultAvatarName, } = require("../../../../../utils/file");
 const { nodeEnv, } = require("../../../../../config");
