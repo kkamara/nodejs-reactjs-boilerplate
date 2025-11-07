@@ -224,7 +224,7 @@ router.post(
       } else if (err) {
         // An unknown error occurred when uploading.
         res.status(status.INTERNAL_SERVER_ERROR);
-        throw new Error(message500;
+        throw new Error(message500);
       }
 
       if ("production" !== nodeEnv) {
