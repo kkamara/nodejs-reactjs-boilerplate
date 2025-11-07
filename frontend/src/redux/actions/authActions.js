@@ -34,7 +34,7 @@ export const login = creds => {
   }
 }
 
-export const authorize = () => {
+export const authorise = () => {
   return dispatch => {
 
     dispatch({ type: auth.AUTH_AUTHORIZE_PENDING, })

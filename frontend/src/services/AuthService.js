@@ -25,7 +25,7 @@ export const AuthorizeUserService = () => {
   const http = new HttpService()
   const tokenId = "user-token"
   
-  return http.getData("/user/authorize", tokenId)
+  return http.getData("/user/authorise", tokenId)
     .then(response => {
       return response.data
     })
