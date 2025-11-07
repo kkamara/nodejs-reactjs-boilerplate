@@ -1,5 +1,4 @@
 'use strict';
-const express = require('express');
 const { status, } = require("http-status");
 const { message200, } = require('../../utils/httpResponses');
 const asyncHandler = require("express-async-handler");
