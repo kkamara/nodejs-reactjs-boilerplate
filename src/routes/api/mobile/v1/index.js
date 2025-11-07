@@ -1,11 +1,9 @@
 "use strict";
 const express = require("express");
-const asyncHandler = require("express-async-handler");
+const { hello } = require("../../../../controllers/API/mobile/v1/mobileControllers");
 
 const router = express.Router();
 
-router.get("/hello", asyncHandler((req, res) => res.json({
-  message: "Hello from the NodeJS server.",
-})));
+router.route("/hello").get(hello);
 
 module.exports = router;

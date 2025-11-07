@@ -1,14 +1,11 @@
 'use strict';
-const express = require('express');
 const { status, } = require("http-status");
-const { testSendEmail, } = require("../../../services/email");
-const { message500, } = require('../../../utils/httpResponses');
-const config = require("../../../config/index");
+const { testSendEmail, } = require("../../services/email");
+const { message500, } = require('../../utils/httpResponses');
+const config = require("../../config/index");
 const asyncHandler = require("express-async-handler");
 
-const router = express.Router();
-
-router.get('/', asyncHandler(async (req, res) => {
+const sendEmail = asyncHandler(async (req, res) => {
   const sendEmail = await testSendEmail({
     subject: "Test Email ✔",
     plainText: `This is a test email.\n\n${config.appName} 2026.`,
@@ -39,6 +36,6 @@ router.get('/', asyncHandler(async (req, res) => {
   return res.json({
     message: "Message Sent.",
   });
-}));
+});
 
-module.exports = router;
+module.exports = { sendEmail, };
