@@ -51,7 +51,7 @@ describe('Authenticate User API Tests', function() {
   });
   it('Tests Authenticate User Success', function(done) {
     chai.request(app)
-      .get('/user/authorize')
+      .get('/user/authorise')
       .set("authorization", bearerToken)
       .end((err, res) => {
         if (err) {
