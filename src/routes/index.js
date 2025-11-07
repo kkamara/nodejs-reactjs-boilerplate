@@ -1,9 +1,9 @@
 'use strict';
 const express = require('express');
 const homeRoutes = require('./homeRoutes');
-const apiRoutes = require('./api');
-const v1Routes = require('./api/V1');
-const mobileV1Routes = require('./api/mobile/V1');
+const apiRoutes = require('./API');
+const v1Routes = require('./API/V1');
+const mobileV1Routes = require('./API/mobile/V1');
 
 const router = express.Router();
 
