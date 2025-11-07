@@ -21,12 +21,8 @@ export const login = creds => {
       let message
       if ("ERR_NETWORK" === error.code) {
         message = "Server unavailable."
-      } else if (
-        error.response &&
-        error.response.data &&
-        error.response.data.error
-      ) {
-        message = error.response.data.error
+      } else if (error.response?.data?.message) {
+        message = error.response.data.message
       } else {
         message = "Something went wrong. Please come back later."
       }
@@ -38,7 +34,7 @@ export const login = creds => {
   }
 }
 
-export const authorize = () => {
+export const authorise = () => {
   return dispatch => {
 
     dispatch({ type: auth.AUTH_AUTHORIZE_PENDING, })
@@ -64,12 +60,8 @@ export const authorize = () => {
       let message
       if ("ERR_NETWORK" === error.code) {
         message = "Server unavailable."
-      } else if (
-        error.response &&
-        error.response.data &&
-        error.response.data.error
-      ) {
-        message = error.response.data.error
+      } else if (error.response?.data?.message) {
+        message = error.response.data.message
       } else {
         message = "Something went wrong. Please come back later."
       }
@@ -95,12 +87,8 @@ export const logout = () => {
       let message
       if ("ERR_NETWORK" === error.code) {
         message = "Server unavailable."
-      } else if (
-        error.response &&
-        error.response.data &&
-        error.response.data.error
-      ) {
-        message = error.response.data.error
+      } else if (error.response?.data?.message) {
+        message = error.response.data.message
       } else {
         message = "Something went wrong. Please come back later."
       }
@@ -126,12 +114,8 @@ export const register = data => {
       let message
       if ("ERR_NETWORK" === error.code) {
         message = "Server unavailable."
-      } else if (
-        error.response &&
-        error.response.data &&
-        error.response.data.error
-      ) {
-        message = error.response.data.error
+      } else if (error.response?.data?.message) {
+        message = error.response.data.message
       } else {
         message = "Something went wrong. Please come back later."
       }

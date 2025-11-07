@@ -1,7 +1,7 @@
 import React, { useEffect, } from "react"
 import { Outlet, Navigate, } from "react-router"
 import { useSelector, useDispatch, } from "react-redux"
-import { authorize, } from "./redux/actions/authActions"
+import { authorise, } from "./redux/actions/authActions"
 
 const AuthRoute = ({ redirectPath, }) => {
   const dispatch = useDispatch()
@@ -10,7 +10,7 @@ const AuthRoute = ({ redirectPath, }) => {
   }))
 
   useEffect(() => {
-    dispatch(authorize())
+    dispatch(authorise())
   }, [])
 
   if (state.auth.loading) {

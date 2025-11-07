@@ -1,3 +1,4 @@
+"use strict";
 const { fileSize, } = require("./file");
 
 exports.defaultConfig = {

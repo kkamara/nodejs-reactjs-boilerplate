@@ -25,7 +25,7 @@ export const AuthorizeUserService = () => {
   const http = new HttpService()
   const tokenId = "user-token"
   
-  return http.getData("/user/authorize", tokenId)
+  return http.getData("/user/authorise", tokenId)
     .then(response => {
       return response.data
     })
@@ -35,7 +35,7 @@ export const AuthorizeUserService = () => {
 export const LogoutUserService = () => {
   const http = new HttpService()
   const tokenId = "user-token"
-  return http.getData("/users/logout", tokenId)
+  return http.delData("/user", tokenId)
     .then((response) => {
       if (null !== localStorage.getItem(tokenId)) {
         localStorage.removeItem(tokenId)

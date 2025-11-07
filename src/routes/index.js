@@ -1,15 +1,15 @@
 'use strict';
 const express = require('express');
-const home = require('./home');
-const api = require('./api');
-const v1 = require('./api/v1');
-const mobileV1 = require('./api/mobile/v1');
+const homeRoutes = require('./homeRoutes');
+const apiRoutes = require('./API');
+const v1Routes = require('./API/V1');
+const mobileV1Routes = require('./API/mobile/V1');
 
 const router = express.Router();
 
-router.use('/api', api);
-router.use('/api/v1', v1);
-router.use('/mobile-api/v1', mobileV1);
-router.use('/home', home);
+router.use('/api', apiRoutes);
+router.use('/api/v1', v1Routes);
+router.use('/mobile-api/v1', mobileV1Routes);
+router.use('/', homeRoutes);
 
 module.exports = router;

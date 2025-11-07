@@ -18,12 +18,8 @@ export const removeAvatarFile = () => {
         let message
         if ("ERR_NETWORK" === error.code) {
           message = "Server unavailable."
-        } else if (
-          error.response &&
-          error.response.data &&
-          error.response.data.error
-        ) {
-          message = error.response.data.error
+        } else if (error.response?.data?.message) {
+          message = error.response.data.message
         } else {
           message = "Something went wrong. Please come back later."
         }

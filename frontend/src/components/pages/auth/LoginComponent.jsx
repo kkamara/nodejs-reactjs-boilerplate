@@ -1,7 +1,7 @@
 import React, { useEffect, useState, } from "react"
 import { useDispatch, useSelector, } from "react-redux"
 import { Helmet, } from "react-helmet"
-import { login, authorize, } from "../../../redux/actions/authActions"
+import { login, authorise, } from "../../../redux/actions/authActions"
 import Error from "../../layouts/Error"
 
 import "./LoginComponent.scss"
@@ -19,7 +19,7 @@ export default function LoginComponent() {
   }))
 
   useEffect(() => {
-    dispatch(authorize())
+    dispatch(authorise())
   }, [])
 
   useEffect(() => {

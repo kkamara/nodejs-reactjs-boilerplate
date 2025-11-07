@@ -2,7 +2,7 @@ import React, { useEffect, useState, } from "react"
 import { useNavigate, } from "react-router-dom"
 import { useDispatch, useSelector, } from "react-redux"
 import { Helmet, } from "react-helmet"
-import { register, authorize, } from "../../../redux/actions/authActions"
+import { register, authorise, } from "../../../redux/actions/authActions"
 import Error from "../../layouts/Error"
 
 import "./RegisterComponent.scss"
@@ -31,7 +31,7 @@ export default function RegisterComponent() {
     if (localStorage.getItem("user-token")) {
       return navigate("/")
     } else if (authState.loading) {
-      dispatch(authorize())
+      dispatch(authorise())
     }
     if (authState.error && "Token not set." !== authState.error) {
       setError(authState.error)

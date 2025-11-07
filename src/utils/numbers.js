@@ -1,3 +1,4 @@
+"use strict";
 /**
  * @param {number} subject
  * @returns {string}

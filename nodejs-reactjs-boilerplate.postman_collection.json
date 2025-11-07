@@ -53,9 +53,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{api}}/user/authorize",
+											"raw": "{{API}}/user/authorize",
 											"host": [
-												"{{api}}"
+												"{{API}}"
 											],
 											"path": [
 												"user",
@@ -81,9 +81,9 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "{{api}}/user",
+											"raw": "{{API}}/user",
 											"host": [
-												"{{api}}"
+												"{{API}}"
 											],
 											"path": [
 												"user"
@@ -109,9 +109,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{api}}/user/register",
+									"raw": "{{API}}/user/register",
 									"host": [
-										"{{api}}"
+										"{{API}}"
 									],
 									"path": [
 										"user",
@@ -136,9 +136,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{api}}/user",
+									"raw": "{{API}}/user",
 									"host": [
-										"{{api}}"
+										"{{API}}"
 									],
 									"path": [
 										"user"
@@ -163,7 +163,20 @@
 							]
 						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
 						"url": {
 							"raw": "{{host}}/health",
 							"host": [
