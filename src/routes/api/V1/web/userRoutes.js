@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
-const { authenticate, } = require("../../../../../middlewares/V1/authMiddleware");
-const { createUser, loginUser, authoriseUser, logoutUser, uploadAvatar, updateUser, removeAvatar } = require("../../../../../controllers/API/V1/web/userControllers");
+const { authenticate, } = require("../../../../middlewares/V1/authMiddleware");
+const { createUser, loginUser, authoriseUser, logoutUser, uploadAvatar, updateUser, removeAvatar } = require("../../../../controllers/API/V1/web/userControllers");
 
 const router = express.Router();
 

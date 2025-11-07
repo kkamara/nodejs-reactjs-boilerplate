@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const usersRoutes = require("./usersRoutes");
-const userRoutes = require("./user/userRoutes");
+const userRoutes = require("./userRoutes");
 
 const router = express.Router();
 
