@@ -38,7 +38,7 @@
 							"name": "Bearer Token Restricted",
 							"item": [
 								{
-									"name": "Authorize User",
+									"name": "Authorise User",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -53,13 +53,13 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{API}}/user/authorize",
+											"raw": "{{API}}/user/authorise",
 											"host": [
 												"{{API}}"
 											],
 											"path": [
 												"user",
-												"authorize"
+												"authorise"
 											]
 										}
 									},
@@ -228,7 +228,7 @@
 							"name": "Bearer Token Restricted",
 							"item": [
 								{
-									"name": "Authorize User",
+									"name": "Authorise User",
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -243,13 +243,13 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{web}}/user/authorize",
+											"raw": "{{web}}/user/authorise",
 											"host": [
 												"{{web}}"
 											],
 											"path": [
 												"user",
-												"authorize"
+												"authorise"
 											]
 										}
 									},
