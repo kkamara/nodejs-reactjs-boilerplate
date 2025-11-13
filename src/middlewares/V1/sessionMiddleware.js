@@ -20,4 +20,4 @@ module.exports.session = session({
   cookie: {
     secure: "production" === config.nodeEnv,
   },
-})
+});
