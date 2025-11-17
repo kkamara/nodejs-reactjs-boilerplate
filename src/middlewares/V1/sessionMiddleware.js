@@ -10,6 +10,8 @@ module.exports.session = session({
       path: path.join(
         __dirname,
         "..",
+        "..",
+        "..",
         "sessions",
       ),
     }) : undefined,
