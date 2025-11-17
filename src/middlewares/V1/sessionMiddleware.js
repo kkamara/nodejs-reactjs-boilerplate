@@ -12,8 +12,7 @@ module.exports.session = session({
         "..",
         "sessions",
       ),
-    }) :
-    undefined,
+    }) : undefined,
   secret: config.appKey,
   resave: false,
   saveUninitialized: true,
