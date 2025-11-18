@@ -12,7 +12,7 @@ module.exports.jsonError = (err, req, res, next) => {
   if ("production" !== nodeEnv) {
     console.log(err);
   }
-  return res.status(err.status || status.INTERNAL_SERVER_ERROR)
+  return res.status(res.statusCode || status.INTERNAL_SERVER_ERROR)
     .send({
       message: err.message,
       stack: "production" === nodeEnv ? null : err.stack,
