@@ -15,12 +15,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   
   Log.init({
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.INTEGER
-    },
     clientId: {
       type: DataTypes.STRING
     },
