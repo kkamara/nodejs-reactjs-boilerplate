@@ -47,7 +47,6 @@ describe('Login User API Tests', function() {
           console.log(err);
           return done();
         }
-        console.log("login body -", res.body);
         chai.expect(err).to.be.null;
         chai.expect(res).to.have.status(200);
         chai.expect(res.body).to.have.property('data');
