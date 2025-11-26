@@ -324,8 +324,8 @@ module.exports = (sequelize, DataTypes) => {
         return "The email field must be of type string";
       } else if (0 === bodyInput.email.trim().length) {
         return "The email field is required.";
-      } else if (30 < bodyInput.email.length) {
-        return "The email field length must not exceed 30 characters.";
+      } else if (100 < bodyInput.email.length) {
+        return "The email field length must not exceed 100 characters.";
       } else if (null === bodyInput.email.match(validEmailRegex)) {
         return "The email field must be a valid email address.";
       }
@@ -562,8 +562,8 @@ module.exports = (sequelize, DataTypes) => {
         return "The email field must be of type string";
       } else if (0 === bodyInput.email.trim().length) {
         return "The email field is required.";
-      } else if (30 < bodyInput.email.length) {
-        return "The email field length must not exceed 30 characters.";
+      } else if (100 < bodyInput.email.length) {
+        return "The email field length must not exceed 100 characters.";
       } else if (null === bodyInput.email.match(validEmailRegex)) {
         return "The email field must be a valid email address.";
       }
