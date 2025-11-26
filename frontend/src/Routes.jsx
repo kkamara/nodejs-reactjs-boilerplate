@@ -10,7 +10,6 @@ import Logout from "./components/pages/auth/LogoutComponent"
 import Register from "./components/pages/auth/RegisterComponent"
 import Settings from "./components/pages/auth/SettingsComponent"
 
-
 import NotFound from "./components/pages/http/NotFoundComponent"
 
 import { url, } from "./utils/config"
