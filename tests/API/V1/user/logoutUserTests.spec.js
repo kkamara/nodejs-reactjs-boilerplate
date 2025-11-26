@@ -61,7 +61,7 @@ describe('Logout User API Tests', function() {
         chai.expect(err).to.be.null;
         chai.expect(res).to.have.status(200);
         chai.expect(res.body).to.have.property('message');
-        chai.expect(res.body.message).to.equal("Success");
+        chai.expect(res.body.message).to.equal("Success.");
 
         const authenticated = await db.sequelize.models
           .userToken
