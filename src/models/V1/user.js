@@ -234,7 +234,9 @@ module.exports = (sequelize, DataTypes) => {
       page = 1,
       perPage = 7,
     ) {
+      page = Number(page);
       page -= 1;
+      perPage = Number(perPage);
       const offset = page * perPage;
       try {
         const countResult = await sequelize.query(
@@ -267,7 +269,7 @@ module.exports = (sequelize, DataTypes) => {
             OFFSET :offset
           `,
           {
-            replacements: { offset, perPage: Number(perPage), },
+            replacements: { offset, perPage, },
             type: sequelize.QueryTypes.SELECT,
           }
         );
