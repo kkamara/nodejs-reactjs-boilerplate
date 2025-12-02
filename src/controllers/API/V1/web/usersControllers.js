@@ -10,7 +10,7 @@ const getUsers = asyncHandler(async (req, res) => {
   if (page && null === `${page}`.match(integerNumberRegex)) {
     res.status(status.BAD_REQUEST);
     throw new Error(
-      "The page query parameter, if provided, must be type integer.",
+      "The page query parameter, if provided, must be of type integer.",
     );
   }
 
