@@ -267,7 +267,7 @@ module.exports = (sequelize, DataTypes) => {
             OFFSET :offset
           `,
           {
-            replacements: { offset, perPage, },
+            replacements: { offset, perPage: Number(perPage), },
             type: sequelize.QueryTypes.SELECT,
           }
         );
