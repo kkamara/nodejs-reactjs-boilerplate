@@ -198,7 +198,7 @@ module.exports = (sequelize, DataTypes) => {
     static async getNewToken(id) {
       const result = generateToken();
       try {
-        const [addToken, metadata] = await sequelize.query(
+        await sequelize.query(
           `INSERT INTO ${sequelize.models.userToken.getTableName()}(
               usersId, token, createdAt, updatedAt
             ) VALUES(
