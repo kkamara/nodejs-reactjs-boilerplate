@@ -1,12 +1,13 @@
 "use strict";
 const { nodeEnv } = require('../../config');
 const { status, } = require('http-status');
+const asyncHandler = require("express-async-handler");
 
-module.exports.notFound = (req, res, next) => {
+module.exports.notFound = asyncHandler((req, res, next) => {
   const error = new Error(`Not found: ${req.originalUrl}`);
   res.status(status.NOT_FOUND);
   next(error);
-};
+});
 
 module.exports.jsonError = (err, req, res, next) => {
   if ("production" !== nodeEnv) {
