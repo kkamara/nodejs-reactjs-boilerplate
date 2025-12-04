@@ -33,7 +33,7 @@ describe('Login User API Tests', function() {
     if (false === createdAccount) {
       throw new Error("Error encountered when creating account.");
     }
-    createdAccountID = createdAccount.userId;
+    createdAccountID = createdAccount.userID;
   });
   it('Tests Login User Success', function(done) {
     chai.request(app)

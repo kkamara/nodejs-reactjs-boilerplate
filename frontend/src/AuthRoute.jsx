@@ -17,11 +17,11 @@ const AuthRoute = ({ redirectPath, }) => {
     return null
   }
 
-  const tokenId = "user-token"
-  const userStorage = localStorage.getItem(tokenId)
+  const tokenID = "user-token"
+  const userStorage = localStorage.getItem(tokenID)
   if (state.auth.error || null === userStorage) {
     if (null !== userStorage) {
-      localStorage.removeItem(tokenId)
+      localStorage.removeItem(tokenID)
     }
     if (redirectPath) {
       return <Navigate to={redirectPath}/>

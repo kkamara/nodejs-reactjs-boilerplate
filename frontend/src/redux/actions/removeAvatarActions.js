@@ -7,8 +7,8 @@ export const removeAvatarFile = () => {
 
     dispatch({ type: removeAvatar.REMOVE_AVATAR_PENDING, })
 
-    const tokenId = "user-token"
-    await http.delData("/user/avatar", tokenId)
+    const tokenID = "user-token"
+    await http.delData("/user/avatar", tokenID)
       .then(res => {
         dispatch({
           type: removeAvatar.REMOVE_AVATAR_SUCCESS,

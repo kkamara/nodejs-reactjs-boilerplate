@@ -62,7 +62,7 @@ const createUser = asyncHandler(async (req, res) => {
   }
 
   const newUser = await db.sequelize.models.user.getUser(
-    userInsert.userId,
+    userInsert.userID,
   );
   if (false === newUser) {
     res.status(status.INTERNAL_SERVER_ERROR);
@@ -140,7 +140,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const authTokenResult = await db.sequelize.models
     .userToken
     .getAuthToken(
-      authTokenInsert.authTokenId,
+      authTokenInsert.authTokenID,
     );
   if (false === authTokenResult) {
     res.status(status.BAD_REQUEST);
@@ -170,7 +170,7 @@ const authoriseUser = asyncHandler(async (req, res) => {
   }
   
   await db.sequelize.models.user.updateUserTimestamp(
-    req.session.userId,
+    req.session.userID,
   );
   
   res.status(status.OK);
@@ -199,7 +199,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   }
   
   await db.sequelize.models.user.updateUserTimestamp(
-    req.session.userId,
+    req.session.userID,
   );
 
   res.status(status.OK);
@@ -248,8 +248,8 @@ const uploadAvatar = asyncHandler(async (req, res) => {
 
     const user = await db.sequelize.models
       .user
-      .getRawUserById(
-        req.session.userId,
+      .getRawUserByID(
+        req.session.userID,
       );
     if (false === user) {
       res.status(status.INTERNAL_SERVER_ERROR);
@@ -266,7 +266,7 @@ const uploadAvatar = asyncHandler(async (req, res) => {
     const updateDB = await db.sequelize.models
       .user
       .updateUser(
-        req.session.userId,
+        req.session.userID,
         {
           avatarName: newFileName,
           firstName: null,
@@ -289,7 +289,7 @@ const updateUser = asyncHandler(async (req, res) => {
   const inputError = await db.sequelize.models
     .user
     .getUpdateUserError(
-      req.session.userId,
+      req.session.userID,
       req.body,
     );
   if (false !== inputError) {
@@ -316,7 +316,7 @@ const updateUser = asyncHandler(async (req, res) => {
   const updateUser = await db.sequelize.models
     .user
     .updateUser(
-      req.session.userId,
+      req.session.userID,
       {
         firstName: cleanData.firstName,
         lastName: cleanData.lastName,
@@ -341,8 +341,8 @@ const updateUser = asyncHandler(async (req, res) => {
 const removeAvatar = asyncHandler(async (req, res) => {
   const user = await db.sequelize.models
     .user
-    .getRawUserById(
-      req.session.userId,
+    .getRawUserByID(
+      req.session.userID,
     );
   if (false === user) {
     res.status(status.NOT_FOUND);
@@ -358,7 +358,7 @@ const removeAvatar = asyncHandler(async (req, res) => {
     const resetAvatar = await db.sequelize.models
       .user
       .resetAvatar(
-        req.session.userId,
+        req.session.userID,
       );
     if (false === resetAvatar) {
       res.status(status.INTERNAL_SERVER_ERROR);

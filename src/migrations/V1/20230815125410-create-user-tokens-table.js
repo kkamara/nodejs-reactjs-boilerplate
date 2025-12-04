@@ -11,7 +11,7 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER
         },
-        usersId: {
+        usersID: {
           type: Sequelize.INTEGER
         },
         token: {

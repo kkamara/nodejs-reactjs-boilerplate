@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
           return false;
         }
 
-        return { userId: authTokenResult[0].usersId };
+        return { userID: authTokenResult[0].usersID };
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);
@@ -149,16 +149,16 @@ module.exports = (sequelize, DataTypes) => {
     }
     
     /**
-     * @param {number} usersId
+     * @param {number} usersID
      * @returns {object|false}
      */
-    static async createAuthToken(usersId) {
+    static async createAuthToken(usersID) {
       try {
         const newToken = generateToken();
 
         const result = await sequelize.query(
-          `INSERT INTO ${this.getTableName()}(usersId, token, expiresAt, createdAt, updatedAt)
-            VALUES(:usersId, :token, :expiresAt, :createdAt, :updatedAt)`,
+          `INSERT INTO ${this.getTableName()}(usersID, token, expiresAt, createdAt, updatedAt)
+            VALUES(:usersID, :token, :expiresAt, :createdAt, :updatedAt)`,
           {
             replacements: {
               token: newToken,
@@ -167,13 +167,13 @@ module.exports = (sequelize, DataTypes) => {
                 .format(mysqlTimeFormat),
               createdAt: moment().utc().format(mysqlTimeFormat),
               updatedAt: moment().utc().format(mysqlTimeFormat),
-              usersId, 
+              usersID, 
             },
             type: sequelize.QueryTypes.INSERT,
           },
         );
         
-        return { authTokenId: result[0] };
+        return { authTokenID: result[0] };
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);
@@ -183,24 +183,24 @@ module.exports = (sequelize, DataTypes) => {
     }
     
     /**
-     * @param {number} userId
+     * @param {number} userID
      * @param {string} token
      * @returns {boolean}
      */
-    static async logoutUser(userId, token) {
+    static async logoutUser(userID, token) {
       try {
         const result = await sequelize.query(
           `UPDATE ${this.getTableName()}
             SET expiresAt = :expiresAt, updatedAt = :updatedAt
             WHERE token = :token AND
-              usersId = :userId AND
+              usersID = :userID AND
               deletedAt IS NULL`,
           {
             replacements: {
               expiresAt: moment().utc().format(mysqlTimeFormat),
               updatedAt: moment().utc().format(mysqlTimeFormat),
               token,
-              userId,
+              userID,
             },
             type: sequelize.QueryTypes.UPDATE,
           },
@@ -219,20 +219,20 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {number} usersId
+     * @param {number} usersID
      * @returns {boolean}
      * @throws Error when environment is not set to test
      */
-    static async testDeleteAllUsersAuthTokens(usersId) {
+    static async testDeleteAllUsersAuthTokens(usersID) {
       if ("test" !== nodeEnv) {
         throw new Error("Environment must be set to test when invoking this method.");
       }
       try {
         await sequelize.query(
           `DELETE FROM ${this.getTableName()}
-            WHERE usersId = :usersId;`,
+            WHERE usersID = :usersID;`,
           {
-            replacements: { usersId, },
+            replacements: { usersID, },
             type: sequelize.QueryTypes.DELETE,
           },
         );
@@ -276,7 +276,7 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   UserToken.init({
-    usersId: {
+    usersID: {
       type: DataTypes.INTEGER
     },
     token: {

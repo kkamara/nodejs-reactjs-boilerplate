@@ -27,21 +27,21 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {number} userId
+     * @param {number} userID
      * @returns {boolean}
      */
-    static async updateUserTimestamp(userId) {
+    static async updateUserTimestamp(userID) {
       try {
         const result = await sequelize.query(
           `UPDATE ${this.getTableName()}
             SET updatedAt = :updatedAt
-            WHERE id = :userId`,
+            WHERE id = :userID`,
           {
             replacements: {
               updatedAt: moment()
                 .utc()
                 .format(mysqlTimeFormat),
-              userId,
+              userID,
             },
             type: sequelize.QueryTypes.UPDATE,
           },
@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
      * @param {string} id
      * @return {object|false}
      */
-    static async getUserById(id) {
+    static async getUserByID(id) {
       let res = false;
       try {
         const result = await sequelize.query(
@@ -93,7 +93,7 @@ module.exports = (sequelize, DataTypes) => {
      * @param {string} id
      * @return {object|false}
      */
-    static async getRawUserById(id) {
+    static async getRawUserByID(id) {
       let res = false;
       try {
         const result = await sequelize.query(
@@ -131,7 +131,7 @@ module.exports = (sequelize, DataTypes) => {
               password, passwordSalt, updatedAt
             ${this.getTableName()}.updatedAt, username
             FROM ${this.getTableName()}
-            LEFT JOIN ${sequelize.models.userToken.getTableName()} ON ${sequelize.models.userToken.getTableName()}.usersId = ${this.getTableName()}.id
+            LEFT JOIN ${sequelize.models.userToken.getTableName()} ON ${sequelize.models.userToken.getTableName()}.usersID = ${this.getTableName()}.id
             WHERE ${sequelize.models.userToken.getTableName()}.token=? AND
               ${sequelize.models.user.getTableName()}.deletedAt IS NULL
               ${sequelize.models.userToken.getTableName()}.deletedAt IS NULL
@@ -200,7 +200,7 @@ module.exports = (sequelize, DataTypes) => {
       try {
         await sequelize.query(
           `INSERT INTO ${sequelize.models.userToken.getTableName()}(
-              usersId, token, createdAt, updatedAt
+              usersID, token, createdAt, updatedAt
             ) VALUES(
               ?, ?, NOW(), NOW()
             )`, 
@@ -417,19 +417,19 @@ module.exports = (sequelize, DataTypes) => {
 
     /**
      * @param {string} email
-     * @param {number} userId
+     * @param {number} userID
      * @returns {boolean}
      */
-    static async emailExistsNotById(email, userId) {
+    static async emailExistsNotByID(email, userID) {
       try {
         const results = await sequelize.query(
           `SELECT id
             FROM ${this.getTableName()}
-            WHERE email = :email AND id != :userId
+            WHERE email = :email AND id != :userID
             ORDER BY id DESC
             LIMIT 1`, 
           {
-            replacements: { email, userId, },
+            replacements: { email, userID, },
             type: sequelize.QueryTypes.SELECT,
           },
         );
@@ -477,7 +477,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         );
         
-        return { userId: result[0] };
+        return { userID: result[0] };
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);
@@ -619,10 +619,10 @@ module.exports = (sequelize, DataTypes) => {
     static async getUserByAuthToken(token) {
       try {
         const result = await sequelize.query(
-          `SELECT ${sequelize.models.userToken.getTableName()}.*, ${sequelize.models.userToken.getTableName()}.id as ${sequelize.models.userToken.getTableName()}Id, ${this.getTableName()}.*
+          `SELECT ${sequelize.models.userToken.getTableName()}.*, ${sequelize.models.userToken.getTableName()}.id as ${sequelize.models.userToken.getTableName()}ID, ${this.getTableName()}.*
             FROM ${this.getTableName()}
             INNER JOIN ${sequelize.models.userToken.getTableName()}
-              ON ${this.getTableName()}.id = ${sequelize.models.userToken.getTableName()}.usersId
+              ON ${this.getTableName()}.id = ${sequelize.models.userToken.getTableName()}.usersID
             WHERE ${sequelize.models.userToken.getTableName()}.token = :token AND
               ${sequelize.models.userToken.getTableName()}.deletedAt IS NULL AND
               ${this.getTableName()}.deletedAt IS NULL
@@ -649,20 +649,20 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {number} userId
+     * @param {number} userID
      * @returns {boolean}
      * @throws Error when environment is not set to test
      */
-    static async testDeleteUser(userId) {
+    static async testDeleteUser(userID) {
       if ("test" !== nodeEnv) {
         throw new Error("Environment must be set to test when invoking this method.");
       }
       try {
         await sequelize.query(
           `DELETE FROM ${this.getTableName()}
-            WHERE id = :userId;`,
+            WHERE id = :userID;`,
           {
-            replacements: { userId, },
+            replacements: { userID, },
             type: sequelize.QueryTypes.DELETE,
           },
         );
@@ -677,7 +677,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {Object} userId
+     * @param {Object} userID
      * @returns {boolean}
      * @throws Error when environment is not set to test
      */
@@ -706,7 +706,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         );
         
-        return { userId: result[0] };
+        return { userID: result[0] };
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);
@@ -716,11 +716,11 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {number} userId
+     * @param {number} userID
      * @param {Object} payload
      * @returns {boolean}
      */
-    static async updateUser(userId, payload) {
+    static async updateUser(userID, payload) {
       try {
         const result = await sequelize.query(
           `UPDATE ${this.getTableName()}
@@ -731,7 +731,7 @@ module.exports = (sequelize, DataTypes) => {
               passwordSalt = COALESCE(:passwordSalt, passwordSalt),
               avatarName = COALESCE(:avatarName, avatarName),
               updatedAt = COALESCE(:updatedAt, updatedAt)
-            WHERE id = :userId`,
+            WHERE id = :userID`,
           {
             replacements: {
               firstName: payload.firstName,
@@ -743,7 +743,7 @@ module.exports = (sequelize, DataTypes) => {
               updatedAt: moment()
                 .utc()
                 .format(mysqlTimeFormat),
-              userId,
+              userID,
             },
             type: sequelize.QueryTypes.UPDATE,
           },
@@ -762,11 +762,11 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {number} userId
+     * @param {number} userID
      * @param {Object} input
      * @returns {false|string}
      */
-    static async getUpdateUserError(userId, input) {
+    static async getUpdateUserError(userID, input) {
       if (undefined === input.firstName) {
         return "The first name field is required.";
       } else if ("string" !== typeof input.firstName) {
@@ -807,7 +807,7 @@ module.exports = (sequelize, DataTypes) => {
         );
         if (
           false !== foundUserByEmail &&
-          foundUserByEmail.id !== userId
+          foundUserByEmail.id !== userID
         ) {
           return "The email field is already taken.";
         }
@@ -854,22 +854,22 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {number} userId
+     * @param {number} userID
      * @returns {boolean}
      */
-    static async resetAvatar(userId) {
+    static async resetAvatar(userID) {
       try {
         const result = await sequelize.query(
           `UPDATE ${this.getTableName()}
             SET avatarName = null,
               updatedAt = :updatedAt
-            WHERE id = :userId`,
+            WHERE id = :userID`,
           {
             replacements: {
               updatedAt: moment()
                 .utc()
                 .format(mysqlTimeFormat),
-              userId,
+              userID,
             },
             type: sequelize.QueryTypes.UPDATE,
           },

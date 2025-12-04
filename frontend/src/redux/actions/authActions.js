@@ -38,8 +38,8 @@ export const authorise = () => {
   return dispatch => {
 
     dispatch({ type: auth.AUTH_AUTHORIZE_PENDING, })
-    const tokenId = "user-token"
-    if (localStorage.getItem(tokenId) === null) {
+    const tokenID = "user-token"
+    if (localStorage.getItem(tokenID) === null) {
       return dispatch({
         type: auth.AUTH_AUTHORIZE_ERROR,
         payload: "Token not set.",
@@ -54,7 +54,7 @@ export const authorise = () => {
 
     }, error => {
       if (error.response.status === 401) {
-        localStorage.removeItem(tokenId)
+        localStorage.removeItem(tokenID)
         window.location = "/"
       }
       let message

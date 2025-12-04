@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   
   Log.init({
-    clientId: {
+    clientID: {
       type: DataTypes.STRING
     },
     userCreated: {

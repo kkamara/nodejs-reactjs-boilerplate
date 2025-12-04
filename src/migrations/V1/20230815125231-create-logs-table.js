@@ -11,7 +11,7 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER
         },
-        clientId: {
+        clientID: {
           type: Sequelize.STRING
         },
         userCreated: {

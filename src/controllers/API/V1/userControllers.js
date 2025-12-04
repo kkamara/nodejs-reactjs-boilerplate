@@ -53,7 +53,7 @@ const createUser = asyncHandler(async (req, res) => {
   }
 
   const newUser = await db.sequelize.models.user.getUser(
-    userInsert.userId,
+    userInsert.userID,
   );
   if (false === newUser) {
     res.status(status.INTERNAL_SERVER_ERROR);
@@ -131,7 +131,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const authTokenResult = await db.sequelize.models
     .userToken
     .getAuthToken(
-      authTokenInsert.authTokenId,
+      authTokenInsert.authTokenID,
     );
   if (false === authTokenResult) {
     res.status(status.BAD_REQUEST);
@@ -161,7 +161,7 @@ const authoriseUser = asyncHandler(async (req, res) => {
   }
   
   await db.sequelize.models.user.updateUserTimestamp(
-    req.session.userId,
+    req.session.userID,
   );
   
   res.status(status.OK);
@@ -190,7 +190,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   }
   
   await db.sequelize.models.user.updateUserTimestamp(
-    req.session.userId,
+    req.session.userID,
   );
 
   res.status(status.OK);
