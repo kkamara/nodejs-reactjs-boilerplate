@@ -1,7 +1,5 @@
 import React from "react"
 
-import "./NotFoundComponent.scss"
-
 export default function NotFoundComponent() {
   return (
     <div className="mt-5 col-md-4 offset-md-4">
