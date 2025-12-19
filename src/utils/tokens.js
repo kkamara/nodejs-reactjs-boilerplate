@@ -16,7 +16,7 @@ exports.generateToken = (length=56) => {
 /**
  * Returns the salt and hash.
  * @param {string} plainText
- * @return {object} Like { salt, hash, }.
+ * @return {Object} Like { salt, hash, }.
  */
 exports.encrypt = (plainText) => {
   const salt = randomBytes(16).toString('hex');

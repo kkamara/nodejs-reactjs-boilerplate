@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 
     /**
      * @param {number} bearerToken 
-     * @returns {object|false}
+     * @returns {Object|false}
      */
     static async authenticate(bearerToken) {
       if (null === bearerToken.match(/Bearer \w+/g)) {
@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
 
     /**
      * @param {string} token
-     * @returns {object|false}
+     * @returns {Object|false}
      */
     static async getAuthTokenByToken(token) {
       try {
@@ -119,7 +119,7 @@ module.exports = (sequelize, DataTypes) => {
 
     /**
      * @param {string} id
-     * @returns {object|false}
+     * @returns {Object|false}
      */
     static async getAuthToken(id) {
       try {
@@ -150,7 +150,7 @@ module.exports = (sequelize, DataTypes) => {
     
     /**
      * @param {number} usersID
-     * @returns {object|false}
+     * @returns {Object|false}
      */
     static async createAuthToken(usersID) {
       try {
