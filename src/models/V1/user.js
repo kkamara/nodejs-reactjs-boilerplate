@@ -1,6 +1,5 @@
 'use strict';
 const { Model, } = require('sequelize');
-const { QueryTypes, } = require('sequelize');
 const moment = require("moment-timezone");
 const {
   nodeEnv,
@@ -74,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
             LIMIT 1`, 
           {
             replacements: [ id, ],
-            type: QueryTypes.SELECT,
+            type: sequelize.QueryTypes.SELECT,
           },
         );
         
@@ -104,7 +103,7 @@ module.exports = (sequelize, DataTypes) => {
             LIMIT 1`, 
           {
             replacements: [ id, ],
-            type: QueryTypes.SELECT,
+            type: sequelize.QueryTypes.SELECT,
           },
         );
         
@@ -138,7 +137,7 @@ module.exports = (sequelize, DataTypes) => {
             LIMIT 1`, 
           {
             replacements: [ token, ],
-            type: QueryTypes.SELECT,
+            type: sequelize.QueryTypes.SELECT,
           },
         );
         
@@ -171,7 +170,7 @@ module.exports = (sequelize, DataTypes) => {
             LIMIT 1`, 
           {
             replacements: [ id, ],
-            type: QueryTypes.SELECT,
+            type: sequelize.QueryTypes.SELECT,
           },
         );
 
@@ -206,7 +205,7 @@ module.exports = (sequelize, DataTypes) => {
             )`, 
           {
             replacements: [ id, result.hash, ],
-            type: QueryTypes.INSERT,
+            type: sequelize.QueryTypes.INSERT,
           },
         );
         
