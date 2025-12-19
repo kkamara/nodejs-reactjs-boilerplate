@@ -73,8 +73,8 @@ module.exports = (sequelize, DataTypes) => {
             WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
           {
-              replacements: [ id, ],
-              type: QueryTypes.SELECT,
+            replacements: [ id, ],
+            type: QueryTypes.SELECT,
           },
         );
         
@@ -103,8 +103,8 @@ module.exports = (sequelize, DataTypes) => {
             WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
           {
-              replacements: [ id, ],
-              type: QueryTypes.SELECT,
+            replacements: [ id, ],
+            type: QueryTypes.SELECT,
           },
         );
         
@@ -137,8 +137,8 @@ module.exports = (sequelize, DataTypes) => {
               ${sequelize.models.userToken.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
           {
-              replacements: [ token, ],
-              type: QueryTypes.SELECT,
+            replacements: [ token, ],
+            type: QueryTypes.SELECT,
           },
         );
         
@@ -170,8 +170,8 @@ module.exports = (sequelize, DataTypes) => {
             WHERE ${this.getTableName()}.id=? AND ${this.getTableName()}.deletedAt IS NULL
             LIMIT 1`, 
           {
-              replacements: [ id, ],
-              type: QueryTypes.SELECT,
+            replacements: [ id, ],
+            type: QueryTypes.SELECT,
           },
         );
 
@@ -205,8 +205,8 @@ module.exports = (sequelize, DataTypes) => {
               ?, ?, NOW(), NOW()
             )`, 
           {
-              replacements: [ id, result.hash, ],
-                type: QueryTypes.INSERT,
+            replacements: [ id, result.hash, ],
+            type: QueryTypes.INSERT,
           },
         );
         
