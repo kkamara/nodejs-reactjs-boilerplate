@@ -31,7 +31,7 @@ module.exports = {
       
       pwd = encrypt("secret");
       fakeUsers.push({
-        email: "jane@doe.com",
+        email: "jane@example.com",
         firstName: "Jane",
         lastName: "Doe",
         password: pwd.hash,
