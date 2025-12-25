@@ -88,7 +88,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const cleanData = db.sequelize.models
     .user
     .getCleanLoginData(
-      req.bodyString("email"),
+      req.bodyEmail("email"),
       req.bodyString("password"),
     );
   if (false === cleanData) {
