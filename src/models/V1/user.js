@@ -292,6 +292,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
+     * @param {Object} bodyInput
      * @param {false|Object} bodyInput 
      */
     static getRegisterError(bodyInput) {
@@ -553,7 +554,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {Object} BodyInput
+     * @param {Object} bodyInput
      * @returns {false|string}
      */
     static getLoginError(bodyInput) {
