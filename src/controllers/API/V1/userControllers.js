@@ -22,7 +22,7 @@ const createUser = asyncHandler(async (req, res) => {
     .getCreateUserData({
       firstName: req.bodyString("firstName"),
       lastName: req.bodyString("lastName"),
-      email: req.bodyString("email"),
+      email: req.bodyEmail("email"),
       password: req.bodyString("password"),
     });
   if (false === cleanData) {
