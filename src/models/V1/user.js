@@ -225,8 +225,8 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {number} page
-     * @param {number} perPage
+     * @param {number} page [page=1]
+     * @param {number} perPage [perPage=7]
      * @returns {Object|false}
      */
     static async getUsersPaginated(
