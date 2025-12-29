@@ -69,6 +69,7 @@ export default function LoginComponent() {
             className="form-control"
             value={email}
             onChange={onEmailChange}
+            autoComplete="on"
           />
         </div>
         <div className="form-group">

@@ -105,6 +105,7 @@ export default function RegisterComponent() {
               id="firstName"
               value={firstName}
               onChange={onFirstNameChange}
+              autoComplete="on"
             />
           </div>
           <div className="form-group">
@@ -115,6 +116,7 @@ export default function RegisterComponent() {
               id="lastName"
               value={lastName}
               onChange={onLastNameChange}
+              autoComplete="on"
             />
           </div>
           <div className="form-group">
@@ -125,6 +127,7 @@ export default function RegisterComponent() {
               id="email"
               value={email}
               onChange={onEmailChange}
+              autoComplete="on"
             />
           </div>
           <div className="form-group">
