@@ -20,12 +20,6 @@ module.exports.authenticate = asyncHandler(async (req, res, next) => {
     res.status(status.UNAUTHORIZED);
     throw new Error(message401);
   }
-  const tokenIsExpired = moment(authTokenResult.expiredAt)
-    .unix() < moment().utc().unix();
-  if (true === tokenIsExpired) {
-    res.status(status.UNAUTHORIZED);
-    throw new Error(message401);
-  }
   const extractedToken = req.headerString("authorization")
     .split(" ")[1];
   req.session.userID = authTokenResult.userID;
