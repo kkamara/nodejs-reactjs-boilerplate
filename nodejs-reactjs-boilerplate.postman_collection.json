@@ -128,7 +128,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"jane@doe.com\",\r\n    \"password\": \"secret\"\r\n}",
+									"raw": "{\r\n    \"email\": \"jane@example.com\",\r\n    \"password\": \"secret\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
