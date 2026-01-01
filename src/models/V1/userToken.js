@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
         return false;
       }
     }
-
+    
     /**
      * Returns true if token has not expired.
      * @param {number} extractedToken 
@@ -282,7 +282,7 @@ module.exports = (sequelize, DataTypes) => {
     token: {
       type: DataTypes.STRING
     },
-    expiredAt: {
+    expiresAt: {
       allowNull: false,
       type: DataTypes.DATE
     },
