@@ -6,7 +6,7 @@ import React, {
 import { Helmet, } from "react-helmet"
 import { useSelector, useDispatch, } from "react-redux"
 
-import Error from "../../layouts/Error"
+import ErrorComponent from "../../layouts/ErrorComponent"
 import { uploadAvatar, } from "../../../redux/actions/avatarActions"
 import { updateSettings, } from "../../../redux/actions/updateUserSettingsActions"
 
@@ -157,7 +157,7 @@ export default function SettingsComponent() {
         <div className="col-md-4 offset-md-4">
           <h1 className="fw-bold">User Settings</h1>
 
-          <Error error={error}/>
+          <ErrorComponent error={error}/>
 
           <div className="edit-avatar-container">
             <img

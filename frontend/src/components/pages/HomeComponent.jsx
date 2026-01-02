@@ -4,7 +4,7 @@ import ReactPaginate from "react-paginate"
 import moment from "moment"
 import { Helmet, } from "react-helmet"
 import { getUsers, } from "../../redux/actions/usersActions"
-import Error from "../layouts/Error"
+import ErrorComponent from "../layouts/ErrorComponent"
 
 export default function HomeComponent() {
   const dispatch = useDispatch()
@@ -99,7 +99,7 @@ export default function HomeComponent() {
       <Helmet>
         <title>Home - {process.env.REACT_APP_NAME}</title>
       </Helmet>
-      <Error error={state.auth.error || state.users.error}/>
+      <ErrorComponent error={state.auth.error || state.users.error}/>
       <div className="text-center">
         <button className="btn btn-primary home-button">
           Test Button

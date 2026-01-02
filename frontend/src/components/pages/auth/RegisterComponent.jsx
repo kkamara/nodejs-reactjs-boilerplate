@@ -3,7 +3,7 @@ import { useNavigate, } from "react-router-dom"
 import { useDispatch, useSelector, } from "react-redux"
 import { Helmet, } from "react-helmet"
 import { register, authorise, } from "../../../redux/actions/authActions"
-import Error from "../../layouts/Error"
+import ErrorComponent from "../../layouts/ErrorComponent"
 
 import "./RegisterComponent.scss"
 
@@ -95,7 +95,7 @@ export default function RegisterComponent() {
     <div className="col-md-4 offset-md-4">
       <h1 className="register-lead fw-bold">Register</h1>
       <div>
-        <Error error={error} />
+        <ErrorComponent error={error} />
         <form method="post" onSubmit={onFormSubmit}>
           <div className="form-group">
             <label htmlFor="firstName">First Name*:</label>
