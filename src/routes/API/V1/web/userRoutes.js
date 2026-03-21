@@ -8,7 +8,7 @@ const router = express.Router();
 router.route("/register").post(createUser);
 router.route("/").post(loginUser)
   .delete(authenticate, logoutUser)
-  .patch(authenticate, updateUser);
+  .put(authenticate, updateUser);
 router.route("/authorise").get(authenticate, authoriseUser);
 router.route("/avatar")
   .post(authenticate, uploadAvatar)
