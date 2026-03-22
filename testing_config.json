@@ -3,7 +3,7 @@
     "port": 3306,
     "username": "root",
     "password": "secret",
-    "database": "boilerplate",
+    "database": "nodejs_boilerplate",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
