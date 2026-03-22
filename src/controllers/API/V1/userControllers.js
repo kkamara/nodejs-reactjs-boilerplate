@@ -54,6 +54,7 @@ const createUser = asyncHandler(async (req, res) => {
 
   const newUser = await db.sequelize.models.user.getUser(
     userInsert.userID,
+    req.session.timezone,
   );
   if (false === newUser) {
     res.status(status.INTERNAL_SERVER_ERROR);
@@ -174,6 +175,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   const user = await db.sequelize.models.user
     .getUserByAuthToken(
       req.session.extractedToken,
+      req.session.timezone,
     );
   if (false === user) {
     res.status(status.INTERNAL_SERVER_ERROR);

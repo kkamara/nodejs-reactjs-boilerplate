@@ -11,6 +11,7 @@ const { minifyHTML } = require('./middlewares/V1/minifyHTMLMiddleware');
 const { requestLog } = require('./middlewares/V1/loggingMiddleware');
 const { limiter } = require('./middlewares/V1/throttleMiddleware');
 const { cors } = require('./middlewares/V1/corsMiddleware');
+const { setUserTimezone } = require('./middlewares/V1/timezoneMiddleware');
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use(express.json());
 
 app.use(sanitize.middleware);
 app.use(cors);
+app.use(setUserTimezone);
 
 app.use('/', routes);
 
