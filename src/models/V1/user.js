@@ -60,9 +60,10 @@ module.exports = (sequelize, DataTypes) => {
 
     /**
      * @param {string} id
+     * @param {string} timezone [appTimezone]
      * @return {Object|false}
      */
-    static async getUserByID(id) {
+    static async getUserByID(id, timezone = appTimezone) {
       let res = false;
       try {
         const result = await sequelize.query(
@@ -81,7 +82,7 @@ module.exports = (sequelize, DataTypes) => {
           return false;
         }
 
-        res = this.getFormattedUserData(result[0]);
+        res = this.getFormattedUserData(result[0], timezone);
         return res;
       } catch(err) {
         return res;
@@ -120,9 +121,10 @@ module.exports = (sequelize, DataTypes) => {
 
     /**
      * @param {string} token
+     * @param {string} timezone [appTimezone]
      * @return {Object|false}
      */
-    static async getUserByToken(token) {
+    static async getUserByToken(token, timezone = appTimezone) {
       let res = false;
       try {
         const result = await sequelize.query(
@@ -145,7 +147,7 @@ module.exports = (sequelize, DataTypes) => {
           return false;
         }
 
-        res = this.getFormattedUserData(result[0]);
+        res = this.getFormattedUserData(result[0], timezone);
         return res;
       } catch(err) {
         if ("production" !== nodeEnv) {
@@ -157,9 +159,10 @@ module.exports = (sequelize, DataTypes) => {
 
     /**
      * @param {number} id
+     * @param {string} timezone [appTimezone]
      * @return {Object|false}
      */
-    static async getUser(id) {
+    static async getUser(id, timezone = appTimezone) {
       let res = false;
       try {
         const result = await sequelize.query(
@@ -179,7 +182,7 @@ module.exports = (sequelize, DataTypes) => {
           return res;
         }
 
-        res = this.getFormattedUserData(result[0]);
+        res = this.getFormattedUserData(result[0], timezone);
         return res;
       } catch(err) {
         if ("production" !== nodeEnv) {
@@ -225,13 +228,18 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     /**
-     * @param {number} page [page=1]
-     * @param {number} perPage [perPage=7]
+     * @param {Object} options
+     * @param {number} options.page [page=1]
+     * @param {number} options.perPage [perPage=7]
+     * @param {string} timezone [appTimezone]
      * @returns {Object|false}
      */
     static async getUsersPaginated(
-      page = 1,
-      perPage = 7,
+      {
+        page = 1,
+        perPage = 7,
+      },
+      timezone = appTimezone,
     ) {
       page = Number(page);
       page -= 1;
@@ -275,7 +283,7 @@ module.exports = (sequelize, DataTypes) => {
         
         page += 1;
         return {
-          data: this.getFormattedUsersData(coreResults),
+          data: this.getFormattedUsersData(coreResults, timezone),
           meta: {
             currentPage: page,
             items: countResult[0].total,
@@ -488,13 +496,14 @@ module.exports = (sequelize, DataTypes) => {
 
     /**
      * @param {array} payload
+     * @param {string} timezone [appTimezone]
      * @returns {array}
      */
-    static getFormattedUsersData(payload) {
+    static getFormattedUsersData(payload, timezone = appTimezone) {
       const result = [];
       for (const item of payload) {
         result.push(
-          this.getFormattedUserData(item)
+          this.getFormattedUserData(item, timezone)
         );
       }
       return result;
@@ -502,9 +511,10 @@ module.exports = (sequelize, DataTypes) => {
 
     /**
      * @param {Object} data
+     * @param {string} timezone [appTimezone]
      * @returns {Object}
      */
-    static getFormattedUserData(data) {
+    static getFormattedUserData(data, timezone = appTimezone) {
       return {
         id: data.id,
         firstName: data.firstName,
@@ -514,10 +524,10 @@ module.exports = (sequelize, DataTypes) => {
           appURL+"/images/profile/"+data.avatarName :
           appURL+"/images/profile/default-avatar.webp",
         createdAt: moment(data.createdAt)
-          .tz(appTimezone)
+          .tz(timezone)
           .format(mysqlTimeFormat),
         updatedAt: moment(data.updatedAt)
-          .tz(appTimezone)
+          .tz(timezone)
           .format(mysqlTimeFormat),
       };
     }
@@ -614,9 +624,10 @@ module.exports = (sequelize, DataTypes) => {
 
     /**
      * @param {string} token
+     * @param {string} timezone [appTimezone]
      * @returns {Object|false}
      */
-    static async getUserByAuthToken(token) {
+    static async getUserByAuthToken(token, timezone = appTimezone) {
       try {
         const result = await sequelize.query(
           `SELECT ${sequelize.models.userToken.getTableName()}.*, ${sequelize.models.userToken.getTableName()}.id as ${sequelize.models.userToken.getTableName()}ID, ${this.getTableName()}.*
@@ -639,7 +650,7 @@ module.exports = (sequelize, DataTypes) => {
           return false;
         }
         
-        return this.getFormattedUserData(result[0]);
+        return this.getFormattedUserData(result[0], timezone);
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);

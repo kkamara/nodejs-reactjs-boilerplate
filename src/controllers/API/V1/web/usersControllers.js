@@ -15,7 +15,11 @@ const getUsers = asyncHandler(async (req, res) => {
   }
 
   const users = await db.sequelize.models.user.getUsersPaginated(
-    page || 1,
+    {
+      page: page || 1,
+      perPage: 7,
+    },
+    req.session.timezone,
   );
   if (false === users) {
     res.status(status.INTERNAL_SERVER_ERROR)
