@@ -5,7 +5,7 @@ exports.removeFile = async path => {
   rmSync(path);
 };
 
-// 3MB
+// 3MB in bytes
 exports.fileSize = 3145728;
 
 exports.profilePhotoAsset = fileName => {
