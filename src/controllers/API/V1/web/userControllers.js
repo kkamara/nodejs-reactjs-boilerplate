@@ -211,80 +211,68 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 
 const uploadAvatar = asyncHandler(async (req, res) => {
-  upload(req, res, async function (err) {
-    if (err instanceof multer.MulterError) {
-      // A Multer error occurred when uploading.
-      res.status(status.INTERNAL_SERVER_ERROR);
-      throw new Error(err.message);
-    } else if (err) {
-      // An unknown error occurred when uploading.
-      res.status(status.INTERNAL_SERVER_ERROR);
-      throw new Error(message500);
-    }
+  if ("production" !== nodeEnv) {
+    console.log(req.file);
+  }
 
-    if ("production" !== nodeEnv) {
-      console.log(req.file);
-    }
+  const photoError = getUploadPhotoError(
+    req.file,
+  );
+  if (false !== photoError) {
+    res.status(status.BAD_REQUEST);
+    throw new Error(photoError);
+  }
+  
+  const fileExtension = req.file.mimetype
+    .slice(1 + req.file.mimetype.indexOf("/"));
+  const newFileName = req.file.filename + "." + fileExtension;
 
-    const photoError = getUploadPhotoError(
-      req.file,
+  try {
+    moveFile(
+      "uploads/"+req.file.filename,
+      "public/images/profile/"+newFileName,
     );
-    if (false !== photoError) {
-      res.status(status.BAD_REQUEST);
-      throw new Error(photoError);
-    }
-    
-    const fileExtension = req.file.mimetype
-      .slice(1 + req.file.mimetype.indexOf("/"));
-    const newFileName = req.file.filename + "." + fileExtension;
+  } catch (err) {
+    res.status(status.INTERNAL_SERVER_ERROR);
+    throw new Error(message500);
+  }
 
-    try {
-      moveFile(
-        "uploads/"+req.file.filename,
-        "public/images/profile/"+newFileName,
-      );
-    } catch (err) {
-      res.status(status.INTERNAL_SERVER_ERROR);
-      throw new Error(message500);
-    }
+  const user = await db.sequelize.models
+    .user
+    .getRawUserByID(
+      req.session.userID,
+    );
+  if (false === user) {
+    res.status(status.INTERNAL_SERVER_ERROR);
+    throw new Error(message500);
+  }
+  
+  if (
+    user.avatarName &&
+    user.avatarName !== defaultAvatarName
+  ) {
+    removeFile(profilePhotoAsset(user.avatarName));
+  }
 
-    const user = await db.sequelize.models
-      .user
-      .getRawUserByID(
-        req.session.userID,
-      );
-    if (false === user) {
-      res.status(status.INTERNAL_SERVER_ERROR);
-      throw new Error(message500);
-    }
-    
-    if (
-      user.avatarName &&
-      user.avatarName !== defaultAvatarName
-    ) {
-      removeFile(profilePhotoAsset(user.avatarName));
-    }
+  const updateDB = await db.sequelize.models
+    .user
+    .updateUser(
+      req.session.userID,
+      {
+        avatarName: newFileName,
+        firstName: null,
+        lastName: null,
+        email: null,
+        password: null,
+        passwordSalt: null,
+      },
+    );
+  if (false === updateDB) {
+    res.status(status.INTERNAL_SERVER_ERROR);
+    throw new Error(message500);
+  }
 
-    const updateDB = await db.sequelize.models
-      .user
-      .updateUser(
-        req.session.userID,
-        {
-          avatarName: newFileName,
-          firstName: null,
-          lastName: null,
-          email: null,
-          password: null,
-          passwordSalt: null,
-        },
-      );
-    if (false === updateDB) {
-      res.status(status.INTERNAL_SERVER_ERROR);
-      throw new Error(message500);
-    }
-
-    return res.json({ message: message200 });
-  });
+  return res.json({ message: message200 });
 });
 
 const updateUser = asyncHandler(async (req, res) => {

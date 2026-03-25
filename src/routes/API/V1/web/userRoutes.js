@@ -2,6 +2,11 @@
 const express = require("express");
 const { authenticate, } = require("../../../../middlewares/V1/authMiddleware");
 const { createUser, loginUser, authoriseUser, logoutUser, uploadAvatar, updateUser, removeAvatar } = require("../../../../controllers/API/V1/web/userControllers");
+const multer = require("multer");
+const { defaultConfig, } = require("../../../../utils/uploads");
+
+const upload = multer(defaultConfig)
+  .single("binary");
 
 const router = express.Router();
 
@@ -11,7 +16,7 @@ router.route("/").post(loginUser)
   .put(authenticate, updateUser);
 router.route("/authorise").get(authenticate, authoriseUser);
 router.route("/avatar")
-  .post(authenticate, uploadAvatar)
+  .post(authenticate, upload, uploadAvatar)
   .delete(authenticate, removeAvatar);
 
 module.exports = router;
