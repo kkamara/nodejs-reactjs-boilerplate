@@ -13,7 +13,13 @@
           "name": "Hello",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Time-Zone",
+                "value": "Europe/London",
+                "type": "text"
+              }
+            ],
             "url": {
               "raw": "{{mobileAPI}}/hello",
               "host": [
@@ -51,7 +57,18 @@
                       ]
                     },
                     "method": "GET",
-                    "header": [],
+                    "header": [
+                      {
+                        "key": "Time-Zone",
+                        "value": "Europe/London",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
                     "url": {
                       "raw": "{{API}}/user/authorise",
                       "host": [
@@ -79,7 +96,24 @@
                       ]
                     },
                     "method": "DELETE",
-                    "header": [],
+                    "header": [
+                      {
+                        "key": "Time-Zone",
+                        "value": "Europe/London",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "",
+                        "value": "",
+                        "type": "text",
+                        "disabled": true
+                      }
+                    ],
                     "url": {
                       "raw": "{{API}}/user",
                       "host": [
@@ -98,7 +132,23 @@
               "name": "Register User",
               "request": {
                 "method": "POST",
-                "header": [],
+                "header": [
+                  {
+                    "key": "Time-Zone",
+                    "value": "Europe/London",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
                 "body": {
                   "mode": "raw",
                   "raw": "{\r\n    \"firstName\": \"Jane\",\r\n    \"lastName\": \"Doe\",\r\n    \"email\": \"jane@doe.com\",\r\n    \"password\": \"secret\",\r\n    \"passwordConfirmation\": \"secret\"\r\n}",
@@ -125,7 +175,23 @@
               "name": "Login User",
               "request": {
                 "method": "POST",
-                "header": [],
+                "header": [
+                  {
+                    "key": "Time-Zone",
+                    "value": "Europe/London",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
                 "body": {
                   "mode": "raw",
                   "raw": "{\r\n    \"email\": \"jane@example.com\",\r\n    \"password\": \"secret\"\r\n}",
@@ -167,14 +233,12 @@
               {
                 "key": "Accept",
                 "value": "application/json",
-                "type": "text",
-                "disabled": true
+                "type": "text"
               },
               {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text",
-                "disabled": true
+                "key": "Time-Zone",
+                "value": "Europe/London",
+                "type": "text"
               }
             ],
             "url": {
@@ -203,7 +267,18 @@
               ]
             },
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Time-Zone",
+                "value": "Europe/London",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
             "url": {
               "raw": "{{host}}/email",
               "host": [
@@ -241,7 +316,18 @@
                       ]
                     },
                     "method": "GET",
-                    "header": [],
+                    "header": [
+                      {
+                        "key": "Time-Zone",
+                        "value": "Europe/London",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
                     "url": {
                       "raw": "{{web}}/user/authorise",
                       "host": [
@@ -269,7 +355,70 @@
                       ]
                     },
                     "method": "DELETE",
-                    "header": [],
+                    "header": [
+                      {
+                        "key": "Time-Zone",
+                        "value": "Europe/London",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{web}}/user",
+                      "host": [
+                        "{{web}}"
+                      ],
+                      "path": [
+                        "user"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Update User",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Time-Zone",
+                        "value": "Europe/London",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"firstName\": \"Jane\",\r\n    \"lastName\": \"Doe\",\r\n    \"email\": \"jane@doe.com\",\r\n    \"password\": \"secret\",\r\n    \"passwordConfirmation\": \"secret\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
                     "url": {
                       "raw": "{{web}}/user",
                       "host": [
@@ -296,7 +445,18 @@
                       ]
                     },
                     "method": "POST",
-                    "header": [],
+                    "header": [
+                      {
+                        "key": "Time-Zone",
+                        "value": "Europe/London",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
                     "body": {
                       "mode": "formdata",
                       "formdata": [
@@ -322,42 +482,6 @@
                   "response": []
                 },
                 {
-                  "name": "Update User",
-                  "request": {
-                    "auth": {
-                      "type": "bearer",
-                      "bearer": [
-                        {
-                          "key": "token",
-                          "value": "{{token}}",
-                          "type": "string"
-                        }
-                      ]
-                    },
-                    "method": "PATCH",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"firstName\": \"Jane\",\r\n    \"lastName\": \"Doe\",\r\n    \"email\": \"jane@doe.com\",\r\n    \"password\": \"secret1\",\r\n    \"passwordConfirmation\": \"secret1\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{web}}/user",
-                      "host": [
-                        "{{web}}"
-                      ],
-                      "path": [
-                        "user"
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
                   "name": "Remove Avatar",
                   "request": {
                     "auth": {
@@ -371,7 +495,18 @@
                       ]
                     },
                     "method": "DELETE",
-                    "header": [],
+                    "header": [
+                      {
+                        "key": "Time-Zone",
+                        "value": "Europe/London",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
                     "url": {
                       "raw": "{{web}}/user/avatar",
                       "host": [
@@ -384,42 +519,6 @@
                     }
                   },
                   "response": []
-                },
-                {
-                  "name": "Update User",
-                  "request": {
-                    "auth": {
-                      "type": "bearer",
-                      "bearer": [
-                        {
-                          "key": "token",
-                          "value": "{{token}}",
-                          "type": "string"
-                        }
-                      ]
-                    },
-                    "method": "PUT",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"firstName\": \"Jane\",\r\n    \"lastName\": \"Doe\",\r\n    \"email\": \"jane@doe.com\",\r\n    \"password\": \"secret\",\r\n    \"passwordConfirmation\": \"secret\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{web}}/user",
-                      "host": [
-                        "{{web}}"
-                      ],
-                      "path": [
-                        "user"
-                      ]
-                    }
-                  },
-                  "response": []
                 }
               ]
             },
@@ -427,7 +526,23 @@
               "name": "Register User",
               "request": {
                 "method": "POST",
-                "header": [],
+                "header": [
+                  {
+                    "key": "Time-Zone",
+                    "value": "Europe/London",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
                 "body": {
                   "mode": "raw",
                   "raw": "{\r\n    \"firstName\": \"Jane\",\r\n    \"lastName\": \"Doe\",\r\n    \"email\": \"jane@doe.com\",\r\n    \"password\": \"secret\",\r\n    \"passwordConfirmation\": \"secret\"\r\n}",
@@ -454,7 +569,23 @@
               "name": "Login User",
               "request": {
                 "method": "POST",
-                "header": [],
+                "header": [
+                  {
+                    "key": "Time-Zone",
+                    "value": "Europe/London",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
                 "body": {
                   "mode": "raw",
                   "raw": "{\r\n    \"email\": \"jane@doe.com\",\r\n    \"password\": \"secret\"\r\n}",
@@ -482,7 +613,18 @@
           "name": "Get Users",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Time-Zone",
+                "value": "Europe/London",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
             "url": {
               "raw": "{{web}}/users",
               "host": [

@@ -536,7 +536,7 @@ module.exports = (sequelize, DataTypes) => {
      * @param {number} email
      * @returns {Object|false}
      */
-    static async getUserByEmail(email) {
+    static async getUserByEmail(email, timezone = appTimezone) {
       try {
         const results = await sequelize.query(
           `SELECT *
@@ -554,7 +554,7 @@ module.exports = (sequelize, DataTypes) => {
           return false;
         }
         
-        return results[0];
+        return this.getFormattedUserData(results[0], timezone);
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);

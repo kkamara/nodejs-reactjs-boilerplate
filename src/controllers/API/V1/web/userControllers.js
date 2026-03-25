@@ -14,9 +14,6 @@ const { nodeEnv, } = require("../../../../config");
 const { encrypt } = require("../../../../utils/tokens");
 const asyncHandler = require("express-async-handler");
 
-const upload = multer(defaultConfig)
-  .single("avatar");
-
 const createUser = asyncHandler(async (req, res) => {
   const inputError = db.sequelize.models
     .user
@@ -73,7 +70,7 @@ const createUser = asyncHandler(async (req, res) => {
   res.status(status.OK);
   return res.json({
     user: db.sequelize.models.user
-      .getFormattedUserData(newUser),
+      .getFormattedUserData(newUser, req.session.timezone),
   });
 });
 
@@ -109,6 +106,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await db.sequelize.models.user
     .getUserByEmail(
       cleanData.email,
+      req.session.timezone,
     );
   if (false === user) {
     res.status(status.BAD_REQUEST);
@@ -164,6 +162,7 @@ const loginUser = asyncHandler(async (req, res) => {
 const authoriseUser = asyncHandler(async (req, res) => {
   const userFromAuthToken = await db.sequelize.models.user.getUserByAuthToken(
     req.session.extractedToken,
+    req.session.timezone,
   );
   if (false === userFromAuthToken) {
     res.status(status.INTERNAL_SERVER_ERROR);
