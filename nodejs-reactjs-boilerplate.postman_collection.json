@@ -299,7 +299,14 @@
                     "header": [],
                     "body": {
                       "mode": "formdata",
-                      "formdata": []
+                      "formdata": [
+                        {
+                          "key": "avatar",
+                          "type": "file",
+                          "uuid": "bc3b385e-b764-409c-8813-8540d65a8676",
+                          "value": null
+                        }
+                      ]
                     },
                     "url": {
                       "raw": "{{web}}/user/avatar",
