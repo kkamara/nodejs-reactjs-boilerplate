@@ -93,7 +93,7 @@ module.exports = (sequelize, DataTypes) => {
      * @param {string} id
      * @return {Object|false}
      */
-    static async getRawUserByID(id) {
+    static async getUserByIdRaw(id) {
       let res = false;
       try {
         const result = await sequelize.query(
@@ -555,6 +555,37 @@ module.exports = (sequelize, DataTypes) => {
         }
         
         return this.getFormattedUserData(results[0], timezone);
+      } catch(err) {
+        if ("production" !== nodeEnv) {
+          console.log(err);
+        }
+        return false;
+      }
+    }
+
+    /**
+     * @param {number} email
+     * @returns {Object|false}
+     */
+    static async getUserByEmailRaw(email) {
+      try {
+        const results = await sequelize.query(
+          `SELECT *
+            FROM ${this.getTableName()}
+            WHERE email = :email AND deletedAt IS NULL
+            ORDER BY id DESC
+            LIMIT 1`,
+          {
+            replacements: { email, },
+            type: sequelize.QueryTypes.SELECT,
+          },
+        );
+
+        if (0 === results.length) {
+          return false;
+        }
+        
+        return results[0];
       } catch(err) {
         if ("production" !== nodeEnv) {
           console.log(err);

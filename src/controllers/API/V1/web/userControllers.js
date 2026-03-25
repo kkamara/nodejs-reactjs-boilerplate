@@ -102,24 +102,23 @@ const loginUser = asyncHandler(async (req, res) => {
       "The email given does not exist in our records.",
     );
   }
-  
-  const user = await db.sequelize.models.user
-    .getUserByEmail(
+    
+  const userRaw = await db.sequelize.models.user
+    .getUserByEmailRaw(
       cleanData.email,
-      req.session.timezone,
     );
-  if (false === user) {
+  if (false === userRaw) {
     res.status(status.BAD_REQUEST);
     throw new Error(
-      "The email is not in our records.",
+      "The email is not in our records."
     );
   }
   
   const successLogin = await db.sequelize.models.user
     .loginUser(
       cleanData.password,
-      user.password,
-      user.passwordSalt,
+      userRaw.password,
+      userRaw.passwordSalt,
     );
   if (false === successLogin) {
     res.status(status.BAD_REQUEST);
@@ -130,7 +129,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const authTokenInsert = await db.sequelize.models
     .userToken
-    .createAuthToken(user.id);
+    .createAuthToken(userRaw.id);
   if (false === authTokenInsert) {
     res.status(status.BAD_REQUEST);
     throw new Error(message500);
@@ -144,6 +143,18 @@ const loginUser = asyncHandler(async (req, res) => {
   if (false === authTokenResult) {
     res.status(status.BAD_REQUEST);
     throw new Error(message500);
+  }
+  
+  const user = await db.sequelize.models.user
+    .getUser(
+      userRaw.id,
+      req.session.timezone,
+    );
+  if (false === userRaw) {
+    res.status(status.BAD_REQUEST);
+    throw new Error(
+      "The email is not in our records."
+    );
   }
 
   await db.sequelize.models.user.updateUserTimestamp(
@@ -234,7 +245,7 @@ const uploadAvatar = asyncHandler(async (req, res) => {
 
   const user = await db.sequelize.models
     .user
-    .getRawUserByID(
+    .getUserByIdRaw(
       req.session.userID,
     );
   if (false === user) {
@@ -326,7 +337,7 @@ const updateUser = asyncHandler(async (req, res) => {
 const removeAvatar = asyncHandler(async (req, res) => {
   const user = await db.sequelize.models
     .user
-    .getRawUserByID(
+    .getUserByIdRaw(
       req.session.userID,
     );
   if (false === user) {
