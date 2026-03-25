@@ -170,10 +170,6 @@ const authoriseUser = asyncHandler(async (req, res) => {
     throw new Error(message500);
   }
   
-  await db.sequelize.models.user.updateUserTimestamp(
-    req.session.userID,
-  );
-  
   res.status(status.OK);
   return res.json({
     user: userFromAuthToken,
