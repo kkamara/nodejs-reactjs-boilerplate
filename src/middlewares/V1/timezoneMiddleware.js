@@ -20,7 +20,7 @@ function isValidTimeZone(tz) {
 };
 
 module.exports.setUserTimezone = asyncHandler(async (req, res, next) => {
-  const timezone = req.headerString("timezone");
+  const timezone = req.headerString("Time-Zone");
   if (timezone && isValidTimeZone(timezone)) {
     req.session.timezone = timezone;
   } else {
