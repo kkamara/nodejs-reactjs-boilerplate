@@ -2,7 +2,7 @@
 
 ![nodejs-reactjs-boilerplate2.png](https://github.com/kkamara/useful/blob/main/nodejs-reactjs-boilerplate2.png?raw=true)
 
-# nodejs-reactjs-boilerplate
+# nodejs-reactjs-boilerplate [![Tests Pipeline](https://github.com/kkamara/nodejs-reactjs-boilerplate/actions/workflows/node.js.yml/badge.svg)](https://github.com/kkamara/nodejs-reactjs-boilerplate/actions/workflows/node.js.yml)
 
 (22-Jun-2021) An MVC NodeJS boilerplate with ReactJS 19 Redux SPA.
 
