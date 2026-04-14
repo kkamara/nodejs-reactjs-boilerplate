@@ -66,6 +66,7 @@ yarn seed:all
 
 ```bash
 cd frontend
+cp .env.example .env
 yarn
 yarn build
 ```
