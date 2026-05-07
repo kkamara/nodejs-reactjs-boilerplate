@@ -14,7 +14,7 @@ export const login = creds => {
     LoginUserService(creds).then(res => {
       dispatch({
         type: auth.AUTH_LOGIN_SUCCESS,
-        payload: res.data,
+        payload: res.data.user,
       })
 
     }, error => {
@@ -49,7 +49,7 @@ export const authorise = () => {
     AuthorizeUserService().then(res => {
       dispatch({
         type: auth.AUTH_AUTHORIZE_SUCCESS,
-        payload: res,
+        payload: res.user,
       })
 
     }, error => {
@@ -108,7 +108,7 @@ export const register = data => {
     RegisterUserService(data).then(res => {
       dispatch({
         type: auth.AUTH_REGISTER_SUCCESS,
-        payload: res,
+        payload: res.user,
       })
     }, error => {
       let message
