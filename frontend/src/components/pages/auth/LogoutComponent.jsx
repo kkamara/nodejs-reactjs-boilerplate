@@ -8,8 +8,16 @@ export default function LogoutComponent() {
   const authState = useSelector(state => state.auth)
 
   useEffect(() => {
-    dispatch(logout())
+    if (null === localStorage.getItem("user-token")) {
+      return navigate("/user/login")
+    }
   }, [])
+
+  useEffect(() => {
+    if (false === authState.loading && authState.data) {
+      dispatch(logout())
+    }
+  }, [authState])
 
   if (authState.loading) {
     return <div className="container logout-container text-center">

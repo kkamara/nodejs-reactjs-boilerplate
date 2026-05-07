@@ -80,7 +80,6 @@ export const logout = () => {
     LogoutUserService().then(res => {
       dispatch({
         type: auth.AUTH_LOGOUT_SUCCESS,
-        payload: null,
       })
 
     }, error => {
