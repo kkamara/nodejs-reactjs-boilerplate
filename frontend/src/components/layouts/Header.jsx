@@ -62,7 +62,7 @@ export default function Header(props) {
   return <nav className="navbar navbar-expand-lg mb-4 bg-primary header-container" data-bs-theme="dark">
     <div className="container">
       <Link className="navbar-brand" to="/">
-        {process.env.REACT_APP_NAME}
+        {import.meta.env.VITE_APP_NAME}
       </Link>
       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>

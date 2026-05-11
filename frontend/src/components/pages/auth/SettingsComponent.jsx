@@ -142,7 +142,7 @@ export default function SettingsComponent() {
   if (state.auth.loading) {
     <div className="container settings-container text-center">
       <Helmet>
-        <title>User Settings - {process.env.REACT_APP_NAME}</title>
+        <title>User Settings - {import.meta.env.VITE_APP_NAME}</title>
       </Helmet>
       <p>Loading...</p>
     </div>
@@ -151,7 +151,7 @@ export default function SettingsComponent() {
   return (
     <div className="container settings-container">
       <Helmet>
-        <title>User Settings - {process.env.REACT_APP_NAME}</title>
+        <title>User Settings - {import.meta.env.VITE_APP_NAME || "NodeJS ReactJS Boilerplate"}</title>
       </Helmet>
       <div className="row">
         <div className="col-md-4 offset-md-4">

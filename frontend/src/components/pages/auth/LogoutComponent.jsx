@@ -22,7 +22,7 @@ export default function LogoutComponent() {
   if (authState.loading) {
     return <div className="container logout-container text-center">
       <Helmet>
-        <title>Log Out - {process.env.REACT_APP_NAME}</title>
+        <title>Log Out - {import.meta.env.VITE_APP_NAME}</title>
       </Helmet>
       <p>Loading...</p>
     </div>

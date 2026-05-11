@@ -48,7 +48,7 @@ export default function LoginComponent() {
   if (state.auth.loading) {
     return <div className="container login-container text-center">
       <Helmet>
-        <title>Sign In - {process.env.REACT_APP_NAME}</title>
+        <title>Sign In - {import.meta.env.VITE_APP_NAME}</title>
       </Helmet>
       <p>Loading...</p>
     </div>
@@ -56,7 +56,7 @@ export default function LoginComponent() {
 
   return <div className="container login-container">
     <Helmet>
-      <title>Sign In - {process.env.REACT_APP_NAME}</title>
+      <title>Sign In - {import.meta.env.VITE_APP_NAME}</title>
     </Helmet>
     <div className="col-md-4 offset-md-4">
       <h1 className="login-lead fw-bold">Sign In</h1>

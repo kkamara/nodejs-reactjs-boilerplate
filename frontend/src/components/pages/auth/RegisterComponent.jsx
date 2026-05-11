@@ -82,7 +82,7 @@ export default function RegisterComponent() {
   if (authState.loading) {
     return <div className="container register-container text-center">
       <Helmet>
-        <title>Register - {process.env.REACT_APP_NAME}</title>
+        <title>Register - {import.meta.env.VITE_APP_NAME}</title>
       </Helmet>
       <p>Loading...</p>
     </div>
@@ -90,7 +90,7 @@ export default function RegisterComponent() {
 
   return <div className="container register-container text-start">
     <Helmet>
-      <title>Register - {process.env.REACT_APP_NAME}</title>
+      <title>Register - {import.meta.env.VITE_APP_NAME}</title>
     </Helmet>
     <div className="col-md-4 offset-md-4">
       <h1 className="register-lead fw-bold">Register</h1>

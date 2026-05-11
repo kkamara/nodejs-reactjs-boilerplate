@@ -88,7 +88,7 @@ export default function HomeComponent() {
   if (state.auth.loading || state.users.loading) {
     return <div className="container home-container text-center">
       <Helmet>
-        <title>Home - {process.env.REACT_APP_NAME}</title>
+        <title>Home - {import.meta.env.VITE_APP_NAME}</title>
       </Helmet>
       <p>Loading...</p>
     </div>
@@ -97,7 +97,7 @@ export default function HomeComponent() {
   return (
     <div className="container home-container">
       <Helmet>
-        <title>Home - {process.env.REACT_APP_NAME}</title>
+        <title>Home - {import.meta.env.VITE_APP_NAME || "NodeJS ReactJS Boilerplate"}</title>
       </Helmet>
       <ErrorComponent error={state.auth.error || state.users.error}/>
       <div className="text-center">

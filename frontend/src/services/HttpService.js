@@ -10,7 +10,7 @@ export default class HttpService
   _timeout = 5000
 
   constructor() {
-    this.domain = process.env.REACT_APP_API_ROOT
+    this.domain = import.meta.env.VITE_APP_API_ROOT
     this.url = this.domain
   }
 
