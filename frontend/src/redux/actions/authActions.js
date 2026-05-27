@@ -107,7 +107,6 @@ export const register = data => {
     RegisterUserService(data).then(res => {
       dispatch({
         type: auth.AUTH_REGISTER_SUCCESS,
-        payload: res.user,
       })
     }, error => {
       let message

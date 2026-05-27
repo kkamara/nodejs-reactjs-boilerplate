@@ -31,7 +31,6 @@ export default function authReducer (state = initState, action) {
     
     case auth.AUTH_LOGIN_SUCCESS:
     case auth.AUTH_AUTHORIZE_SUCCESS:
-    case auth.AUTH_REGISTER_SUCCESS:
       return {
         ...state,
         data: action.payload,
@@ -39,6 +38,7 @@ export default function authReducer (state = initState, action) {
         error: null,
       }
     
+    case auth.AUTH_REGISTER_SUCCESS:
     case auth.AUTH_LOGOUT_SUCCESS:
       return {
         ...state,
